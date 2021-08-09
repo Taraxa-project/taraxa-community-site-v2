@@ -1,7 +1,7 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
-import { Button, Title } from "taraxa-ui";
+import { Button, Title, Card } from "taraxa-ui";
 
 function App() {
   return (
@@ -13,6 +13,7 @@ function App() {
         </p>
         {<Title label="Test" variant="h4" color="textPrimary"/>}
         {<Button label="Test" variant="contained"/>}
+        {<Card label="Test" value="4.5k"/>}
       </header>
     </div>
   );

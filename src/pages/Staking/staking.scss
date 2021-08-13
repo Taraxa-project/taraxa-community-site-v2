@@ -1,0 +1,53 @@
+body {
+  background-color: #151823 !important;
+}
+
+.staking {
+  display: flex;
+  margin-top: 3%;
+  margin-left:auto;
+  margin-right:auto;
+  height:auto; 
+  width:auto;
+}
+
+.staking-sidebar {
+  height: 100%;
+}
+
+.staking-content {
+  height: 100%;
+  width: 100%;
+  margin-left: 6%;
+  text-align: left;
+}
+
+.staking-title {
+  margin-bottom: 1% !important;
+}
+
+.staking-subtitle {
+  margin-bottom: 3% !important;
+}
+
+.staking-green-stripe {
+  border-left: 3px solid #15AC5B;
+  padding-left: 2%;
+  width: 100%;
+}
+
+.staking-red-stripe {
+  border-left: 3px solid #FF515A;
+  padding-left: 2%;
+  width: 100%;
+}
+
+.cardContainer {
+  display: flex;
+  margin-bottom: 5%;
+}
+
+.cardContainer > * {
+  display: block;
+  margin-right: 5% !important;
+}

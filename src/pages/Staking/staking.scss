@@ -51,3 +51,29 @@ body {
   display: block;
   margin-right: 5% !important;
 }
+
+.chip {
+  margin-right: 3% !important;
+  color: white !important;
+  background-color: #282C3E !important;
+}
+
+.chipSelected {
+  margin-right: 3% !important;
+  color: white !important;
+  background-color: #15AC5B !important;
+}
+
+.whiteInput {
+  input {
+    color: rgba(255, 255, 255, 1) !important;
+  }
+  div {
+    width: 95% !important;
+    margin-left: 2% !important;
+  }
+
+  fieldset {
+    border-color: white !important;
+  }
+}

@@ -1,0 +1,36 @@
+#signinModal {
+  width: 30% !important;
+  padding: 2% !important;
+  text-align: center;
+
+  .marginButton {
+    margin: 5% 0;
+  }
+
+  #noAccountLabel {
+    margin: 5% 0;
+  }
+
+  #forgotPasswordLabel {
+    margin-left: 65%;
+    margin-bottom: 5%;
+  }
+
+  .greyButton{
+    background-color: #31364b;
+    color: white;
+    border: 0.5px solid rgba(255, 255, 255, 0.30);
+  }
+
+  .bubbleButton{
+    width: 45%;
+    background-color: #282c3e;
+    color: white;
+    border: 0.5px solid rgba(255, 255, 255, 0.10);
+    margin-bottom: 8%;
+  }
+
+  #bubbleButtonLeft {
+    margin-right: 10%;
+  }
+}

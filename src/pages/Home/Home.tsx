@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { menu } from '../../global/globalVars';
-import { Sidebar, Card, Text, Header, Footer } from 'taraxa-ui';
+import { Sidebar, IconCard, Text, Footer } from 'taraxa-ui';
 import TaraxaIcon from '../../assets/icons/taraxaIcon';
 import StakingIcon from '../../assets/icons/staking';
 import BountiesIcon from '../../assets/icons/bounties';
@@ -9,12 +9,17 @@ import RedeemIcon from '../../assets/icons/redeem';
 import NodeIcon from '../../assets/icons/node';
 import ExplorerIcon from '../../assets/icons/explorer';
 import DeployIcon from '../../assets/icons/deploy';
+import { useHistory } from "react-router-dom";
+import Header from '../../components/Header';
 import './home.scss';
 
+
 const Home = () => {
+  const history = useHistory();
+  
   return (
     <>
-      <Header color="primary" position="static" Icon={TaraxaIcon} elevation={0} />
+      <Header />
       <div className="home">
         <Sidebar disablePadding={true} dense={true} items={menu} className="home-sidebar" />
         <div className="home-content">
@@ -25,11 +30,11 @@ const Home = () => {
             <Text label="Earn rewards while helping us grow." variant="body2" color="primary" className="home-subtitle"/>
           </div>
           <div className="cardContainer">
-            <Card title="Staking" description="Earn rewards while helping to secure Taraxa’s network."
-            onClickText="Get Started" onClick={() => console.log("here")} Icon={StakingIcon}/>
-            <Card title="Bounties" description="Earn rewards while learning about Taraxa and grow it’s ecosystem."
+            <IconCard title="Staking" description="Earn rewards while helping to secure Taraxa’s network."
+            onClickText="Get Started" onClick={() => history.push('/staking')} Icon={StakingIcon}/>
+            <IconCard title="Bounties" description="Earn rewards while learning about Taraxa and grow it’s ecosystem."
             onClickText="Get Started" onClick={() => console.log("here")} Icon={BountiesIcon}/>
-            <Card title="Redeem" description="Redeem TARA points for $TARA tokens and cool Taraxa swag."
+            <IconCard title="Redeem" description="Redeem TARA points for $TARA tokens and cool Taraxa swag."
             onClickText="Get Started" onClick={() => console.log("here")} Icon={RedeemIcon}/>
           </div>
 
@@ -38,11 +43,11 @@ const Home = () => {
             <Text label="Join Taraxa’s public testnet." variant="body2" color="primary" className="home-subtitle"/>
           </div>
           <div className="cardContainer">
-            <Card title="Run a node" description="Earn rewards while helping to secure Taraxa’s network."
+            <IconCard title="Run a node" description="Earn rewards while helping to secure Taraxa’s network."
             onClickText="Get Started" onClick={() => console.log("here")} Icon={NodeIcon}/>
-            <Card title="Taraxa explorer" description="Explore the ledger and find the transaction’s data."
+            <IconCard title="Taraxa explorer" description="Explore the ledger and find the transaction’s data."
             onClickText="Get Started" onClick={() => console.log("here")} Icon={ExplorerIcon}/>
-            <Card title="Deploy DApps" description="Earn rewards while learning about Taraxa and grow it’s ecosystem."
+            <IconCard title="Deploy DApps" description="Earn rewards while learning about Taraxa and grow it’s ecosystem."
             onClickText="Get Started" onClick={() => console.log("here")} Icon={DeployIcon}/>
           </div>
         </div>

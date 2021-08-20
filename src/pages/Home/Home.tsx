@@ -10,7 +10,7 @@ import NodeIcon from '../../assets/icons/node';
 import ExplorerIcon from '../../assets/icons/explorer';
 import DeployIcon from '../../assets/icons/deploy';
 import { useHistory } from "react-router-dom";
-import Header from '../../components/Header';
+import Header from '../../components/Header/Header';
 import './home.scss';
 
 

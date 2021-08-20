@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { Button, Text, InputField, Header as THeader, Modal, Checkbox } from "taraxa-ui";
-import TaraxaIcon from '../assets/icons/taraxaIcon';
+import TaraxaIcon from '../../assets/icons/taraxaIcon';
 import './header.scss'
-import BubbleIcon from "../assets/icons/bubbleIcon";
+import BubbleIcon from "../../assets/icons/bubbleIcon";
 
 const Header = () => {
   const [username, setUsername] = useState('');

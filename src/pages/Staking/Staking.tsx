@@ -9,77 +9,39 @@ import RedeemIcon from '../../assets/icons/redeem';
 import NodeIcon from '../../assets/icons/node';
 import ExplorerIcon from '../../assets/icons/explorer';
 import DeployIcon from '../../assets/icons/deploy';
-import Header from '../../components/Header';
+import Header from '../../components/Header/Header';
 
 function Staking() {
   const [availableToStake, setAvailableToStake] = useState(0);
   const [totalToStake, setTotalToStake] = useState(0);
-  const [twentyfive, setTwentyfive] = useState(false);
-  const [fifty, setFifty] = useState(false);
-  const [seventyfive, setSeventyfive] = useState(false);
-  const [hundred, setHundred] = useState(false);
-  const [untwentyfive, setunTwentyfive] = useState(false);
-  const [unfifty, setunFifty] = useState(false);
-  const [unseventyfive, setunSeventyfive] = useState(false);
-  const [unhundred, setunHundred] = useState(false);
+  const [stake, setStake] = useState('');
+  const [unstake, setUnstake] = useState('');
   const availableTrigger = (event: any) => {
     setAvailableToStake(event.target.value);
   }
   const totalTrigger = (event: any) => {
     setTotalToStake(event.target.value);
   }
-  const resetChips = () => {
-    setTwentyfive(false); setFifty(false); setSeventyfive(false); setHundred(false);
+  const stakingTrigger = (stake: string) => {
+    setStake(stake);
   }
-  const twentyfiveTrigger = () => {
-    resetChips();
-    setTwentyfive(!twentyfive);
-  }
-  const fiftyTrigger = () => {
-    resetChips();
-    setFifty(!fifty);
-  }
-  const seventyfiveTrigger = () => {
-    resetChips();
-    setSeventyfive(!seventyfive);
-  }
-  const hundredTrigger = () => {
-    resetChips();
-    setHundred(!hundred);
-  }
-  const resetunChips = () => {
-    setunTwentyfive(false); setunFifty(false); setunSeventyfive(false); setunHundred(false);
-  }
-  const untwentyfiveTrigger = () => {
-    resetunChips();
-    setunTwentyfive(!untwentyfive);
-  }
-  const unfiftyTrigger = () => {
-    resetunChips();
-    setunFifty(!unfifty);
-  }
-  const unseventyfiveTrigger = () => {
-    resetunChips();
-    setunSeventyfive(!unseventyfive);
-  }
-  const unhundredTrigger = () => {
-    resetunChips();
-    setunHundred(!unhundred);
+  const unstakingTrigger = (stake: string) => {
+    setUnstake(stake);
   }
   const availableInput = <InputField type="number" min={1} max={100000} className="whiteInput" label="" color="secondary" placeholder="Enter amount..." value={availableToStake} variant="outlined" fullWidth onChange={availableTrigger} margin="normal" />
   const totalInput = <InputField type="number" min={1} max={100000} className="whiteInput" label="" color="secondary" placeholder="Enter amount..." value={totalToStake} variant="outlined" fullWidth onChange={totalTrigger} margin="normal" />
 
   const stakingchips = <>
-    <Chip label="25%" onClick={() => twentyfiveTrigger()} variant="default" clickable color={twentyfive ? "secondary" : "primary"} className={twentyfive ? "chipSelected" : "chip"}/>
-    <Chip label="50%" onClick={fiftyTrigger} className={fifty ? "chipSelected" : "chip"}  variant="default" clickable/>
-    <Chip label="75%" onClick={seventyfiveTrigger} variant="default" clickable className={seventyfive ? "chipSelected" : "chip"}/>
-    <Chip label="100%" onClick={hundredTrigger} variant="default" clickable className={hundred ? "chipSelected" : "chip"}/>
+    <Chip label="25%" onClick={() => stakingTrigger('25%')} variant="default" clickable className={ stake === '25%' ? "chipSelected" : "chip"}/>
+    <Chip label="50%" onClick={() => stakingTrigger('50%')} className={stake === '50%' ? "chipSelected" : "chip"}  variant="default" clickable/>
+    <Chip label="75%" onClick={() => stakingTrigger('75%')} variant="default" clickable className={stake === '75%' ? "chipSelected" : "chip"}/>
+    <Chip label="100%" onClick={() => stakingTrigger('100%')} variant="default" clickable className={stake === '100%' ? "chipSelected" : "chip"}/>
   </>
   const unstakingchips = <>
-  <Chip label="25%" onClick={untwentyfiveTrigger} variant="default" clickable className={untwentyfive ? "chipSelected" : "chip"}/>
-  <Chip label="50%" onClick={unfiftyTrigger} variant="default" clickable className={unfifty ? "chipSelected" : "chip"}/>
-  <Chip label="75%" onClick={unseventyfiveTrigger}  variant="default" clickable className={unseventyfive ? "chipSelected" : "chip"}/>
-  <Chip label="100%" onClick={unhundredTrigger} variant="default" clickable className={unhundred ? "chipSelected" : "chip"}/>
+  <Chip label="25%" onClick={() => unstakingTrigger('25%')} variant="default" clickable className={unstake === '25%' ? "chipSelected" : "chip"}/>
+  <Chip label="50%" onClick={() => unstakingTrigger('50%')} variant="default" clickable className={unstake === '50%' ? "chipSelected" : "chip"}/>
+  <Chip label="75%" onClick={() => unstakingTrigger('75%')}  variant="default" clickable className={unstake === '75%' ? "chipSelected" : "chip"}/>
+  <Chip label="100%" onClick={() => unstakingTrigger('100%')} variant="default" clickable className={unstake === '100%' ? "chipSelected" : "chip"}/>
 </>
   return (
     <>

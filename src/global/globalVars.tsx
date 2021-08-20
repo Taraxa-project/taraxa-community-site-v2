@@ -6,26 +6,26 @@ import NodeSidebar from "../assets/icons/nodeSidebar";
 import RedeemSidebar from "../assets/icons/redeemSidebar";
 import StakingSidebar from "../assets/icons/stakingSidebar";
 import WalletSidebar from "../assets/icons/walletSidebar";
-import { Link } from "react-router-dom";
+import NavLink from "../components/NavLink/NavLink";
 
 export const menu = [
-  { label: 'Get Started', Icon: GetStarted, Link: <Link to="/dashboard">Get Started</Link>},
+  { Link: <NavLink label="Get Started" Icon={GetStarted} to="/" />, name:"dashboard"},
   {
     label: 'Earn',
     items: [
-      { label: 'Staking', Icon: StakingSidebar, Link: <Link to="/staking">Staking</Link> },
-      { label: 'Bounties', Icon: BountiesSidebar, Link: <Link to="/bounties">Bounties</Link> },
-      { label: 'Redeem', Icon: RedeemSidebar, Link: <Link to="/redeem">Redeem</Link> },
+      { Link: <NavLink label="Staking" Icon={StakingSidebar} to="/staking" />, name:"staking"},
+      { Link: <NavLink label="Bounties" Icon={BountiesSidebar} to="/bounties" />, name:"bounties" },
+      { Link: <NavLink label="Redeem" Icon={RedeemSidebar} to="/redeem" />, name:"redeem" },
     ],
   },
   {
     name: 'testnet',
     label: 'Testnet',
     items: [
-      { label: 'Run a Node', Icon: NodeSidebar, Link: <Link to="/node">Run a Node</Link> },
-      { label: 'Taraxa Explorer', Icon: ExplorerSidebar, Link: <Link to="/explorer">Taraxa Explorer</Link> },
-      { label: 'Deploy DApps', Icon: DeploySidebar, Link: <Link to="/deploy">Deploy DApps</Link> },
-      { label: 'Wallet', Icon: WalletSidebar, Link: <Link to="/wallet">Wallet</Link> }
+      { Link: <NavLink label="Run a node" Icon={NodeSidebar} to="/node" /> },
+      { Link: <NavLink label="Taraxa Explorer" Icon={ExplorerSidebar} to="/explorer" /> },
+      { Link: <NavLink label="Deploy DApps" Icon={DeploySidebar} to="/deploy" /> },
+      { Link: <NavLink label="Wallet" Icon={WalletSidebar} to="/wallet" /> }
     ],
   }
 ];

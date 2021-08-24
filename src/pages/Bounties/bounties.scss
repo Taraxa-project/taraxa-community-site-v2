@@ -34,6 +34,7 @@ body {
 .icon-title-container {
   display: flex !important;
   width: 100% !important;
+  margin-bottom: 2% !important;
 }
 
 .icon-title {
@@ -86,4 +87,9 @@ body {
   fieldset {
     border-color: white !important;
   }
+}
+
+#bountiesSwitch {
+  margin-left: 1% !important;
+  margin-bottom: 2% !important;
 }

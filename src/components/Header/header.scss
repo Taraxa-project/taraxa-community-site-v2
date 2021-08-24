@@ -34,3 +34,18 @@
     margin-right: 10%;
   }
 }
+
+#walletContainer {
+  border: 1px solid #878CA4;
+  background-color: transparent;
+  color: #878CA4;
+  height: max-content !important;
+  padding: 2% !important;
+  display: flex !important;
+  align-items: center !important;
+  border-radius: 3px !important;
+
+  svg {
+    margin-right: 1% !important;
+  }
+}

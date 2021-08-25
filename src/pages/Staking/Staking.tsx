@@ -61,8 +61,8 @@ function Staking() {
             <BaseCard title="0" description="Anualized yield" />
           </div>
           <div className="cardContainer">
-            <DataCard title="N/A" description="Available to Stake" label="TARA" onClick={() => console.log('tara')} onClickText="Stake" input={availableInput} dataOptions={stakingchips}  />
-            <DataCard title="N/A" description="Staked total" label="TARA" onClick={() => console.log('tara')} onClickText="Un-stake" input={totalInput}  dataOptions={unstakingchips} />
+            <DataCard title="N/A" description="Available to Stake" label="TARA" onClickButton={() => console.log('tara')} onClickText="Stake" input={availableInput} dataOptions={stakingchips}  />
+            <DataCard title="N/A" description="Staked total" label="TARA" onClickButton={() => console.log('tara')} onClickText="Un-stake" input={totalInput}  dataOptions={unstakingchips} />
           </div>
         </div>
       </div>

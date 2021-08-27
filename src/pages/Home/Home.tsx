@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { menu } from '../../global/globalVars';
-import { Sidebar, IconCard, Text, Footer } from 'taraxa-ui';
+import { Sidebar, IconCard, Text } from 'taraxa-ui';
 import TaraxaIcon from '../../assets/icons/taraxaIcon';
 import StakingIcon from '../../assets/icons/staking';
 import BountiesIcon from '../../assets/icons/bounties';
@@ -11,6 +11,7 @@ import ExplorerIcon from '../../assets/icons/explorer';
 import DeployIcon from '../../assets/icons/deploy';
 import { useHistory } from "react-router-dom";
 import Header from '../../components/Header/Header';
+import Footer from '../../components/Footer/Footer';
 import './home.scss';
 
 
@@ -52,16 +53,7 @@ const Home = () => {
           </div>
         </div>
       </div>
-      <Footer title="TARAXA" Icon={TaraxaIcon} showLabels={false} description="Taraxa is a public ledger platform purpose-built for audit logging of informal transactions."
-        links={[
-          { label: 'Privacy Policy'},
-          { label: 'Terms of Use'}
-        ]}
-        items={[
-        { label: 'Send', value: 'send', icon: 'send' },
-        { label: 'Discord', value: 'discord', icon: 'discord' },
-        { label: 'Twitter', value: 'twitter', icon: 'twitter' },
-        ]}/>
+      <Footer />
     </>
   )
 }

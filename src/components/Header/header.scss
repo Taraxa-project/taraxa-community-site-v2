@@ -43,9 +43,18 @@
   padding: 2% !important;
   display: flex !important;
   align-items: center !important;
-  border-radius: 3px !important;
+  border-radius: 25px !important;
 
   svg {
     margin-right: 1% !important;
+  }
+
+  .walletIcon{
+    height: 10px;
+    width: 15px;
+    background-color: #15AC5B;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 2%;
   }
 }

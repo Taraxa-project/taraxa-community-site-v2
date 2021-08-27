@@ -6,7 +6,8 @@ import './App.css';
 import Home from './pages/Home/Home';
 import Staking from './pages/Staking/Staking';
 import Bounties from './pages/Bounties/Bounties';
-import Redeem from './pages/Staking copy/Redeem';
+import Redeem from './pages/Redeem/Redeem';
+import Profile from './pages/Profile/Profile';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
             <Route exact path="/staking" component={Staking} />
             <Route exact path="/bounties" component={Bounties} />
             <Route exact path="/redeem" component={Redeem} />
+            <Route exact path="/profile" component={Profile} />
           </Switch>
         </div>
       </BrowserRouter>

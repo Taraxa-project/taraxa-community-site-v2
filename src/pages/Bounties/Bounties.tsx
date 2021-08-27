@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import './bounties.scss';
 import { menu } from '../../global/globalVars';
-import { Sidebar, Text, Footer, RewardCard, Switch } from 'taraxa-ui';
+import { Sidebar, Text, RewardCard, Switch } from 'taraxa-ui';
 import TaraxaIcon from '../../assets/icons/taraxaIcon';
 import PinnedIcon from '../../assets/icons/pinned';
 import Header from '../../components/Header/Header';
+import Footer from '../../components/Footer/Footer';
 import SubmissionIcon from '../../assets/icons/submission';
 import ExpirationIcon from '../../assets/icons/expiration';
 import BountiesIcon from './../../assets/icons/bounties';
@@ -40,16 +41,7 @@ function Bounties() {
           </div>
         </div>
       </div>
-      <Footer title="TARAXA" Icon={TaraxaIcon} showLabels={false} description="Taraxa is a public ledger platform purpose-built for audit logging of informal transactions."
-        links={[
-          { label: 'Privacy Policy'},
-          { label: 'Terms of Use'}
-        ]}
-        items={[
-        { label: 'Send', value: 'send', icon: 'send' },
-        { label: 'Discord', value: 'discord', icon: 'discord' },
-        { label: 'Twitter', value: 'twitter', icon: 'twitter' },
-        ]}/>
+      <Footer />
     </>
   )
 }

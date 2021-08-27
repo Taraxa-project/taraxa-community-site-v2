@@ -3,7 +3,6 @@ import { Button, Text, InputField, Header as THeader, Modal, Checkbox } from "ta
 import TaraxaIcon from '../../assets/icons/taraxaIcon';
 import './header.scss'
 import BubbleIcon from "../../assets/icons/bubbleIcon";
-import WalletIcon from "../../assets/icons/wallet";
 
 const Header = () => {
   const [username, setUsername] = useState('');
@@ -13,7 +12,7 @@ const Header = () => {
   const [signIn, setSignIn] = useState(true);
   const [modalOpen, setModalOpen] = useState(false);
   const [conditions, setConditions] = useState(false);
-  const isLogged = false;
+  const isLogged = true;
   const modalTrigger = () => {
     setModalOpen(!modalOpen);
     setSignIn(true);
@@ -39,8 +38,8 @@ const Header = () => {
     setConditions(event.target.checked);
   }
   
-  const button = !isLogged ? <Button label="Sign in / Sign up" color="primary" variant="text" onClick={modalTrigger} /> :  <div><Button label="Test user" color="primary" variant="text" /></div>;
-  const wallet = isLogged ? <div id="walletContainer"><WalletIcon/><Text label="0x2612b77E5ee1a5feeDdD5eC08731749bC2217F54" variant="caption" color="textSecondary"  /></div> : <span></span>;
+  const button = !isLogged ? <Button label="Sign in / Sign up" color="primary" variant="text" onClick={modalTrigger} /> :  <div><Button label="Test user" color="primary" variant="outlined" /></div>;
+  const wallet = isLogged ? <div id="walletContainer"><div className="walletIcon" /><Text label="0x2612b77E5ee1a5feeDdD5eC08731749bC2217F54" variant="caption" color="textSecondary"  /></div> : <span></span>;
   const modalSignIn = 
     <div>
       <Text label="Sign In" variant="h6" color="primary"  />

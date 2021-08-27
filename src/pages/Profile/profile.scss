@@ -1,0 +1,85 @@
+body {
+  background-color: #151823 !important;
+}
+
+.buttonsContainer {
+  display: grid;
+  width: 90%;
+  margin-left: 2%;
+}
+
+.claim {
+  display: flex;
+  margin-top: 3%;
+  margin-left:auto;
+  margin-right:auto;
+  height:auto; 
+  width:auto;
+}
+
+.claim-sidebar {
+  height: 100%;
+}
+
+.claim-content {
+  height: 100%;
+  width: 100%;
+  margin-left: 6%;
+  text-align: left;
+}
+
+.claim-title {
+  margin-bottom: 1% !important;
+}
+
+.claim-subtitle {
+  margin-bottom: 3% !important;
+}
+
+.claim-green-stripe {
+  border-left: 3px solid #15AC5B;
+  padding-left: 2%;
+  width: 100%;
+}
+
+.claim-red-stripe {
+  border-left: 3px solid #FF515A;
+  padding-left: 2%;
+  width: 100%;
+}
+
+.cardContainer {
+  display: flex;
+  margin-bottom: 5%;
+}
+
+.cardContainer > * {
+  display: block;
+  margin-right: 5% !important;
+}
+
+.chip {
+  margin-right: 3% !important;
+  color: white !important;
+  background-color: #282C3E !important;
+}
+
+.chipSelected {
+  margin-right: 3% !important;
+  color: white !important;
+  background-color: #15AC5B !important;
+}
+
+.whiteInput {
+  input {
+    color: rgba(255, 255, 255, 1) !important;
+  }
+  div {
+    width: 95% !important;
+    margin-left: 2% !important;
+  }
+
+  fieldset {
+    border-color: white !important;
+  }
+}

@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import './redeem.scss';
 import { menu } from '../../global/globalVars';
-import { Sidebar, BaseCard, Text, Footer, DataCard, InputField, Chip } from 'taraxa-ui';
+import { Sidebar, BaseCard, Text, DataCard, InputField, Chip } from 'taraxa-ui';
 import TaraxaIcon from '../../assets/icons/taraxaIcon';
 import Header from '../../components/Header/Header';
+import Footer from '../../components/Footer/Footer';
 
 function Redeem() {
   const [availableToclaim, setAvailableToclaim] = useState(0);
@@ -46,16 +47,7 @@ function Redeem() {
           </div>
         </div>
       </div>
-      <Footer title="TARAXA" Icon={TaraxaIcon} showLabels={false} description="Taraxa is a public ledger platform purpose-built for audit logging of informal transactions."
-        links={[
-          { label: 'Privacy Policy'},
-          { label: 'Terms of Use'}
-        ]}
-        items={[
-        { label: 'Send', value: 'send', icon: 'send' },
-        { label: 'Discord', value: 'discord', icon: 'discord' },
-        { label: 'Twitter', value: 'twitter', icon: 'twitter' },
-        ]}/>
+      <Footer />
     </>
   )
 }

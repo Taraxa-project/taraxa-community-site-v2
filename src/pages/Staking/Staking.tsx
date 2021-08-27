@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './staking.scss';
 import { menu } from '../../global/globalVars';
-import { Sidebar, BaseCard, Text, Footer, DataCard, InputField, Chip } from 'taraxa-ui';
+import { Sidebar, BaseCard, Text, DataCard, InputField, Chip } from 'taraxa-ui';
 import TaraxaIcon from '../../assets/icons/taraxaIcon';
 import StakingIcon from '../../assets/icons/staking';
 import BountiesIcon from '../../assets/icons/bounties';
@@ -10,6 +10,7 @@ import NodeIcon from '../../assets/icons/node';
 import ExplorerIcon from '../../assets/icons/explorer';
 import DeployIcon from '../../assets/icons/deploy';
 import Header from '../../components/Header/Header';
+import Footer from '../../components/Footer/Footer';
 
 function Staking() {
   const [availableToStake, setAvailableToStake] = useState(0);
@@ -66,16 +67,7 @@ function Staking() {
           </div>
         </div>
       </div>
-      <Footer title="TARAXA" Icon={TaraxaIcon} showLabels={false} description="Taraxa is a public ledger platform purpose-built for audit logging of informal transactions."
-        links={[
-          { label: 'Privacy Policy'},
-          { label: 'Terms of Use'}
-        ]}
-        items={[
-        { label: 'Send', value: 'send', icon: 'send' },
-        { label: 'Discord', value: 'discord', icon: 'discord' },
-        { label: 'Twitter', value: 'twitter', icon: 'twitter' },
-        ]}/>
+      <Footer />
     </>
   )
 }

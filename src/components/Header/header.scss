@@ -5,6 +5,7 @@
 
   .marginButton {
     margin: 5% 0;
+    height: 52px;
   }
 
   #noAccountLabel {
@@ -16,17 +17,17 @@
     margin-bottom: 5%;
   }
 
-  .greyButton{
+  .greyButton {
     background-color: #31364b;
     color: white;
-    border: 0.5px solid rgba(255, 255, 255, 0.30);
+    border: 0.5px solid rgba(255, 255, 255, 0.3);
   }
 
-  .bubbleButton{
+  .bubbleButton {
     width: 45%;
     background-color: #282c3e;
     color: white;
-    border: 0.5px solid rgba(255, 255, 255, 0.10);
+    border: 0.5px solid rgba(255, 255, 255, 0.1);
     margin-bottom: 8%;
   }
 
@@ -36,9 +37,8 @@
 }
 
 #walletContainer {
-  border: 1px solid #878CA4;
-  background-color: transparent;
-  color: #878CA4;
+  background-color: #31364b;
+  color: #878ca4;
   height: max-content !important;
   padding: 2% !important;
   display: flex !important;
@@ -49,12 +49,25 @@
     margin-right: 1% !important;
   }
 
-  .walletIcon{
+  .walletIcon {
     height: 10px;
     width: 15px;
-    background-color: #15AC5B;
+    background-color: #15ac5b;
     border-radius: 50%;
     display: inline-block;
     margin-right: 2%;
   }
+}
+
+#noWalletContainer {
+  background-color: #31364b;
+  height: max-content !important;
+  padding: 0% 10% 0% 10% !important;
+  display: flex !important;
+  align-items: center !important;
+  border-radius: 25px !important;
+}
+
+#profileButton {
+  margin-bottom: 5%;
 }

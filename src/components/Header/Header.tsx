@@ -3,19 +3,30 @@ import { Button, Text, InputField, Header as THeader, Modal, Checkbox } from "ta
 import TaraxaIcon from '../../assets/icons/taraxaIcon';
 import './header.scss'
 import BubbleIcon from "../../assets/icons/bubbleIcon";
+import { useHistory } from "react-router-dom";
+
+
 
 const Header = () => {
+  const history = useHistory();
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [repeatedPassword, setRepeatedPassword] = useState('');
   const [signIn, setSignIn] = useState(true);
+  const [showProfile, setShowProfile] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [conditions, setConditions] = useState(false);
-  const isLogged = true;
+  const [isLogged, setLogged] = useState(false);
+  const [walletConnected, setWallet] = useState(false);
+
   const modalTrigger = () => {
     setModalOpen(!modalOpen);
     setSignIn(true);
+  }
+
+  const profileTrigger = () => {
+    setShowProfile(!showProfile);
   }
 
   const usernameTrigger = (event: any) => {
@@ -37,9 +48,25 @@ const Header = () => {
   const conditionsTrigger = (event: any) => {
     setConditions(event.target.checked);
   }
+
+  const goToProfile = () => {
+    history.push('/profile');
+  }
+
+  const logout = () => {
+    setLogged(false);
+    setWallet(false);
+    setShowProfile(false);
+  }
   
-  const button = !isLogged ? <Button label="Sign in / Sign up" color="primary" variant="text" onClick={modalTrigger} /> :  <div><Button label="Test user" color="primary" variant="outlined" /></div>;
-  const wallet = isLogged ? <div id="walletContainer"><div className="walletIcon" /><Text label="0x2612b77E5ee1a5feeDdD5eC08731749bC2217F54" variant="caption" color="textSecondary"  /></div> : <span></span>;
+  const button = !isLogged ? <Button label="Sign in / Sign up" color="primary" variant="text" onClick={modalTrigger} /> : <div><Button label="Test user" color="primary" variant="outlined" onClick={profileTrigger} /></div>;
+  
+  const profileModal = <>
+  <Button label="My Profile" color="secondary" variant="contained" id="profileButton" onClick={goToProfile} />
+  <Button label="Sign Out" color="primary" variant="outlined" onClick={logout} />
+  </>;
+
+  const wallet = isLogged && walletConnected ? <div id="walletContainer"><div className="walletIcon" /><Text label="0x2612b77E5ee1a5feeDdD5eC08731749bC2217F54" variant="caption" color="textSecondary"  /></div> : isLogged && !walletConnected ? <div id="noWalletContainer"><Button label="Connect Wallet" variant="text" color="primary" fullWidth/></div> : <></>;
   const modalSignIn = 
     <div>
       <Text label="Sign In" variant="h6" color="primary"  />
@@ -81,7 +108,7 @@ const Header = () => {
     return (
       <>
         <Modal id="signinModal" title="Test" show={modalOpen} children={signIn ? modalSignIn : modalSignUp} parentElementID="root" onRequestClose={modalTrigger}/>
-        <THeader color="primary" position="static" Icon={TaraxaIcon} elevation={0} button={button} wallet={wallet} />
+        <THeader color="primary" position="static" Icon={TaraxaIcon} elevation={0} button={button} wallet={wallet} profileModal={profileModal} showProfileModal={showProfile} />
       </>
     )
 }

@@ -32,11 +32,11 @@ const Home = () => {
           </div>
           <div className="cardContainer">
             <IconCard title="Staking" description="Earn rewards while helping to secure Taraxa’s network."
-            onClickText="Get Started" onClick={() => history.push('/staking')} Icon={StakingIcon}/>
+            onClickText="Get Started" onClickButton={() => history.push('/staking')} Icon={StakingIcon}/>
             <IconCard title="Bounties" description="Earn rewards while learning about Taraxa and grow it’s ecosystem."
-            onClickText="Get Started" onClick={() => console.log("here")} Icon={BountiesIcon}/>
+            onClickText="Get Started" onClickButton={() => console.log("here")} Icon={BountiesIcon}/>
             <IconCard title="Redeem" description="Redeem TARA points for $TARA tokens and cool Taraxa swag."
-            onClickText="Get Started" onClick={() => console.log("here")} Icon={RedeemIcon}/>
+            onClickText="Get Started" onClickButton={() => console.log("here")} Icon={RedeemIcon}/>
           </div>
 
           <div className="home-green-stripe">
@@ -45,11 +45,11 @@ const Home = () => {
           </div>
           <div className="cardContainer">
             <IconCard title="Run a node" description="Earn rewards while helping to secure Taraxa’s network."
-            onClickText="Get Started" onClick={() => console.log("here")} Icon={NodeIcon}/>
+            onClickText="Get Started" onClickButton={() => console.log("here")} Icon={NodeIcon}/>
             <IconCard title="Taraxa explorer" description="Explore the ledger and find the transaction’s data."
-            onClickText="Get Started" onClick={() => console.log("here")} Icon={ExplorerIcon}/>
+            onClickText="Get Started" onClickButton={() => console.log("here")} Icon={ExplorerIcon}/>
             <IconCard title="Deploy DApps" description="Earn rewards while learning about Taraxa and grow it’s ecosystem."
-            onClickText="Get Started" onClick={() => console.log("here")} Icon={DeployIcon}/>
+            onClickText="Get Started" onClickButton={() => console.log("here")} Icon={DeployIcon}/>
           </div>
         </div>
       </div>

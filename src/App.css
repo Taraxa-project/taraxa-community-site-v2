@@ -1,5 +1,15 @@
+body {
+  width: 100% !important;
+  display: flex !important;
+}
+
+#root {
+  width: 100% !important;
+}
+
 .App {
   text-align: center;
+  width: 100% !important;
 }
 
 .App-logo {

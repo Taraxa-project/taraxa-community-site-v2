@@ -5,10 +5,19 @@ body {
 .home {
   display: flex;
   margin-top: 3%;
-  margin-left:auto;
-  margin-right:auto;
-  height:auto; 
-  width:auto;
+  margin-left: auto;
+  margin-right: auto;
+  height: auto;
+  width: auto;
+}
+
+.home-mobile {
+  display: flex;
+  margin-top: 3%;
+  margin-left: 28%;
+  margin-right: 25%;
+  height: auto;
+  width: auto;
 }
 
 .home-sidebar {
@@ -18,7 +27,6 @@ body {
 .home-content {
   height: 100%;
   width: 100%;
-  margin-left: 6%;
   text-align: left;
 }
 
@@ -30,10 +38,21 @@ body {
   margin-bottom: 3% !important;
 }
 
+.toggleButton {
+  margin: 5% 0 5% 0;
+}
+
 .home-green-stripe {
-  border-left: 3px solid #15AC5B;
+  border-left: 3px solid #15ac5b;
   padding-left: 2%;
   width: 100%;
+}
+
+.home-green-stripe-mobile {
+  border-left: 3px solid #15ac5b;
+  padding-left: 2%;
+  width: 100%;
+  margin: 5% 0 10% 0;
 }
 
 .cardContainer {

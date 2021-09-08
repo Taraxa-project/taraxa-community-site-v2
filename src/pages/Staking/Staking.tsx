@@ -11,12 +11,14 @@ import ExplorerIcon from '../../assets/icons/explorer';
 import DeployIcon from '../../assets/icons/deploy';
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
+import InfoIcon from '../../assets/icons/info';
 
 function Staking() {
   const [availableToStake, setAvailableToStake] = useState(0);
   const [totalToStake, setTotalToStake] = useState(0);
   const [stake, setStake] = useState('');
   const [unstake, setUnstake] = useState('');
+  const [walletConnected, setWallet] = useState(false);
   const availableTrigger = (event: any) => {
     setAvailableToStake(event.target.value);
   }
@@ -47,23 +49,28 @@ function Staking() {
   return (
     <>
       <Header />
-      <div className="home">
-        <Sidebar disablePadding={true} dense={true} items={menu} className="staking-sidebar" />
-        <div className="staking-content">
-          <Text label="Staking: Phase 1 - Simulated staking" variant="h4" color="primary" className="staking-title"/>
-          <Text label="Earn rewards and help test &amp; secure the Taraxa’s network " variant="body2" color="textSecondary" className="staking-subtitle"/>
-          <div className="staking-red-stripe">
-            <Text label="Notice:" variant="body1" color="primary" className="staking-title"/>
-            <Text label="You are not connected to Metamask wallet" variant="body2" color="primary" className="staking-subtitle"/>
-          </div>
-          <div className="cardContainer">
-            <BaseCard title="0" description="TARA Staked" />
-            <BaseCard title="0" description="TARA Earned" />
-            <BaseCard title="0" description="Anualized yield" />
-          </div>
-          <div className="cardContainer">
-            <DataCard title="N/A" description="Available to Stake" label="TARA" onClickButton={() => console.log('tara')} onClickText="Stake" input={availableInput} dataOptions={stakingchips}  />
-            <DataCard title="N/A" description="Staked total" label="TARA" onClickButton={() => console.log('tara')} onClickText="Un-stake" input={totalInput}  dataOptions={unstakingchips} />
+      <div className="stakingRoot">
+        <Sidebar disablePadding={true} dense={true} items={menu} />
+        <div className="staking">
+          <div className="staking-content">
+            <Text label="Staking: Phase 1 - Pre-staking" variant="h4" color="primary" className="staking-title"/>
+            <InfoIcon/>
+            <Text label="Earn rewards and help test &amp; secure the Taraxa’s network " variant="body2" color="textSecondary" className="staking-subtitle"/>
+            {!walletConnected && 
+              <div className="staking-red-stripe">
+                <Text label="Notice:" variant="body1" color="primary" className="staking-title"/>
+                <Text label="You are not connected to Metamask wallet" variant="body2" color="primary" className="staking-subtitle"/>
+              </div>  
+            }
+            <div className="cardContainer">
+              <BaseCard title="0" description="Total TARA earned" />
+              <BaseCard title="0" description="Total TARA staked" />
+              <BaseCard title="0" description="Anualized yield" />
+            </div>
+            <div className="cardContainer">
+              <DataCard title="N/A" description="Available to Stake" label="TARA" onClickButton={() => console.log('tara')} onClickText="Stake" input={availableInput} dataOptions={stakingchips}  />
+              <DataCard title="N/A" description="Staked total" label="TARA" onClickButton={() => console.log('tara')} onClickText="Un-stake" input={totalInput}  dataOptions={unstakingchips} />
+            </div>
           </div>
         </div>
       </div>

@@ -5,10 +5,15 @@ body {
 .staking {
   display: flex;
   margin-top: 3%;
-  margin-left:auto;
-  margin-right:auto;
-  height:auto; 
-  width:auto;
+  margin-left: 0% !important;
+  margin-right: auto;
+  height: auto;
+  width: auto;
+}
+
+.stakingRoot {
+  display: flex;
+  width: 100%;
 }
 
 .staking-sidebar {
@@ -31,13 +36,13 @@ body {
 }
 
 .staking-green-stripe {
-  border-left: 3px solid #15AC5B;
+  border-left: 3px solid #15ac5b;
   padding-left: 2%;
   width: 100%;
 }
 
 .staking-red-stripe {
-  border-left: 3px solid #FF515A;
+  border-left: 3px solid #ff515a;
   padding-left: 2%;
   width: 100%;
 }
@@ -55,13 +60,13 @@ body {
 .chip {
   margin-right: 3% !important;
   color: white !important;
-  background-color: #282C3E !important;
+  background-color: #282c3e !important;
 }
 
 .chipSelected {
   margin-right: 3% !important;
   color: white !important;
-  background-color: #15AC5B !important;
+  background-color: #15ac5b !important;
 }
 
 .whiteInput {

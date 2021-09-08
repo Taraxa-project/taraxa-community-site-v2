@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
 import { menu } from '../../global/globalVars';
-import { Sidebar, IconCard, Text } from 'taraxa-ui';
-import TaraxaIcon from '../../assets/icons/taraxaIcon';
+import { Sidebar, IconCard, Text, ToggleButton} from 'taraxa-ui';
 import StakingIcon from '../../assets/icons/staking';
 import BountiesIcon from '../../assets/icons/bounties';
 import RedeemIcon from '../../assets/icons/redeem';
@@ -13,24 +11,34 @@ import { useHistory } from "react-router-dom";
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
 import './home.scss';
+import { useMediaQuery } from 'react-responsive';
 
 
 const Home = () => {
   const history = useHistory();
+  const isMobile = useMediaQuery({ query: `(max-width: 760px)` });
+  const [toggleValue, setToggleValue] = useState('earn');
+
+  const onChangeToggle = (event: object, value: any) => {
+    setToggleValue(value);
+  }
   
   return (
     <>
       <Header />
-      <div className="home">
+      <div className={isMobile ? "home-mobile" : "home"}>
         <Sidebar disablePadding={true} dense={true} items={menu} className="home-sidebar" />
         <div className="home-content">
           <Text label="Get started" variant="h4" color="primary" className="home-title"/>
           <Text label="Welcome to Taraxa's community site!" variant="body2" color="textSecondary" className="home-subtitle"/>
-          <div className="home-green-stripe">
+          {isMobile && 
+            <ToggleButton exclusive onChange={onChangeToggle} currentValue={toggleValue} data={[{value: 'earn', label: 'Earn'}, {value: 'testnet', label: 'Testnet'}]} className="toggleButton" />
+          }
+          <div className={isMobile ? "home-green-stripe-mobile" : "home-green-stripe"} style={{ display: isMobile && toggleValue !== "earn" ? 'none' : 'inherit'}}>
             <Text label="EARN" variant="body1" color="primary" className="home-title"/>
             <Text label="Earn rewards while helping us grow." variant="body2" color="primary" className="home-subtitle"/>
           </div>
-          <div className="cardContainer">
+          <div className="cardContainer" style={{ display: isMobile && toggleValue !== "earn" ? 'none' : isMobile ? 'inherit' : 'flex'}}>
             <IconCard title="Staking" description="Earn rewards while helping to secure Taraxa’s network."
             onClickText="Get Started" onClickButton={() => history.push('/staking')} Icon={StakingIcon}/>
             <IconCard title="Bounties" description="Earn rewards while learning about Taraxa and grow it’s ecosystem."
@@ -39,11 +47,11 @@ const Home = () => {
             onClickText="Get Started" onClickButton={() => console.log("here")} Icon={RedeemIcon}/>
           </div>
 
-          <div className="home-green-stripe">
+          <div className={isMobile ? "home-green-stripe-mobile" : "home-green-stripe"} style={{ display: isMobile && toggleValue !== "testnet" ? 'none' : 'inherit'}}>
             <Text label="TESTNET" variant="body1" color="primary" className="home-title"/>
             <Text label="Join Taraxa’s public testnet." variant="body2" color="primary" className="home-subtitle"/>
           </div>
-          <div className="cardContainer">
+          <div className="cardContainer" style={{ display: isMobile && toggleValue !== "testnet" ? 'none' : isMobile ? 'inherit' : 'flex'}}>
             <IconCard title="Run a node" description="Earn rewards while helping to secure Taraxa’s network."
             onClickText="Get Started" onClickButton={() => console.log("here")} Icon={NodeIcon}/>
             <IconCard title="Taraxa explorer" description="Explore the ledger and find the transaction’s data."

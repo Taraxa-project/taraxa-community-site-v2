@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { Button, Text, InputField, Header as THeader, Modal, Checkbox } from "taraxa-ui";
 import TaraxaIcon from '../../assets/icons/taraxaIcon';
+import EmailIcon from "../../assets/icons/email";
+import HamburgerIcon from "../../assets/icons/hamburger";
 import './header.scss'
 import BubbleIcon from "../../assets/icons/bubbleIcon";
 import { useHistory } from "react-router-dom";
@@ -14,10 +16,11 @@ const Header = () => {
   const [password, setPassword] = useState('');
   const [repeatedPassword, setRepeatedPassword] = useState('');
   const [signIn, setSignIn] = useState(true);
+  const [signUpSuccess, setSignUpSuccess] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [conditions, setConditions] = useState(false);
-  const [isLogged, setLogged] = useState(false);
+  const [isLogged, setLogged] = useState(true);
   const [walletConnected, setWallet] = useState(false);
 
   const modalTrigger = () => {
@@ -58,6 +61,16 @@ const Header = () => {
     setWallet(false);
     setShowProfile(false);
   }
+
+  const createAccount = () => {
+    setSignUpSuccess(true);
+  }
+
+  const finalAction = () => {
+    setSignUpSuccess(false);
+    setModalOpen(false);
+    setLogged(true);
+  }
   
   const button = !isLogged ? <Button label="Sign in / Sign up" color="primary" variant="text" onClick={modalTrigger} /> : <div><Button label="Test user" color="primary" variant="outlined" onClick={profileTrigger} /></div>;
   
@@ -97,7 +110,7 @@ const Header = () => {
       <Text label="I agree to Terms &amp; Conditions and Privacy Policy" variant="body2" color="primary"/>
     </div>
 
-    <Button label="Create an account" color="secondary" disableElevation variant="contained" onClick={() => console.log(username)} fullWidth className="marginButton"/>
+    <Button label="Create an account" color="secondary" disableElevation variant="contained" onClick={() => createAccount()} fullWidth className="marginButton"/>
 
     <Text label="or sign up with" variant="body2" color="primary"  />
 
@@ -105,10 +118,20 @@ const Header = () => {
     <Button Icon={BubbleIcon} variant="contained" onClick={() => setSignIn(!signIn)} className="marginButton bubbleButton" />
   </div>
 
+  const modalSignUpSuccess = 
+    <div>
+      <Text label="Create an account" variant="h6" color="primary" className="signUpSuccessfullTitle" />
+      <EmailIcon />
+      <Text label="Thank you" variant="body1" color="primary"  style={{marginTop: '10%'}}/>
+      <Text label="Please confirm your e-mail" variant="body1" color="primary" style={{marginBottom: '10%'}} />
+
+      <Text label="We have sent you a confirmation link, please confirm your e-mail to complete registration." variant="body2" color="textSecondary" style={{marginBottom: '5%'}}/>
+      <Button label="OK" color="secondary" variant="contained" onClick={() => finalAction()} fullWidth className="marginButton"/>
+    </div>
     return (
       <>
-        <Modal id="signinModal" title="Test" show={modalOpen} children={signIn ? modalSignIn : modalSignUp} parentElementID="root" onRequestClose={modalTrigger}/>
-        <THeader color="primary" position="static" Icon={TaraxaIcon} elevation={0} button={button} wallet={wallet} profileModal={profileModal} showProfileModal={showProfile} />
+        <Modal id="signinModal" title="Test" show={modalOpen} children={signIn ? modalSignIn : signUpSuccess ? modalSignUpSuccess : modalSignUp} parentElementID="root" onRequestClose={modalTrigger}/>
+        <THeader color="primary" position="relative" Icon={TaraxaIcon} elevation={0} button={button} wallet={wallet} profileModal={profileModal} showProfileModal={showProfile} ColapseIcon={HamburgerIcon} />
       </>
     )
 }

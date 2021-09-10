@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { menu } from '../../global/globalVars';
 import { Sidebar, IconCard, Text, ToggleButton} from 'taraxa-ui';
 import StakingIcon from '../../assets/icons/staking';
@@ -12,22 +12,25 @@ import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
 import './home.scss';
 import { useMediaQuery } from 'react-responsive';
+import {store, useGlobalState} from 'state-pool';
 
 
 const Home = () => {
   const history = useHistory();
   const isMobile = useMediaQuery({ query: `(max-width: 760px)` });
   const [toggleValue, setToggleValue] = useState('earn');
+  const [sidebarOpened, updateSidebarOpened] = useGlobalState("sidebarOpened");
 
   const onChangeToggle = (event: object, value: any) => {
     setToggleValue(value);
   }
-  
+
+
   return (
     <>
       <Header />
       <div className={isMobile ? "home-mobile" : "home"}>
-        <Sidebar disablePadding={true} dense={true} items={menu} className="home-sidebar" />
+        <Sidebar disablePadding={true} dense={true} items={menu} open={sidebarOpened} onClose={updateSidebarOpened} className="home-sidebar" />
         <div className="home-content">
           <Text label="Get started" variant="h4" color="primary" className="home-title"/>
           <Text label="Welcome to Taraxa's community site!" variant="body2" color="textSecondary" className="home-subtitle"/>

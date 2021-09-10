@@ -12,8 +12,10 @@ import DeployIcon from '../../assets/icons/deploy';
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
 import InfoIcon from '../../assets/icons/info';
+import { useMediaQuery } from 'react-responsive';
 
 function Staking() {
+  const isMobile = useMediaQuery({ query: `(max-width: 760px)` });
   const [availableToStake, setAvailableToStake] = useState(0);
   const [totalToStake, setTotalToStake] = useState(0);
   const [stake, setStake] = useState('');
@@ -49,7 +51,7 @@ function Staking() {
   return (
     <>
       <Header />
-      <div className="stakingRoot">
+      <div className={isMobile ? "stakingRootMobile" : "stakingRoot"}>
         <Sidebar disablePadding={true} dense={true} items={menu} />
         <div className="staking">
           <div className="staking-content">
@@ -57,17 +59,17 @@ function Staking() {
             <InfoIcon/>
             <Text label="Earn rewards and help test &amp; secure the Taraxa’s network " variant="body2" color="textSecondary" className="staking-subtitle"/>
             {!walletConnected && 
-              <div className="staking-red-stripe">
+              <div className={isMobile ? "staking-red-stripe-mobile": "staking-red-stripe"}>
                 <Text label="Notice:" variant="body1" color="primary" className="staking-title"/>
                 <Text label="You are not connected to Metamask wallet" variant="body2" color="primary" className="staking-subtitle"/>
               </div>  
             }
-            <div className="cardContainer">
+            <div className={isMobile ? "cardContainerMobile" : "cardContainer"}>
               <BaseCard title="0" description="Total TARA earned" />
               <BaseCard title="0" description="Total TARA staked" />
               <BaseCard title="0" description="Anualized yield" />
             </div>
-            <div className="cardContainer">
+            <div className={isMobile ? "cardContainerMobile" : "cardContainer"}>
               <DataCard title="N/A" description="Available to Stake" label="TARA" onClickButton={() => console.log('tara')} onClickText="Stake" input={availableInput} dataOptions={stakingchips}  />
               <DataCard title="N/A" description="Staked total" label="TARA" onClickButton={() => console.log('tara')} onClickText="Un-stake" input={totalInput}  dataOptions={unstakingchips} />
             </div>

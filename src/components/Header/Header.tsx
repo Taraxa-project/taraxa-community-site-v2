@@ -6,8 +6,9 @@ import HamburgerIcon from "../../assets/icons/hamburger";
 import './header.scss'
 import BubbleIcon from "../../assets/icons/bubbleIcon";
 import { useHistory } from "react-router-dom";
+import {store, useGlobalState} from 'state-pool';
 
-
+store.setState("sidebarOpened", false)
 
 const Header = () => {
   const history = useHistory();
@@ -22,6 +23,7 @@ const Header = () => {
   const [conditions, setConditions] = useState(false);
   const [isLogged, setLogged] = useState(true);
   const [walletConnected, setWallet] = useState(false);
+  const [sidebarOpened, updateSidebarOpened] = useGlobalState("sidebarOpened");
 
   const modalTrigger = () => {
     setModalOpen(!modalOpen);
@@ -128,10 +130,12 @@ const Header = () => {
       <Text label="We have sent you a confirmation link, please confirm your e-mail to complete registration." variant="body2" color="textSecondary" style={{marginBottom: '5%'}}/>
       <Button label="OK" color="secondary" variant="contained" onClick={() => finalAction()} fullWidth className="marginButton"/>
     </div>
+
+    const hamburger = <div style={{cursor: 'pointer'}} onClick={() => updateSidebarOpened(true)}><HamburgerIcon/></div>
     return (
       <>
         <Modal id="signinModal" title="Test" show={modalOpen} children={signIn ? modalSignIn : signUpSuccess ? modalSignUpSuccess : modalSignUp} parentElementID="root" onRequestClose={modalTrigger}/>
-        <THeader color="primary" position="relative" Icon={TaraxaIcon} elevation={0} button={button} wallet={wallet} profileModal={profileModal} showProfileModal={showProfile} ColapseIcon={HamburgerIcon} />
+        <THeader color="primary" position="relative" Icon={TaraxaIcon} elevation={0} button={button} wallet={wallet} profileModal={profileModal} showProfileModal={showProfile} hamburger={hamburger} />
       </>
     )
 }

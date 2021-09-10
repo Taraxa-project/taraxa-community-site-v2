@@ -16,6 +16,12 @@ body {
   width: 100%;
 }
 
+.stakingRootMobile {
+  display: flex;
+  width: 100%;
+  margin-left: 28%;
+}
+
 .staking-sidebar {
   height: 100%;
 }
@@ -41,7 +47,19 @@ body {
   width: 100%;
 }
 
+.staking-green-stripe-mobile {
+  border-left: 3px solid #15ac5b;
+  padding-left: 2%;
+  width: 100%;
+}
+
 .staking-red-stripe {
+  border-left: 3px solid #ff515a;
+  padding-left: 2%;
+  width: 100%;
+}
+
+.staking-red-stripe-mobile {
   border-left: 3px solid #ff515a;
   padding-left: 2%;
   width: 100%;
@@ -49,6 +67,11 @@ body {
 
 .cardContainer {
   display: flex;
+  margin-bottom: 5%;
+}
+
+.cardContainerMobile {
+  display: block;
   margin-bottom: 5%;
 }
 

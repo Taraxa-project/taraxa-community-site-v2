@@ -9,7 +9,7 @@ body {
   margin-top: 5%;
 }
 
-.claim {
+.profile {
   display: flex;
   margin-top: 3%;
   margin-left: auto;
@@ -18,32 +18,41 @@ body {
   width: auto;
 }
 
-.claim-sidebar {
+.mobile-profile {
+  display: flex;
+  margin-top: 3%;
+  margin-left: 28%;
+  margin-right: 25%;
+  height: auto;
+  width: auto;
+}
+
+.profile-sidebar {
   height: 100%;
 }
 
-.claim-content {
+.profile-content {
   height: 100%;
   width: 100%;
   margin-left: 6%;
   text-align: left;
 }
 
-.claim-title {
+.profile-title {
   margin-bottom: 1% !important;
 }
 
-.claim-subtitle {
+.profile-subtitle {
   margin-bottom: 3% !important;
 }
 
-.claim-green-stripe {
+.profile-green-stripe {
   border-left: 3px solid #15ac5b;
   padding-left: 2%;
   width: 100%;
 }
 
-.claim-red-stripe {
+.profile-red-stripe {
   border-left: 3px solid #ff515a;
   padding-left: 2%;
   width: 100%;
@@ -55,6 +64,16 @@ body {
 }
 
 .cardContainer > * {
+  display: block;
+  margin-right: 5% !important;
+}
+
+.mobileCardContainer {
+  display: block;
+  margin-bottom: 5%;
+}
+
+.mobileCardContainer > * {
   display: block;
   margin-right: 5% !important;
 }

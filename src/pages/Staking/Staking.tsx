@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import './staking.scss';
 import { menu } from '../../global/globalVars';
 import { Sidebar, BaseCard, Text, DataCard, InputField, Chip } from 'taraxa-ui';
@@ -13,6 +13,7 @@ import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
 import InfoIcon from '../../assets/icons/info';
 import { useMediaQuery } from 'react-responsive';
+import {store, useGlobalState} from 'state-pool';
 
 function Staking() {
   const isMobile = useMediaQuery({ query: `(max-width: 760px)` });
@@ -21,6 +22,24 @@ function Staking() {
   const [stake, setStake] = useState('');
   const [unstake, setUnstake] = useState('');
   const [walletConnected, setWallet] = useState(false);
+  const [sidebarOpened, updateSidebarOpened] = useGlobalState("sidebarOpened");
+  function useOutsideAlerter(ref: any) {
+    useEffect(() => {
+        function handleClickOutside(event: any) {
+            if (ref.current && !ref.current.contains(event.target)) {
+                updateSidebarOpened(false);
+            }
+        }
+  
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, [ref]);
+  }
+  const wrapperRef = useRef(null);
+  useOutsideAlerter(wrapperRef);
+
   const availableTrigger = (event: any) => {
     setAvailableToStake(event.target.value);
   }
@@ -52,7 +71,7 @@ function Staking() {
     <>
       <Header />
       <div className={isMobile ? "stakingRootMobile" : "stakingRoot"}>
-        <Sidebar disablePadding={true} dense={true} items={menu} />
+        <div ref={wrapperRef}><Sidebar disablePadding={true} dense={true} items={menu} open={sidebarOpened} onClose={updateSidebarOpened} /></div>
         <div className="staking">
           <div className="staking-content">
             <Text label="Staking: Phase 1 - Pre-staking" variant="h4" color="primary" className="staking-title"/>

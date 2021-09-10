@@ -2,11 +2,19 @@ body {
   background-color: #151823 !important;
 }
 
-.staking {
+.bounties {
   display: flex;
   margin-top: 3%;
   margin-left: auto;
   margin-right: auto;
+  height: auto;
+  width: auto;
+}
+
+.mobile-bounties {
+  display: flex;
+  margin-top: 3%;
+  margin-left: 0%;
   height: auto;
   width: auto;
 }

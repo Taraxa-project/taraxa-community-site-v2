@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { menu } from '../../global/globalVars';
 import { Sidebar, IconCard, Text, ToggleButton} from 'taraxa-ui';
 import StakingIcon from '../../assets/icons/staking';
@@ -25,12 +25,29 @@ const Home = () => {
     setToggleValue(value);
   }
 
+  function useOutsideAlerter(ref: any) {
+    useEffect(() => {
+        function handleClickOutside(event: any) {
+            if (ref.current && !ref.current.contains(event.target)) {
+                updateSidebarOpened(false);
+            }
+        }
+  
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, [ref]);
+  }
+  const wrapperRef = useRef(null);
+  useOutsideAlerter(wrapperRef);
+
 
   return (
     <>
       <Header />
       <div className={isMobile ? "home-mobile" : "home"}>
-        <Sidebar disablePadding={true} dense={true} items={menu} open={sidebarOpened} onClose={updateSidebarOpened} className="home-sidebar" />
+      <div ref={wrapperRef}><Sidebar disablePadding={true} dense={true} items={menu} open={sidebarOpened} onClose={updateSidebarOpened} className="home-sidebar" /></div>
         <div className="home-content">
           <Text label="Get started" variant="h4" color="primary" className="home-title"/>
           <Text label="Welcome to Taraxa's community site!" variant="body2" color="textSecondary" className="home-subtitle"/>

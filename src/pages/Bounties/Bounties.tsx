@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import './bounties.scss';
 import { menu } from '../../global/globalVars';
 import { Sidebar, Text, RewardCard, Switch, VerticalRewardCard, Table } from 'taraxa-ui';
@@ -10,10 +10,30 @@ import SubmissionIcon from '../../assets/icons/submission';
 import ExpirationIcon from '../../assets/icons/expiration';
 import UserIcon from './../../assets/icons/user';
 import { useMediaQuery } from 'react-responsive';
+import {store, useGlobalState} from 'state-pool';
 
 function Bounties() {
   const isMobile = useMediaQuery({ query: `(max-width: 760px)` });
   const [inactive, setInactive] = useState(false);
+  const [sidebarOpened, updateSidebarOpened] = useGlobalState("sidebarOpened");
+
+  function useOutsideAlerter(ref: any) {
+    useEffect(() => {
+        function handleClickOutside(event: any) {
+            if (ref.current && !ref.current.contains(event.target)) {
+                updateSidebarOpened(false);
+            }
+        }
+  
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, [ref]);
+  }
+  const wrapperRef = useRef(null);
+  useOutsideAlerter(wrapperRef);
+
   const onChangeInactive = () => {
     setInactive(!inactive);
   }
@@ -45,8 +65,8 @@ function Bounties() {
   return (
     <>
       <Header />
-      <div className="home">
-        <Sidebar disablePadding={true} dense={true} items={menu} className="bounties-sidebar" />
+      <div className={isMobile ? "mobile-bounties" : "bounties"}>
+        <div ref={wrapperRef}><Sidebar disablePadding={true} dense={true} items={menu} className="bounties-sidebar" open={sidebarOpened} onClose={updateSidebarOpened} /></div>
         <div className="bounties-content">
           <Text label="Taraxa ecosystem bounties" variant="h4" color="primary" className="bounties-title"/>
           <Text label="Earn rewards and help grow the Taraxa's ecosystem" variant="body2" color="textSecondary" className="bounties-subtitle"/>

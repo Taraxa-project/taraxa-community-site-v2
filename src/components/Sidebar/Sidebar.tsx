@@ -1,20 +1,20 @@
-import { useState } from "react";
-import { Button, Text, InputField, Header as THeader, Modal, Checkbox } from "taraxa-ui";
-import TaraxaIcon from '../../assets/icons/taraxaIcon';
+import { useEffect, useRef, useState } from "react";
+import { Button, Text, InputField, Header as THeader, Modal, Checkbox, Sidebar as MSidebar } from "taraxa-ui";
 import EmailIcon from "../../assets/icons/email";
 import HamburgerIcon from "../../assets/icons/hamburger";
-import './header.scss'
+import './sidebar.scss'
 import BubbleIcon from "../../assets/icons/bubbleIcon";
 import { useHistory } from "react-router-dom";
 import {store, useGlobalState} from 'state-pool';
 import { useMediaQuery } from 'react-responsive';
+import { menu } from '../../global/globalVars';
 
 store.setState("sidebarOpened", false)
 store.setState("modalOpen", false)
 store.setState("isLogged", false)
 store.setState("walletConnected", false)
 
-const Header = () => {
+const Sidebar = () => {
   const history = useHistory();
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
@@ -29,14 +29,27 @@ const Header = () => {
   const [walletConnected, setWallet] = useState(false);
   const [sidebarOpened, updateSidebarOpened] = useGlobalState("sidebarOpened");
   const isMobile = useMediaQuery({ query: `(max-width: 760px)` });
-
+  
+  function useOutsideAlerter(ref: any) {
+    useEffect(() => {
+        function handleClickOutside(event: any) {
+            if (ref.current && !ref.current.contains(event.target)) {
+                updateSidebarOpened(false);
+            }
+        }
+  
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, [ref]);
+  }
+  const wrapperRef = useRef(null);
+  useOutsideAlerter(wrapperRef);
+  
   const modalTrigger = () => {
     setModalOpen(!modalOpen);
     setSignIn(true);
-  }
-
-  const profileTrigger = () => {
-    setShowProfile(!showProfile);
   }
 
   const usernameTrigger = (event: any) => {
@@ -79,14 +92,12 @@ const Header = () => {
     setLogged(true);
   }
   
-  const button = !isLogged ? <Button label="Sign in / Sign up" color="primary" variant="text" onClick={modalTrigger} /> : <div><Button label="Test user" color="primary" variant="outlined" onClick={profileTrigger} /></div>;
+  const button = !isLogged ? <Button label="Sign in / Sign up" color="secondary" variant="contained" onClick={modalTrigger} /> : <div><Button label="My Profile" color="secondary" variant="contained" onClick={goToProfile} /></div>;
   
-  const profileModal = <>
-  <Button label="My Profile" color="secondary" variant="contained" id="profileButton" onClick={goToProfile} />
-  <Button label="Sign Out" color="primary" variant="outlined" onClick={logout} />
-  </>;
+  const wallet = isLogged && walletConnected ? <div id="mobileWalletContainer"><div className="walletIcon" /><Text label="0x2612b77E5ee1a5feeDdD5eC08731749bC2217F54" variant="caption" color="textSecondary"  /></div> : isLogged && !walletConnected ? <div id="mobileNoWalletContainer"><Button label="Connect Wallet" variant="text" color="primary" fullWidth/></div> : <></>;
 
-  const wallet = isLogged && walletConnected ? <div id="walletContainer"><div className="walletIcon" /><Text label="0x2612b77E5ee1a5feeDdD5eC08731749bC2217F54" variant="caption" color="textSecondary"  /></div> : isLogged && !walletConnected ? <div id="noWalletContainer"><Button label="Connect Wallet" variant="text" color="primary" fullWidth/></div> : <></>;
+  const mobileButtons = <div className="mobileButtons">{button}{wallet}</div>
+  
   const modalSignIn = 
     <div>
       <Text label="Sign In" variant="h6" color="primary"  />
@@ -136,13 +147,12 @@ const Header = () => {
       <Button label="OK" color="secondary" variant="contained" onClick={() => finalAction()} fullWidth className="marginButton"/>
     </div>
 
-    const hamburger = <div style={{cursor: 'pointer'}} onClick={() => updateSidebarOpened(true)}><HamburgerIcon/></div>
     return (
       <>
         <Modal id="signinModal" title="Test" show={modalOpen} children={signIn ? modalSignIn : signUpSuccess ? modalSignUpSuccess : modalSignUp} parentElementID="root" onRequestClose={modalTrigger}/>
-        <THeader color="primary" position="relative" Icon={TaraxaIcon} elevation={0} button={isMobile ? <></> : button} wallet={isMobile ? <></> : wallet} profileModal={profileModal} showProfileModal={showProfile} hamburger={hamburger} />
+        <div ref={wrapperRef}><MSidebar disablePadding={true} dense={true} items={menu} open={sidebarOpened} mobileActions={mobileButtons} onClose={updateSidebarOpened} className="sidebar" /></div>
       </>
     )
 }
 
-export default Header;
+export default Sidebar;

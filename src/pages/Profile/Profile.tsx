@@ -1,36 +1,18 @@
 import React, { useState, useRef, useEffect } from 'react';
 import './profile.scss';
 import { menu } from '../../global/globalVars';
-import { Sidebar, ProfileBasicCard, Text, ProfileCard, Button, LinkedCards } from 'taraxa-ui';
+import { ProfileBasicCard, Text, ProfileCard, Button, LinkedCards } from 'taraxa-ui';
 import TaraxaIcon from '../../assets/icons/taraxaIcon';
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
 import KYCIcon from '../../assets/icons/kyc';
 import { useMediaQuery } from 'react-responsive';
-import {store, useGlobalState} from 'state-pool';
+import Sidebar from '../../components/Sidebar/Sidebar';
 
 
 const Profile = () => {
 
   const isMobile = useMediaQuery({ query: `(max-width: 760px)` });
-  const [sidebarOpened, updateSidebarOpened] = useGlobalState("sidebarOpened");
-  
-  function useOutsideAlerter(ref: any) {
-    useEffect(() => {
-        function handleClickOutside(event: any) {
-            if (ref.current && !ref.current.contains(event.target)) {
-                updateSidebarOpened(false);
-            }
-        }
-  
-        document.addEventListener("mousedown", handleClickOutside);
-        return () => {
-            document.removeEventListener("mousedown", handleClickOutside);
-        };
-    }, [ref]);
-  }
-  const wrapperRef = useRef(null);
-  useOutsideAlerter(wrapperRef);
 
   const buttons = <div className="buttonsContainer"><Button color="primary" variant="outlined" label="Edit Profile"/>
                     <Button color="primary" variant="text" label="Log out"/></div>
@@ -65,7 +47,7 @@ const Profile = () => {
     <>
       <Header />
       <div className={isMobile ? "mobile-profile" : "profile"}>
-        <div ref={wrapperRef}><Sidebar disablePadding={true} dense={true} items={menu} className="profile-sidebar" open={sidebarOpened} onClose={updateSidebarOpened} /></div>
+        <Sidebar />
         <div className="profile-content">
           <Text label="My profile" variant="h4" color="primary" className="profile-title"/>
           

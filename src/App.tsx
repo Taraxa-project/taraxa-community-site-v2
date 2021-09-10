@@ -7,6 +7,7 @@ import Staking from './pages/Staking/Staking';
 import Bounties from './pages/Bounties/Bounties';
 import Redeem from './pages/Redeem/Redeem';
 import Profile from './pages/Profile/Profile';
+import RunNode from './pages/RunNode/RunNode';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
             <Route exact path="/bounties" component={Bounties} />
             <Route exact path="/redeem" component={Redeem} />
             <Route exact path="/profile" component={Profile} />
+            <Route exact path="/node" component={RunNode} />
           </Switch>
         </div>
       </BrowserRouter>

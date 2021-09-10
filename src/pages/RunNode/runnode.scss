@@ -1,0 +1,140 @@
+body {
+  background-color: #151823 !important;
+}
+
+.runnode {
+  display: flex;
+  margin-top: 3%;
+  margin-left: auto;
+  margin-right: auto;
+  height: auto;
+  width: auto;
+}
+
+.runnode-mobile {
+  display: flex;
+  margin-top: 3%;
+  margin-left: 17%;
+  height: auto;
+  width: auto;
+}
+
+.runnode-sidebar {
+  height: 100%;
+}
+
+.runnode-content {
+  height: 100%;
+  width: 100%;
+  text-align: left;
+  margin-left: 2%;
+}
+
+.runnode-title {
+  margin-bottom: 1% !important;
+}
+
+.runnode-subtitle {
+  margin-bottom: 3% !important;
+}
+
+.toggleButton {
+  margin: 5% 0 5% 0;
+}
+
+.runnode-green-stripe {
+  border-left: 3px solid #15ac5b;
+  padding-left: 2%;
+  width: 100%;
+}
+
+.runnode-red-stripe {
+  border-left: 3px solid #ff515a;
+  padding-left: 2%;
+  width: 100%;
+}
+
+.cardContainer {
+  display: flex;
+  margin-bottom: 5%;
+}
+
+.cardContainer > * {
+  display: block;
+  margin-right: 5% !important;
+}
+
+.referenceContainer {
+  background-color: #151823;
+  border: 2px solid #31364b;
+  width: 90%;
+  margin-bottom: 5%;
+  box-sizing: border-box;
+  border-radius: 4px;
+
+  #referenceText {
+    margin: 2% 0 0 2%;
+  }
+
+  .bottomReferencesButtonContainer {
+    margin-bottom: 5%;
+  }
+
+  .referenceButton {
+    background: #31364b;
+    border: 1px solid #6a7085;
+    box-sizing: border-box;
+    border-radius: 4px;
+    color: white;
+    width: 35%;
+    margin-left: 10%;
+    margin-top: 5%;
+  }
+}
+
+.mobileReferenceContainer {
+  background-color: #151823;
+  border: 2px solid #31364b;
+  width: 90%;
+  margin-bottom: 5%;
+  box-sizing: border-box;
+  border-radius: 4px;
+
+  #referenceText {
+    margin: 2% 0 0 2%;
+  }
+
+  #mobileReferenceText {
+    margin: 2% 0 0 10%;
+  }
+
+  .mobileReferencesButtonContainer {
+    display: block;
+    margin-bottom: 7%;
+    .referenceButton {
+      background: #31364b;
+      border: 1px solid #6a7085;
+      box-sizing: border-box;
+      border-radius: 4px;
+      color: white;
+      width: 80%;
+      margin-left: 10%;
+      margin-top: 5%;
+    }
+  }
+
+  .bottomReferencesButtonContainer {
+    margin-bottom: 5%;
+  }
+
+  .referenceButton {
+    background: #31364b;
+    border: 1px solid #6a7085;
+    box-sizing: border-box;
+    border-radius: 4px;
+    color: white;
+    width: 35%;
+    margin-left: 10%;
+    margin-top: 5%;
+  }
+}

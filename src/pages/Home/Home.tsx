@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { menu } from '../../global/globalVars';
-import { Sidebar, IconCard, Text, ToggleButton} from 'taraxa-ui';
+import { IconCard, Text, ToggleButton} from 'taraxa-ui';
 import StakingIcon from '../../assets/icons/staking';
 import BountiesIcon from '../../assets/icons/bounties';
 import RedeemIcon from '../../assets/icons/redeem';
@@ -13,6 +13,7 @@ import Footer from '../../components/Footer/Footer';
 import './home.scss';
 import { useMediaQuery } from 'react-responsive';
 import {store, useGlobalState} from 'state-pool';
+import Sidebar from '../../components/Sidebar/Sidebar';
 
 
 const Home = () => {
@@ -47,7 +48,7 @@ const Home = () => {
     <>
       <Header />
       <div className={isMobile ? "home-mobile" : "home"}>
-      <div ref={wrapperRef}><Sidebar disablePadding={true} dense={true} items={menu} open={sidebarOpened} onClose={updateSidebarOpened} className="home-sidebar" /></div>
+      <Sidebar  />
         <div className="home-content">
           <Text label="Get started" variant="h4" color="primary" className="home-title"/>
           <Text label="Welcome to Taraxa's community site!" variant="body2" color="textSecondary" className="home-subtitle"/>

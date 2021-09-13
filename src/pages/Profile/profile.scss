@@ -27,6 +27,57 @@ body {
   width: auto;
 }
 
+.formInputContainer {
+  display: flex;
+  align-items: baseline;
+  margin-bottom: 3%;
+}
+
+.verticalFormContainer {
+  align-items: baseline;
+  margin-bottom: 3%;
+}
+
+.profileEditButton {
+  float: right;
+}
+
+.profile-inputLabel {
+  width: 100px;
+}
+
+.profileInput {
+  margin-left: 15% !important;
+  border-bottom: 1px solid #878ca4 !important;
+  width: 65% !important;
+  margin-bottom: 0% !important;
+  input {
+    margin-bottom: 0% !important;
+    border: none !important;
+    background-color: #151823 !important;
+  }
+}
+
+.profileDisabledInput {
+  margin-left: 15%;
+  border-bottom: 1px solid #878ca4;
+  width: 65%;
+}
+
+#buttonsContainer {
+  margin: 6% 0 3% 0;
+
+  button {
+    width: 20% !important;
+    margin-right: 3% !important;
+  }
+
+  #grayButton {
+    background-color: #31364b;
+    color: white;
+  }
+}
+
 .profile-sidebar {
   height: 100%;
 }

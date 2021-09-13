@@ -2,7 +2,7 @@ body {
   background-color: #151823 !important;
 }
 
-.runnode {
+.wallet {
   display: flex;
   margin-top: 3%;
   margin-left: auto;
@@ -11,7 +11,7 @@ body {
   width: auto;
 }
 
-.runnode-mobile {
+.wallet-mobile {
   display: flex;
   margin-top: 3%;
   margin-left: 17%;
@@ -19,22 +19,22 @@ body {
   width: auto;
 }
 
-.runnode-sidebar {
+.wallet-sidebar {
   height: 100%;
 }
 
-.runnode-content {
+.wallet-content {
   height: 100%;
   width: 100%;
   text-align: left;
   margin-left: 2%;
 }
 
-.runnode-title {
+.wallet-title {
   margin-bottom: 1% !important;
 }
 
-.runnode-subtitle {
+.wallet-subtitle {
   margin-bottom: 3% !important;
 }
 
@@ -42,13 +42,13 @@ body {
   margin: 5% 0 5% 0;
 }
 
-.runnode-green-stripe {
+.wallet-green-stripe {
   border-left: 3px solid #15ac5b;
   padding-left: 2%;
   width: 100%;
 }
 
-.runnode-red-stripe {
+.wallet-red-stripe {
   border-left: 3px solid #ff515a;
   padding-left: 2%;
   width: 100%;
@@ -57,6 +57,10 @@ body {
 .cardContainer {
   display: flex;
   margin-bottom: 0%;
+
+  div {
+    background-color: #181b27 !important;
+  }
 }
 
 .cardContainer > * {

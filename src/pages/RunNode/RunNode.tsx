@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { menu } from '../../global/globalVars';
-import { Button, IconCard, Text, ToggleButton} from 'taraxa-ui';
+import { BaseCard, Button, IconCard, Table, Text, ToggleButton} from 'taraxa-ui';
 import StakingIcon from '../../assets/icons/staking';
 import BountiesIcon from '../../assets/icons/bounties';
 import RedeemIcon from '../../assets/icons/redeem';
@@ -15,12 +15,27 @@ import { useMediaQuery } from 'react-responsive';
 import {store, useGlobalState} from 'state-pool';
 import Sidebar from '../../components/Sidebar/Sidebar';
 
+let activeNodes = true;
 
 const RunNode = () => {
   const history = useHistory();
   const isMobile = useMediaQuery({ query: `(max-width: 760px)` });
   const [toggleValue, setToggleValue] = useState('earn');
   const [sidebarOpened, updateSidebarOpened] = useGlobalState("sidebarOpened");
+
+  const columns = [
+    { path: "node",   name: "node" },
+    { path: "senderWallet", name: "senderWallet" },
+    { path: "receiverWallet",  name: "receiverWallet" },
+  ];
+
+  const rows = [
+    {data: [{node: 'Bob’s node #1', senderWallet: '0xe08c0 ... 29b34', receiverWallet: '0xe08c0 ... 29b34'}]}, 
+    {data: [{node: 'Bob’s node #1', senderWallet: '0xe08c0 ... 29b34', receiverWallet: '0xe08c0 ... 29b34'}]}, 
+    {data: [{node: 'Bob’s node #1', senderWallet: '0xe08c0 ... 29b34', receiverWallet: '0xe08c0 ... 29b34'}]}, 
+    {data: [{node: 'Bob’s node #1', senderWallet: '0xe08c0 ... 29b34', receiverWallet: '0xe08c0 ... 29b34'}]}, 
+    {data: [{node: 'Bob’s node #1', senderWallet: '0xe08c0 ... 29b34', receiverWallet: '0xe08c0 ... 29b34'}]}, 
+    {data: [{node: 'Bob’s node #1', senderWallet: '0xe08c0 ... 29b34', receiverWallet: '0xe08c0 ... 29b34'}]}];
 
   const onChangeToggle = (event: object, value: any) => {
     setToggleValue(value);
@@ -53,17 +68,36 @@ const RunNode = () => {
           <Text label="Running Testnet Nodes" variant="h4" color="primary" className="runnode-title"/>
           <Text label="Help accelerate Taraxa’s path towards mainnet by running nodes on the testnet" variant="body2" color="textSecondary" className="runnode-subtitle"/>
 
-          <div className="runnode-red-stripe">
-            <Text label="Notice:" variant="body1" color="primary" className="runnode-title"/>
-            <Text label="You aren’t running any block-producing nodes" variant="body2" color="primary" className="runnode-subtitle"/>
-          </div>
+          {!activeNodes && 
+            <div className="runnode-red-stripe">
+              <Text label="Notice:" variant="body1" color="primary" className="runnode-title"/>
+              <Text label="You aren’t running any block-producing nodes" variant="body2" color="primary" className="runnode-subtitle"/>
+            </div>
+          }
           <div className={isMobile ? "mobileCardContainer" : "cardContainer"}>
-            <IconCard title="Register a node" description="Register a node you’ve aleady set up."
-            onClickText="Register a node" onClickButton={() => console.log('yes')} Icon={NodeIcon}/>
-            <IconCard title="Set up a node" description="Learn how to set up a node on Taraxa’s testnet."
-            onClickText="Set up a node" onClickButton={() => console.log("here")} Icon={NodeIcon}/>
-            
+            {activeNodes ? 
+              <>
+                <BaseCard title="11" description="Active nodes" />
+                <BaseCard title="3,238" description="Blocks produced" />
+                <BaseCard title="#16" description="Weekly rating" />
+              </>
+              : 
+              <>
+                <IconCard title="Register a node" description="Register a node you’ve aleady set up."
+                onClickText="Register a node" onClickButton={() => console.log('yes')} Icon={NodeIcon}/>
+                <IconCard title="Set up a node" description="Learn how to set up a node on Taraxa’s testnet."
+                onClickText="Set up a node" onClickButton={() => console.log("here")} Icon={NodeIcon}/>
+              </>
+            }
           </div>
+
+          {activeNodes &&
+            <div className={isMobile ? "mobileReferenceContainer" : "referenceContainer"}>
+              <Text id={isMobile ? "mobileReferenceText" : "referenceText"} label="Active Nodes" variant="h6" color="primary"/>
+
+              <Table columns={columns} rows={rows}/>
+            </div>
+          }
 
           <div className={isMobile ? "mobileReferenceContainer" : "referenceContainer"}>
               <Text id={isMobile ? "mobileReferenceText" : "referenceText"} label="References" variant="h6" color="primary"/>

@@ -8,6 +8,7 @@ import Bounties from './pages/Bounties/Bounties';
 import Redeem from './pages/Redeem/Redeem';
 import Profile from './pages/Profile/Profile';
 import RunNode from './pages/RunNode/RunNode';
+import Wallet from './pages/Wallet/Wallet';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
             <Route exact path="/redeem" component={Redeem} />
             <Route exact path="/profile" component={Profile} />
             <Route exact path="/node" component={RunNode} />
+            <Route exact path="/wallet" component={Wallet} />
           </Switch>
         </div>
       </BrowserRouter>

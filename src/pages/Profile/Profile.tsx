@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import './profile.scss';
 import { menu } from '../../global/globalVars';
-import { ProfileBasicCard, Text, ProfileCard, Button, LinkedCards, InputField } from 'taraxa-ui';
+import { ProfileBasicCard, Text, ProfileCard, Button, LinkedCards, InputField } from '@taraxa_project/taraxa-ui';
 import TaraxaIcon from '../../assets/icons/taraxaIcon';
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';

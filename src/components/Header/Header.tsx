@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button, Text, InputField, Header as THeader, Modal, Checkbox } from "taraxa-ui";
+import { Button, Text, InputField, Header as THeader, Modal, Checkbox } from "@taraxa_project/taraxa-ui";
 import TaraxaIcon from '../../assets/icons/taraxaIcon';
 import EmailIcon from "../../assets/icons/email";
 import HamburgerIcon from "../../assets/icons/hamburger";

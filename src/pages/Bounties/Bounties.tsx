@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import './bounties.scss';
 import { menu } from '../../global/globalVars';
-import { Text, RewardCard, Switch, VerticalRewardCard, Table } from 'taraxa-ui';
+import { Text, RewardCard, Switch, VerticalRewardCard, Table } from '@taraxa_project/taraxa-ui';
 import TaraxaIcon from '../../assets/icons/taraxaIcon';
 import PinnedIcon from '../../assets/icons/pinned';
 import Header from '../../components/Header/Header';

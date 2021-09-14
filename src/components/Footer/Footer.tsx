@@ -1,4 +1,4 @@
-import { Footer as TFooter } from "taraxa-ui";
+import { Footer as TFooter } from "@taraxa_project/taraxa-ui";
 import TaraxaIcon from '../../assets/icons/taraxaIcon';
 import SendIcon from "../../assets/icons/send";
 import TwitterIcon from "../../assets/icons/twitter";

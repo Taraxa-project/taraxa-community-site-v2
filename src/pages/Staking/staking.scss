@@ -31,6 +31,15 @@ body {
   width: 100%;
   margin-left: 6%;
   text-align: left;
+
+  .staking-icon-container {
+    display: flex;
+    align-items: center;
+
+    .staking-icon-tooltip {
+      margin-left: 400%;
+    }
+  }
 }
 
 .staking-title {

@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { menu } from '../../global/globalVars';
-import { BaseCard, Button, IconCard, Table, Text, ToggleButton} from 'taraxa-ui';
+import { BaseCard, Button, IconCard, Table, Text, ToggleButton, Tooltip} from 'taraxa-ui';
 import StakingIcon from '../../assets/icons/staking';
 import BountiesIcon from '../../assets/icons/bounties';
 import RedeemIcon from '../../assets/icons/redeem';
@@ -14,8 +14,9 @@ import './runnode.scss';
 import { useMediaQuery } from 'react-responsive';
 import {store, useGlobalState} from 'state-pool';
 import Sidebar from '../../components/Sidebar/Sidebar';
+import InfoIcon from '../../assets/icons/info';
 
-let activeNodes = true;
+let activeNodes = false;
 
 const RunNode = () => {
   const history = useHistory();
@@ -65,7 +66,11 @@ const RunNode = () => {
       <div className={isMobile ? "runnode-mobile" : "runnode"}>
       <Sidebar  />
         <div className="runnode-content">
-          <Text label="Running Testnet Nodes" variant="h4" color="primary" className="runnode-title"/>
+          <div className="runnode-icon-container">
+              <Text label="Running Testnet Nodes" variant="h4" color="primary" className="runnode-title"/>
+              <Tooltip className="runnode-icon-tooltip" title="Test" Icon={InfoIcon} />
+            </div>
+          
           <Text label="Help accelerate Taraxa’s path towards mainnet by running nodes on the testnet" variant="body2" color="textSecondary" className="runnode-subtitle"/>
 
           {!activeNodes && 
@@ -84,7 +89,7 @@ const RunNode = () => {
               : 
               <>
                 <IconCard title="Register a node" description="Register a node you’ve aleady set up."
-                onClickText="Register a node" onClickButton={() => console.log('yes')} Icon={NodeIcon}/>
+                onClickText="Register a node" onClickButton={() => console.log('yes')} Icon={NodeIcon} tooltip={<Tooltip className="runnode-icon-tooltip" title="A registered node (which has already been setup) will automatically be delegated enough testnet tokens to participate in consensus." Icon={InfoIcon} />}/>
                 <IconCard title="Set up a node" description="Learn how to set up a node on Taraxa’s testnet."
                 onClickText="Set up a node" onClickButton={() => console.log("here")} Icon={NodeIcon}/>
               </>

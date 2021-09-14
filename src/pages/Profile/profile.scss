@@ -176,3 +176,19 @@ body {
     margin-bottom: 10% !important;
   }
 }
+
+.kycTopContainer {
+  text-align: center;
+}
+
+.decimalUL {
+  list-style-type: decimal;
+  color: #878ca4;
+}
+
+.checkboxContainer {
+  display: flex;
+  text-align: left;
+  margin-top: 5%;
+  align-items: center;
+}

@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { menu } from '../../global/globalVars';
-import { BaseCard, Button, IconCard, Table, Text, ToggleButton} from 'taraxa-ui';
+import { BaseCard, Button, IconCard, Table, Text, ToggleButton, Tooltip} from 'taraxa-ui';
 import StakingIcon from '../../assets/icons/staking';
 import BountiesIcon from '../../assets/icons/bounties';
 import RedeemIcon from '../../assets/icons/redeem';
@@ -15,6 +15,7 @@ import { useMediaQuery } from 'react-responsive';
 import {store, useGlobalState} from 'state-pool';
 import Sidebar from '../../components/Sidebar/Sidebar';
 import WalletIcon from '../../assets/icons/wallet';
+import InfoIcon from '../../assets/icons/info';
 
 let walletConnected = true;
 
@@ -73,11 +74,11 @@ const Wallet = () => {
             {walletConnected ? 
               <>
                 <IconCard className="walletCard" title="1,350,421" description="TARA total"
-                onClickText="Send" onClickButton={() => console.log('yes')}/>
+                onClickText="Send" onClickButton={() => console.log('yes')} tooltip={<Tooltip className="staking-icon-tooltip" title="Test test" Icon={InfoIcon} />}/>
                 <IconCard className="walletCard" title="23" description="Accounts (addresses)"
-                onClickText="Receive" onClickButton={() => console.log('yes')}/>
+                onClickText="Receive" onClickButton={() => console.log('yes')} tooltip={<Tooltip className="staking-icon-tooltip" title="Test test" Icon={InfoIcon} />}/>
                 <IconCard className="walletCard" title="12" description="Transactions"
-                onClickText="Add new account" onClickButton={() => console.log('yes')}/>
+                onClickText="Add new account" onClickButton={() => console.log('yes')} tooltip={<Tooltip className="staking-icon-tooltip" title="Test test" Icon={InfoIcon} />}/>
               </>
               : 
               <>

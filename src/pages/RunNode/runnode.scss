@@ -28,6 +28,15 @@ body {
   width: 100%;
   text-align: left;
   margin-left: 2%;
+
+  .runnode-icon-container {
+    display: flex;
+    align-items: center;
+
+    .runnode-icon-tooltip {
+      margin-left: 400%;
+    }
+  }
 }
 
 .runnode-title {

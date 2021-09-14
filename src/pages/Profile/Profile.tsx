@@ -1,13 +1,14 @@
 import React, { useState, useRef, useEffect } from 'react';
 import './profile.scss';
 import { menu } from '../../global/globalVars';
-import { ProfileBasicCard, Text, ProfileCard, Button, LinkedCards, InputField } from 'taraxa-ui';
+import { ProfileBasicCard, Text, ProfileCard, Button, LinkedCards, InputField, Tooltip, Modal, Checkbox } from 'taraxa-ui';
 import TaraxaIcon from '../../assets/icons/taraxaIcon';
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
 import KYCIcon from '../../assets/icons/kyc';
 import { useMediaQuery } from 'react-responsive';
 import Sidebar from '../../components/Sidebar/Sidebar';
+import InfoIcon from '../../assets/icons/info';
 
 const Profile = () => {
   const [editProfile, setEditProfile] = useState(false);
@@ -23,11 +24,74 @@ const Profile = () => {
   const [updatingPassword, setUpdatingPassword] = useState(false);
   const [updatingEmail, setUpdatingEmail] = useState(false);
   const [changesMade, setChangesMade] = useState(false);
+  const [kycModalOpen, setKycModalOpen] = useState(false);
+  const [agreement, setAgreement] = useState(false);
   const isMobile = useMediaQuery({ query: `(max-width: 760px)` });
+
+  const modalTrigger = () => {
+    setKycModalOpen(!kycModalOpen);
+  }
+
+  const agreementTrigger = (event: any) => {
+    setAgreement(event.target.checked);
+  }
+
+  const modalKYC = 
+    <div>
+      <div className="kycTopContainer">
+        <Text  style={{marginBottom: '2%'}} label="Submit KYC" variant="h6" color="primary"  />
+        <KYCIcon />
+        <Text style={{margin: '2% 0 2% 0'}} label="To continue please upload an image of your ID / passport" variant="body2" color="textSecondary"/>
+        <Text label="NOTICE:" color="primary" variant="body2" />
+      </div>
+
+      <ul className="decimalUL">
+        <li><Text label="To comply with recent SEC rulings, United States persons cannot receive token rewards" variant="body2" color="textSecondary"  /></li>
+        <li><Text label="Please don’t try to exit verification process while uploading an image;" variant="body2" color="textSecondary"  /></li>
+        <li><Text label="Only upload the image of the selected ID document;" variant="body2" color="textSecondary"  /></li>
+        <li><Text label="Picture should not be modified in any way;" variant="body2" color="textSecondary"  /></li>
+        <li><Text label="Ukranian passports are not supported." variant="body2" color="textSecondary"  /></li>
+      </ul>
+
+      <div className="checkboxContainer">
+        <Checkbox name="agreement" onChange={agreementTrigger} checked={agreement} />
+        <Text label="I agree to the processing of my personal data" variant="body2" color="primary"/>
+      </div>
+
+      
+      <Button label="Proceed to verification" color="secondary" variant="contained" onClick={() => console.log('proceed')} fullWidth className="marginButton" disabled={!agreement}/>
+    </div>
+
+const modalKYCSuccess = 
+  <div>
+    <div className="kycTopContainer">
+      <Text  style={{marginBottom: '2%'}} label="Submit KYC" variant="h6" color="primary"  />
+      <Text style={{marginBottom: '5%'}} label="Thank you! We will contact you via e-mail." color="primary" variant="body1" />
+      <Text label="You have successfully submitted KYC! Let us check it and get back to you." variant="body2" color="textSecondary"/>
+    </div>
+    
+    <Button label="OK" color="secondary" variant="contained" onClick={() => setKycModalOpen(false)} fullWidth className="marginButton" />
+  </div>
+
+  const modalKYCError = 
+  <div>
+    <div className="kycTopContainer">
+      <Text  style={{marginBottom: '2%'}} label="Submit KYC" variant="h6" color="primary"  />
+      <Text style={{marginBottom: '5%'}} label="Something went wrong, please try again." color="primary" variant="body1" />
+      <Text label="ERROR: Image format should be JPG or PNG" variant="body2" color="textSecondary"/>
+    </div>
+    
+    <Button label="TRY AGAIN" color="secondary" variant="contained" onClick={() => setKycModalOpen(false)} fullWidth className="marginButton" />
+  </div>
+
 
   const buttons = <div className="buttonsContainer">
     <Button color="primary" variant="outlined" label="Edit Profile" onClick={() => setEditProfile(true)}/>
     <Button color="primary" variant="text" label="Log out"/>
+  </div>
+
+  const kycButton = <div className="buttonsContainer">
+    <Button color="primary" variant="outlined" label="Submit" onClick={() => setKycModalOpen(true)}/>
   </div>
 
   const approvedContent = <>
@@ -68,12 +132,15 @@ const Profile = () => {
           {!editProfile ?
             <>
               <div className={isMobile ? "mobileCardContainer" : "cardContainer"}>
+
+               <Modal id="signinModal" title="Submit KYC" show={kycModalOpen} children={modalKYC} parentElementID="root" onRequestClose={modalTrigger}/>
+               
                 <ProfileCard username="Test 1" email="test@test.com" wallet="0x2612b77E5ee1a5feeDdD5eC08731749bC2217F54" Icon={TaraxaIcon} buttonOptions={buttons}/>
-                <ProfileBasicCard title="KYC" description="Not submitted" Icon={KYCIcon}/>
+                <ProfileBasicCard title="KYC" description="Not submitted" Icon={KYCIcon} buttonOptions={kycButton}/>
                 <ProfileBasicCard title="Wallet Balance" description="TARA" value="41,234"/>
               </div>
               <div className={isMobile ? "mobileCardContainer" : "cardContainer"}>
-                <LinkedCards rejectedContent={rejectedContent} approvedContent={approvedContent} reviewContent={reviewContent} />
+                <LinkedCards rejectedContent={rejectedContent} approvedContent={approvedContent} reviewContent={reviewContent} rejectedTooltip={<Tooltip className="staking-icon-tooltip" title="Bounty submissions that have been rejected. " Icon={InfoIcon} />} reviewTooltip={<Tooltip className="staking-icon-tooltip" title="Bounty submissions are being reviewed." Icon={InfoIcon} />} approvedTooltip={<Tooltip className="staking-icon-tooltip" title="Bounty submissions that have been approved and points have been rewarded. " Icon={InfoIcon} />} />
               </div>
             </>  
             :
@@ -134,7 +201,7 @@ const Profile = () => {
               </div>
               <div id="buttonsContainer">
                 <Button label="Save changes" variant="contained" color="secondary" onClick={() => {setEditProfile(false); setChangesMade(false)}} disabled={!changesMade} />
-                <Button label="Cancel" variant="contained" id="grayButton" onClick={() => {setEditProfile(false); setChangesMade(false)}} disabled={!changesMade} />
+                <Button label="Cancel" variant="contained" id="grayButton" onClick={() => {setEditProfile(false); setChangesMade(false)}} />
               </div>
             </>
           }

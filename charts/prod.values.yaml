@@ -1,0 +1,20 @@
+frontend:
+  apiHost: "https://api.community.taraxa.io"
+  image:
+    repository: gcr.io/jovial-meridian-249123/taraxa-community-frontend-main
+    pullPolicy: Always
+    tag: "latest"
+  nodeSelector:
+    cloud.google.com/gke-nodepool: taraxa-community-prod
+
+ingress:
+  enabled: true
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/enable-cors: "true"
+  hosts:
+    - host: community.taraxa.io
+  tls:
+    - secretName: wild-community-taraxa-io-tls
+      hosts:
+        - community.taraxa.io

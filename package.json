@@ -1,5 +1,5 @@
 {
-  "name": "taraxa-community-site",
+  "name": "@taraxa_project/taraxa-community-site",
   "description": "Taraxa Community Site",
   "version": "0.0.1",
   "main": "template.json",

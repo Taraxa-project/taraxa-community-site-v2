@@ -1,0 +1,20 @@
+frontend:
+  apiHost: "https://api.qa.community.taraxa.io"
+  image:
+    repository: gcr.io/jovial-meridian-249123/taraxa-community-frontend-develop
+    pullPolicy: Always
+    tag: "latest"
+  nodeSelector:
+    cloud.google.com/gke-nodepool: taraxa-community-qa
+
+ingress:
+  enabled: true
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/enable-cors: "true"
+  hosts:
+    - host: qa.community.taraxa.io
+  tls:
+    - secretName: wild-qa-community-taraxa-io-tls
+      hosts:
+        - qa.community.taraxa.io

@@ -22,10 +22,10 @@ export const menu = [
     name: 'testnet',
     label: 'Testnet',
     items: [
-      { Link: <NavLink label="Run a node" Icon={NodeSidebar} to="/node" /> },
+      { Link: <NavLink label="Run a node" Icon={NodeSidebar} to="/node" />, name: "node" },
       { Link: <NavLink label="Taraxa Explorer" Icon={ExplorerSidebar} to="/explorer" /> },
       { Link: <NavLink label="Deploy DApps" Icon={DeploySidebar} to="/deploy" /> },
-      { Link: <NavLink label="Wallet" Icon={WalletSidebar} to="/wallet" /> }
+      { Link: <NavLink label="Wallet" Icon={WalletSidebar} to="/wallet" />, name: "wallet" }
     ],
   }
 ];

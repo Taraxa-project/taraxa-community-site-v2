@@ -1,12 +1,18 @@
 import React, { useState } from 'react';
 import './staking.scss';
 import { menu } from '../../global/globalVars';
-import {  BaseCard, Text, DataCard, InputField, Chip, Tooltip } from 'taraxa-ui';
+import {  BaseCard, Text, DataCard, InputField, Chip, Tooltip, Modal, Button } from 'taraxa-ui';
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
 import InfoIcon from '../../assets/icons/info';
 import { useMediaQuery } from 'react-responsive';
 import Sidebar from '../../components/Sidebar/Sidebar';
+import SuccessIcon from '../../assets/icons/success';
+import LockIcon from './../../assets/icons/lock';
+import ErrorIcon from './../../assets/icons/error';
+
+let modalSuccess = false;
+let modalError = false;
 
 function Staking() {
   const isMobile = useMediaQuery({ query: `(max-width: 760px)` });
@@ -15,6 +21,11 @@ function Staking() {
   const [stake, setStake] = useState('');
   const [unstake, setUnstake] = useState('');
   const [walletConnected, setWallet] = useState(false);
+
+  const modalTrigger = () => {
+    modalSuccess = false;
+    modalError = false;
+  }
 
   const availableTrigger = (event: any) => {
     setAvailableToStake(event.target.value);
@@ -43,9 +54,39 @@ function Staking() {
   <Chip label="75%" onClick={() => unstakingTrigger('75%')}  variant="default" clickable className={unstake === '75%' ? "chipSelected" : "chip"}/>
   <Chip label="100%" onClick={() => unstakingTrigger('100%')} variant="default" clickable className={unstake === '100%' ? "chipSelected" : "chip"}/>
 </>
+
+  const stakingSuccessModal = <div>
+    <Text label="SUCCESS" variant="h6" color="primary"  />
+    <div className="iconContainer">
+      <SuccessIcon />
+    </div>
+    <Text label="Your 1000 TARA has been successfully transferred to staking contract. View Etherscan" variant="body2" color="primary"  />
+
+    <div className="staking-success-container">
+      <Text label="Please keep in mind:" className="title" />
+        <div className="lock-container">
+          <LockIcon />
+          <Text className="lock-container-text" label="Lock-in period: 30 days" color="primary" />
+        </div>
+        <Text label="After 30 days you will be able to withdraw your TARA (If you don’t withdraw, your funds remain staked and unlocked). View full staking rules" color="textSecondary" />
+    </div>
+    <Button className="staking-success-button" label="OK" color="secondary" variant="contained" fullWidth onClick={() => modalSuccess = false} />
+  </div>
+
+  const stakingErrorModal = <div>
+    <Text label="ERROR" variant="h6" color="primary"  />
+    <div className="iconContainer">
+      <ErrorIcon />
+    </div>
+    <Text label="Minimum amount to stake is 1000 TARA." variant="body2" color="primary"  />
+
+    
+    <Button className="staking-error-button" label="OK" color="secondary" variant="contained" fullWidth onClick={() => modalSuccess = false} />
+  </div>
   return (
     <>
       <Header />
+      <Modal id="signinModal" title="Test" show={modalSuccess ? modalSuccess : modalError} children={modalSuccess ? stakingSuccessModal : stakingErrorModal } parentElementID="root" onRequestClose={modalTrigger}/>
       <div className={isMobile ? "stakingRootMobile" : "stakingRoot"}>
         <Sidebar />
         <div className="staking">

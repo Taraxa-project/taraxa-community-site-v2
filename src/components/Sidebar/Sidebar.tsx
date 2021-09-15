@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Button, Text, InputField, Header as THeader, Modal, Checkbox, Sidebar as MSidebar } from "@taraxa_project/taraxa-ui";
+import { Button, Text, InputField, Header as THeader, Modal, Checkbox, Sidebar as MSidebar } from "taraxa-ui";
 import EmailIcon from "../../assets/icons/email";
 import HamburgerIcon from "../../assets/icons/hamburger";
 import './sidebar.scss'

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './redeem.scss';
 import { menu } from '../../global/globalVars';
-import {  BaseCard, Text, DataCard, InputField, Chip } from '@taraxa_project/taraxa-ui';
+import {  BaseCard, Text, DataCard, InputField, Chip } from 'taraxa-ui';
 import TaraxaIcon from '../../assets/icons/taraxaIcon';
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';

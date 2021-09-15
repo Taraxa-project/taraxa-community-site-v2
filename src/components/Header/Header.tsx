@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button, Text, InputField, Header as THeader, Modal, Checkbox } from "@taraxa_project/taraxa-ui";
+import { Button, Text, InputField, Header as THeader, Modal, Checkbox } from "taraxa-ui";
 import TaraxaIcon from '../../assets/icons/taraxaIcon';
 import EmailIcon from "../../assets/icons/email";
 import HamburgerIcon from "../../assets/icons/hamburger";
@@ -8,6 +8,7 @@ import BubbleIcon from "../../assets/icons/bubbleIcon";
 import { useHistory } from "react-router-dom";
 import {store, useGlobalState} from 'state-pool';
 import { useMediaQuery } from 'react-responsive';
+import GoogleIcon from './../../assets/icons/google';
 
 store.setState("sidebarOpened", false)
 store.setState("modalOpen", false)
@@ -25,8 +26,11 @@ const Header = () => {
   const [showProfile, setShowProfile] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [conditions, setConditions] = useState(false);
-  const [isLogged, setLogged] = useState(true);
+  const [isLogged, setLogged] = useState(false);
   const [walletConnected, setWallet] = useState(false);
+  const [forgottenPassword, setForgottenPassword] = useState(false);
+  const [forgottenPasswordEmail, setForgottenPasswordEmail] = useState('');
+  const [forgottenPasswordSuccess, setForgottenPasswordSuccess] = useState(false);
   const [sidebarOpened, updateSidebarOpened] = useGlobalState("sidebarOpened");
   const isMobile = useMediaQuery({ query: `(max-width: 760px)` });
 
@@ -59,6 +63,10 @@ const Header = () => {
     setConditions(event.target.checked);
   }
 
+  const forgottenPasswordEmailTrigger = (event: any) => {
+    setForgottenPasswordEmail(event.target.value);
+  }
+
   const goToProfile = () => {
     history.push('/profile');
   }
@@ -78,6 +86,10 @@ const Header = () => {
     setModalOpen(false);
     setLogged(true);
   }
+
+  const finalPasswordAction = () => {
+    setForgottenPasswordSuccess(false);
+  }
   
   const button = !isLogged ? <Button label="Sign in / Sign up" color="primary" variant="text" onClick={modalTrigger} /> : <div><Button label="Test user" color="primary" variant="outlined" onClick={profileTrigger} /></div>;
   
@@ -92,12 +104,12 @@ const Header = () => {
       <Text label="Sign In" variant="h6" color="primary"  />
       <InputField label="E-mail" placeholder="Email or username..." value={username} variant="outlined" type="text" fullWidth onChange={usernameTrigger} margin="normal" />
       <InputField type="text" label="Password" placeholder="Password..." value={password} variant="outlined" fullWidth onChange={passwordTrigger} margin="normal" />
-      <Text id="forgotPasswordLabel" label="Forgot password?" variant="body2" color="textSecondary" />
+      <Text id="forgotPasswordLabel" onClick={() => {setForgottenPassword(true)}} label="Forgot password?" variant="body2" color="textSecondary" />
 
       
       <Button label="Login" color="secondary" variant="contained" onClick={() => console.log(username)} fullWidth className="marginButton"/>
 
-      <Button Icon={BubbleIcon} variant="contained" onClick={() => setSignIn(!signIn)} className="marginButton bubbleButton" id="bubbleButtonLeft"/>
+      <Button Icon={GoogleIcon} variant="contained" onClick={() => setSignIn(!signIn)} className="marginButton bubbleButton" id="bubbleButtonLeft"/>
       <Button Icon={BubbleIcon} variant="contained" onClick={() => setSignIn(!signIn)} className="marginButton bubbleButton" />
 
       <Text id="noAccountLabel" label="Don't have an account yet?" variant="body2" color="primary" />
@@ -136,10 +148,32 @@ const Header = () => {
       <Button label="OK" color="secondary" variant="contained" onClick={() => finalAction()} fullWidth className="marginButton"/>
     </div>
 
+    const forgottenPasswordModal = 
+    <div>
+      <Text label="Forgot Password" variant="h6" color="primary"  />
+      <Text  label="Please, enter your registration e-mail." variant="body2" color="textSecondary" />
+      <InputField label="E-mail" placeholder="Your email..." value={username} variant="outlined" type="text" fullWidth onChange={forgottenPasswordEmailTrigger} margin="normal" />
+
+      <Button label="Reset Password" color="secondary" variant="contained" onClick={() => {
+        setForgottenPassword(false);
+        setForgottenPasswordSuccess(true);
+      } } fullWidth className="marginButton"/>
+    </div>
+
+    const modalForgottenPasswordSuccess = 
+    <div>
+      <Text label="Forgot password" variant="h6" color="primary" className="signUpSuccessfullTitle" />
+      <EmailIcon />
+      <Text label="We have sent your new password to your registration e-mail." variant="body1" color="primary" style={{marginBottom: '10%'}} />
+
+      <Text label="Please log in with your new password." variant="body2" color="textSecondary" style={{marginBottom: '5%'}}/>
+      <Button label="OK" color="secondary" variant="contained" onClick={() => finalPasswordAction()} fullWidth className="marginButton"/>
+    </div>
+
     const hamburger = <div style={{cursor: 'pointer'}} onClick={() => updateSidebarOpened(true)}><HamburgerIcon/></div>
     return (
       <>
-        <Modal id="signinModal" title="Test" show={modalOpen} children={signIn ? modalSignIn : signUpSuccess ? modalSignUpSuccess : modalSignUp} parentElementID="root" onRequestClose={modalTrigger}/>
+        <Modal id="signinModal" title="Test" show={modalOpen} children={forgottenPassword ? forgottenPasswordModal : forgottenPasswordSuccess ? modalForgottenPasswordSuccess : signIn ? modalSignIn : signUpSuccess ? modalSignUpSuccess : modalSignUp} parentElementID="root" onRequestClose={modalTrigger}/>
         <THeader color="primary" position="relative" Icon={TaraxaIcon} elevation={0} button={isMobile ? <></> : button} wallet={isMobile ? <></> : wallet} profileModal={profileModal} showProfileModal={showProfile} hamburger={hamburger} />
       </>
     )

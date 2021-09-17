@@ -22,8 +22,10 @@ body {
 
 .stakingRootMobile {
   display: flex;
-  width: 100%;
+  margin-top: 3%;
   margin-left: 10%;
+  height: auto;
+  width: auto;
 }
 
 .staking-sidebar {
@@ -42,6 +44,16 @@ body {
 
     .staking-icon-tooltip {
       margin-left: 400%;
+    }
+  }
+  .mobile-staking-icon-container {
+    display: flex;
+    align-items: center;
+    width: 80%;
+
+    .staking-icon-tooltip {
+      margin-left: 150%;
+      margin-top: 10% !important;
     }
   }
 }
@@ -91,6 +103,11 @@ body {
   margin-bottom: 3% !important;
 }
 
+.mobile-staking-subtitle {
+  margin: 3% 0 !important;
+  width: 80%;
+}
+
 .staking-green-stripe {
   border-left: 3px solid #15ac5b;
   padding-left: 2%;
@@ -112,6 +129,7 @@ body {
 .staking-red-stripe-mobile {
   border-left: 3px solid #ff515a;
   padding-left: 2%;
+  margin: 8% 0;
   width: 100%;
 }
 

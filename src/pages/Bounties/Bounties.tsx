@@ -50,10 +50,10 @@ function Bounties() {
       <div className={isMobile ? "mobile-bounties" : "bounties"}>
         <Sidebar  />
         <div className="bounties-content">
-          <Text label="Taraxa ecosystem bounties" variant="h4" color="primary" className="bounties-title"/>
-          <Text label="Earn rewards and help grow the Taraxa's ecosystem" variant="body2" color="textSecondary" className="bounties-subtitle"/>
+          <Text label="Taraxa ecosystem bounties" variant="h4" color="primary" className={isMobile ? "mobile-bounties-title" : "bounties-title" }/>
+          <Text label="Earn rewards and help grow the Taraxa's ecosystem" variant="body2" color="textSecondary" className={isMobile ? "mobile-bounties-subtitle" : "bounties-subtitle" }/>
 
-          <div className="icon-title-container">
+          <div className={isMobile ? "mobile-icon-title-container" : "icon-title-container"}>
             <PinnedIcon /> <Text label="Pinned" variant="body1" color="primary" className="icon-title"/>
           </div>
           <div className={isMobile ? "cardContainerMobile" : "cardContainer"}>
@@ -64,7 +64,7 @@ function Bounties() {
             }
           </div>
 
-          <div className="icon-title-container">
+          <div className={isMobile ? "mobile-icon-title-container" : "icon-title-container"}>
             <span className="dot"/> <Text label="Active Bounties" variant="body1" color="primary" className="icon-title"/>
           </div>
           <Switch id="bountiesSwitch" name="Show inactive" value={inactive} label="Show inactive" onChange={() => onChangeInactive()} />

@@ -14,7 +14,7 @@ body {
 .claim-mobile {
   display: flex;
   margin-top: 3%;
-  margin-left: 12%;
+  margin-left: 7%;
   height: auto;
   width: auto;
 }
@@ -34,8 +34,18 @@ body {
   margin-bottom: 1% !important;
 }
 
+.mobile-claim-title {
+  margin: 5% 0;
+  width: 90%;
+}
+
 .claim-subtitle {
   margin-bottom: 3% !important;
+}
+
+.mobile-claim-subtitle {
+  margin: 5% 0 !important;
+  width: 80%;
 }
 
 .claim-green-stripe {

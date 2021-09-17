@@ -13,6 +13,7 @@ import ErrorIcon from './../../assets/icons/error';
 
 let modalSuccess = false;
 let modalError = false;
+let stakedFunds = true;
 
 function Staking() {
   const isMobile = useMediaQuery({ query: `(max-width: 760px)` });
@@ -91,11 +92,11 @@ function Staking() {
         <Sidebar />
         <div className="staking">
           <div className="staking-content">
-            <div className="staking-icon-container">
+            <div className={isMobile ? "mobile-staking-icon-container" : "staking-icon-container"}>
               <Text label="Staking: Phase 1 - Pre-staking" variant="h4" color="primary" className="staking-title"/>
               <Tooltip className="staking-icon-tooltip" title="We’re currently in the first phase of staking roll-out, Pre-staking, which enables TARA lockups on the ETH network. The next phase will be Mirrored Staking, which mirrors staking data from the ETH network over to the Taraxa testnet to enable delegation to consensus nodes. The last phase is mainnet launch, in which all tokens, staking, and delegation is migrated to the Taraxa mainnet." Icon={InfoIcon} />
             </div>
-            <Text label="Earn rewards and help test &amp; secure the Taraxa’s network " variant="body2" color="textSecondary" className="staking-subtitle"/>
+            <Text label="Earn rewards and help test &amp; secure the Taraxa’s network " variant="body2" color="textSecondary" className={isMobile ? "mobile-staking-subtitle": "staking-subtitle"}/>
             {!walletConnected && 
               <div className={isMobile ? "staking-red-stripe-mobile": "staking-red-stripe"}>
                 <Text label="Notice:" variant="body1" color="primary" className="staking-title"/>
@@ -110,6 +111,7 @@ function Staking() {
             <div className={isMobile ? "cardContainerMobile" : "cardContainer"}>
               <DataCard title="N/A" description="Available to Stake" label="TARA" onClickButton={() => console.log('tara')} onClickText="Stake" input={availableInput} dataOptions={stakingchips} tooltip={<Tooltip  title="Total number of TARA currently in the connected wallet that could be staked." Icon={InfoIcon} />} />
               <DataCard title="N/A" description="Staked total" label="TARA" onClickButton={() => console.log('tara')} onClickText="Un-stake" input={totalInput}  dataOptions={unstakingchips} tooltip={<Tooltip title="Total number of TARA that’s currently staked but NOT locked, and can be un-staked (withdrawn) from the staking contract. " Icon={InfoIcon} />} />
+              {stakedFunds && <BaseCard title="24,000,000" description="Locked till 30 NOV 2022" tooltip={<Tooltip className="staking-icon-tooltip" title="" Icon={LockIcon} />} />}
             </div>
           </div>
         </div>

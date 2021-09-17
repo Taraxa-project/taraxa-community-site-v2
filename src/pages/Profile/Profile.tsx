@@ -127,7 +127,7 @@ const modalKYCSuccess =
       <div className={isMobile ? "mobile-profile" : "profile"}>
         <Sidebar />
         <div className="profile-content">
-          <Text label={editProfile ? "My profile - settings" : "My profile"} variant="h4" color="primary" className="profile-title"/>
+          <Text label={editProfile ? "My profile - settings" : "My profile"} variant="h4" color="primary" className={isMobile ? "mobile-profile-title" : "profile-title"}/>
           
           {!editProfile ?
             <>

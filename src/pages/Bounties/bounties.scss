@@ -18,6 +18,10 @@ body {
   margin-left: 5%;
   height: auto;
   width: auto;
+
+  @media only screen and (max-width: 400px) {
+    margin-left: 5%;
+  }
 }
 
 .bounties-sidebar {

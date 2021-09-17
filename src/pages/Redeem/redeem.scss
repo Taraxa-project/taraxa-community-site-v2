@@ -17,6 +17,14 @@ body {
   margin-left: 7%;
   height: auto;
   width: auto;
+
+  @media only screen and (max-width: 320px) {
+    margin-left: -6%;
+  }
+
+  @media only screen and (min-width: 321px) and (max-width: 400px) {
+    margin-left: 2%;
+  }
 }
 
 .claim-sidebar {

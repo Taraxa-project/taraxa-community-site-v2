@@ -16,7 +16,7 @@ import {store, useGlobalState} from 'state-pool';
 import Sidebar from '../../components/Sidebar/Sidebar';
 import InfoIcon from '../../assets/icons/info';
 
-let activeNodes = false;
+let activeNodes = true;
 
 const RunNode = () => {
   const history = useHistory();
@@ -71,20 +71,20 @@ const RunNode = () => {
               <Tooltip className="runnode-icon-tooltip" title="Test" Icon={InfoIcon} />
             </div>
           
-          <Text label="Help accelerate Taraxa’s path towards mainnet by running nodes on the testnet" variant="body2" color="textSecondary" className="runnode-subtitle"/>
+          <Text label="Help accelerate Taraxa’s path towards mainnet by running nodes on the testnet" variant="body2" color="textSecondary" className={isMobile ? "mobile-runnode-subtitle" : "runnode-subtitle"}/>
 
           {!activeNodes && 
-            <div className="runnode-red-stripe">
+            <div className={isMobile ? "mobile-runnode-red-stripe" : "runnode-red-stripe"}>
               <Text label="Notice:" variant="body1" color="primary" className="runnode-title"/>
               <Text label="You aren’t running any block-producing nodes" variant="body2" color="primary" className="runnode-subtitle"/>
             </div>
           }
-          <div className={isMobile ? "mobileCardContainer" : "cardContainer"}>
+          <div className={isMobile ?  "mobileCardContainer" : "cardContainer"}>
             {activeNodes ? 
               <>
-                <BaseCard title="11" description="Active nodes" />
-                <BaseCard title="3,238" description="Blocks produced" />
-                <BaseCard title="#16" description="Weekly rating" />
+                <BaseCard title="11" description="Active nodes" id="mobileBasicCard" />
+                <BaseCard title="3,238" description="Blocks produced" id="mobileBasicCard" />
+                <BaseCard title="#16" description="Weekly rating" id="mobileBasicCard" />
               </>
               : 
               <>

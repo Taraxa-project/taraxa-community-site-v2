@@ -14,9 +14,17 @@ body {
 .home-mobile {
   display: flex;
   margin-top: 3%;
-  margin-left: 17%;
+  margin-left: 18%;
   height: auto;
   width: auto;
+
+  @media only screen and (max-width: 320px) {
+    margin-left: 5%;
+  }
+
+  @media only screen and (min-width: 321px) and (max-width: 400px) {
+    margin-left: 12%;
+  }
 }
 
 .home-sidebar {

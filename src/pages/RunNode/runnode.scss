@@ -17,6 +17,14 @@ body {
   margin-left: 17%;
   height: auto;
   width: auto;
+
+  @media only screen and (max-width: 320px) {
+    margin-left: 6%;
+  }
+
+  @media only screen and (min-width: 321px) and (max-width: 400px) {
+    margin-left: 13%;
+  }
 }
 
 .runnode-sidebar {
@@ -47,6 +55,11 @@ body {
   margin-bottom: 3% !important;
 }
 
+.mobile-runnode-subtitle {
+  margin: 5% 0 !important;
+  width: 80%;
+}
+
 .toggleButton {
   margin: 5% 0 5% 0;
 }
@@ -63,6 +76,13 @@ body {
   width: 100%;
 }
 
+.mobile-runnode-red-stripe {
+  border-left: 3px solid #ff515a;
+  padding-left: 2%;
+  width: 90%;
+  margin: 10% 0;
+}
+
 .cardContainer {
   display: flex;
   margin-bottom: 0%;
@@ -71,6 +91,15 @@ body {
 .cardContainer > * {
   display: block;
   margin-right: 5% !important;
+}
+
+.mobileCardContainer {
+  display: block;
+  margin-bottom: 0%;
+}
+
+#mobileBasicCard {
+  width: 95% !important;
 }
 
 .referenceContainer {
@@ -104,7 +133,14 @@ body {
 .mobileReferenceContainer {
   background-color: #151823;
   border: 2px solid #31364b;
-  width: 90%;
+  width: 80% !important;
+  @media only screen and (max-width: 320px) {
+    width: 95% !important;
+  }
+
+  @media only screen and (min-width: 321px) and (max-width: 400px) {
+    width: 87% !important;
+  }
   margin-bottom: 5%;
   box-sizing: border-box;
   border-radius: 4px;

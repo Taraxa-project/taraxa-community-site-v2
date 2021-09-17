@@ -17,7 +17,7 @@ import Sidebar from '../../components/Sidebar/Sidebar';
 import WalletIcon from '../../assets/icons/wallet';
 import InfoIcon from '../../assets/icons/info';
 
-let walletConnected = true;
+let walletConnected = false;
 
 const Wallet = () => {
   const history = useHistory();
@@ -68,7 +68,7 @@ const Wallet = () => {
       <Sidebar  />
         <div className="wallet-content">
           <Text label="Testnet Wallet" variant="h4" color="primary" className="wallet-title"/>
-          <Text label="Wallet for the testnet, DO NOT send on-ETH assets to these addresses." variant="body2" color="textSecondary" className="wallet-subtitle"/>
+          <Text label="Wallet for the testnet, DO NOT send on-ETH assets to these addresses." variant="body2" color="textSecondary" className={isMobile ? "mobile-wallet-subtitle" : "wallet-subtitle"}/>
 
           <div className={isMobile ? "mobileCardContainer" : "cardContainer"}>
             {walletConnected ? 

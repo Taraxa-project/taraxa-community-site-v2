@@ -8,6 +8,7 @@ import './header.scss'
 import { store, useGlobalState } from 'state-pool';
 import { useMediaQuery } from 'react-responsive';
 import { useAuth } from "../../services/useAuth";
+import Wallet from "./Wallet";
 import SignIn from "./Modal/SignIn";
 import SignUp from "./Modal/SignUp";
 import SignUpSuccess from "./Modal/SignUpSuccess";
@@ -17,7 +18,6 @@ import EmailConfirmed from "./Modal/EmailConfirmed";
 
 store.setState("sidebarOpened", false)
 store.setState("modalOpen", false)
-store.setState("walletConnected", false)
 
 const Header = ({ match }: RouteComponentProps) => {
 
@@ -41,7 +41,6 @@ const Header = ({ match }: RouteComponentProps) => {
   }
 
   const [showProfile, setShowProfile] = useState(false);
-  const [walletConnected, setWallet] = useState(false);
   const [sidebarOpened, updateSidebarOpened] = useGlobalState("sidebarOpened");
   const isMobile = useMediaQuery({ query: `(max-width: 760px)` });
 
@@ -70,7 +69,6 @@ const Header = ({ match }: RouteComponentProps) => {
     }} />
   </>;
 
-  const wallet = walletConnected ? <div id="walletContainer"><div className="walletIcon" /><Text label="0x2612b77E5ee1a5feeDdD5eC08731749bC2217F54" variant="caption" color="textSecondary" /></div> : !walletConnected ? <div id="noWalletContainer"><Button label="Connect Wallet" variant="text" color="primary" fullWidth /></div> : <></>;
   const hamburger = <div style={{ cursor: 'pointer' }} onClick={() => updateSidebarOpened(true)}><HamburgerIcon /></div>
 
   let modalElement = <SignIn onSuccess={() => {
@@ -114,7 +112,7 @@ const Header = ({ match }: RouteComponentProps) => {
   return (
     <>
       <Modal id="signinModal" title="Test" show={modalOpen} children={modalElement} parentElementID="root" onRequestClose={modalToggle} />
-      <THeader color="primary" position="relative" Icon={TaraxaIcon} elevation={0} button={isMobile ? <></> : button} wallet={isMobile ? <></> : wallet} profileModal={profileModal} showProfileModal={showProfile} hamburger={hamburger} />
+      <THeader color="primary" position="relative" Icon={TaraxaIcon} elevation={0} button={isMobile ? <></> : button} wallet={isMobile ? <></> : <Wallet />} profileModal={profileModal} showProfileModal={showProfile} hamburger={hamburger} />
     </>
   )
 }

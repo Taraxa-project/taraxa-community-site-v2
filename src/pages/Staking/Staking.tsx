@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './staking.scss';
 import { menu } from '../../global/globalVars';
-import {  BaseCard, Text, DataCard, InputField, Chip, Tooltip, Modal, Button } from 'taraxa-ui';
+import {  BaseCard, Text, DataCard, InputField, Chip, Tooltip, Modal, Button, TopCard } from 'taraxa-ui';
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
 import InfoIcon from '../../assets/icons/info';
@@ -10,10 +10,12 @@ import Sidebar from '../../components/Sidebar/Sidebar';
 import SuccessIcon from '../../assets/icons/success';
 import LockIcon from './../../assets/icons/lock';
 import ErrorIcon from './../../assets/icons/error';
+import TrophyIcon from '../../assets/icons/trophy';
 
 let modalSuccess = false;
 let modalError = false;
 let stakedFunds = true;
+let topCard = true;
 
 function Staking() {
   const isMobile = useMediaQuery({ query: `(max-width: 760px)` });
@@ -21,7 +23,7 @@ function Staking() {
   const [totalToStake, setTotalToStake] = useState(0);
   const [stake, setStake] = useState('');
   const [unstake, setUnstake] = useState('');
-  const [walletConnected, setWallet] = useState(false);
+  const [walletConnected, setWallet] = useState(true);
 
   const modalTrigger = () => {
     modalSuccess = false;
@@ -84,6 +86,33 @@ function Staking() {
     
     <Button className="staking-error-button" label="OK" color="secondary" variant="contained" fullWidth onClick={() => modalSuccess = false} />
   </div>
+
+  const topData = <div>
+    <div className="top-data-header">
+      <Text label="Top stakers" variant="body1" color="primary"/>
+      <Text label="See full list" variant="body1" color="primary"/>
+    </div>
+    <table cellSpacing="8">
+      <tr>
+        <td>1.</td>
+        <td><TrophyIcon /> vitalik</td>
+        <td>0xe08c0 ... 29b34</td>
+        <td>4,000,000 TARA</td>
+      </tr>
+      <tr>
+        <td>2.</td>
+        <td><TrophyIcon /> username2</td>
+        <td>0xe08c0 ... 29b34</td>
+        <td>800,000 TARA</td>
+      </tr>
+      <tr>
+        <td>3.</td>
+        <td><TrophyIcon /> mark_cuban</td>
+        <td>0xe08c0 ... 29b34</td>
+        <td>750,000 TARA</td>
+      </tr>
+    </table>
+  </div>
   return (
     <>
       <Header />
@@ -103,6 +132,9 @@ function Staking() {
                 <Text label="You are not connected to Metamask wallet" variant="body2" color="primary" className="staking-subtitle"/>
               </div>  
             }
+            <div>
+                <TopCard title="23,124,123" description="Total TARA Staked" topData={topData} />
+              </div>
             <div className={isMobile ? "cardContainerMobile" : "cardContainer"}>
               <BaseCard title="0" description="Total TARA earned" tooltip={<Tooltip className="staking-icon-tooltip" title="Total number of TARA staking rewards earned for the lifetime of the connected wallet." Icon={InfoIcon} />} />
               <BaseCard title="0" description="Total TARA staked" tooltip={<Tooltip className="staking-icon-tooltip" title="Total number of TARA currently staked in the staking contract for connected wallet." Icon={InfoIcon} />} />

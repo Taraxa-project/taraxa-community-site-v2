@@ -26,8 +26,8 @@ const Header = () => {
   const [showProfile, setShowProfile] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [conditions, setConditions] = useState(false);
-  const [isLogged, setLogged] = useState(false);
-  const [walletConnected, setWallet] = useState(false);
+  const [isLogged, setLogged] = useState(true);
+  const [walletConnected, setWallet] = useState(true);
   const [forgottenPassword, setForgottenPassword] = useState(false);
   const [forgottenPasswordEmail, setForgottenPasswordEmail] = useState('');
   const [forgottenPasswordSuccess, setForgottenPasswordSuccess] = useState(false);

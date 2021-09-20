@@ -38,6 +38,14 @@ const SignUp = ({ onSuccess }: SignUp) => {
   const hasPasswordConfirmationError = hasError('password-confirmation');
   const passwordConfirmationErrorMessage = hasError('password-confirmation') ? errValues[findErrorIndex('password-confirmation')] : undefined;
 
+  let hasGeneralError = false;
+  let generalErrorMessage = undefined;
+
+  if(errors.length > 0 && !hasUsernameError && !hasEmailError && !hasPasswordError && !hasPasswordConfirmationError) {
+    hasGeneralError = true;
+    generalErrorMessage = errValues[0];
+  }
+
   return (
 
     <div>
@@ -65,6 +73,8 @@ const SignUp = ({ onSuccess }: SignUp) => {
         <Text label="I agree to Terms &amp; Conditions and Privacy Policy" variant="body2" color="primary" />
       </div>
 
+      {hasGeneralError && <Text label={generalErrorMessage!} variant="body1" color="error" />}
+
       <Button label="Create an account" color="secondary" disableElevation variant="contained" onClick={async () => {
         setErrors([]);
         const errors = [];
@@ -75,6 +85,10 @@ const SignUp = ({ onSuccess }: SignUp) => {
 
         if (username.trim() === '') {
           errors.push({ key: 'username', value: "Username not set." });
+        }
+
+        if (tc === false) {
+          errors.push({ key: 'tc', value: "You must accept the terms and conditions." });
         }
 
         if (errors.length > 0) {

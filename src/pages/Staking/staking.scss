@@ -181,3 +181,17 @@ body {
     border-color: white !important;
   }
 }
+
+.top-data-header {
+  display: flex;
+  margin-bottom: 2%;
+}
+
+.top-data-table {
+  display: table;
+
+  tr {
+    align-content: center;
+    justify-content: center;
+  }
+}

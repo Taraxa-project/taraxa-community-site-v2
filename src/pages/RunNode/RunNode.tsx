@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { menu } from '../../global/globalVars';
-import { BaseCard, Button, IconCard, Table, Text, ToggleButton, Tooltip} from 'taraxa-ui';
+import { BaseCard, Button, IconCard, Table, Text, ToggleButton, Tooltip} from '@taraxa_project/taraxa-ui';
 import StakingIcon from '../../assets/icons/staking';
 import BountiesIcon from '../../assets/icons/bounties';
 import RedeemIcon from '../../assets/icons/redeem';

@@ -10,10 +10,10 @@ type User = {
 
 type Context = {
   user: User | null,
-  signin?: (username: string, password: string) => any,
-  signup?: (username: string, email: string, ethWallet: string, password: string, token: string) => any,
+  signin?: (username: string, password: string) => Promise<any>,
+  signup?: (username: string, email: string, ethWallet: string, password: string, token: string) => Promise<any>,
   signout?: () => void,
-  sendPasswordResetEmail?: (email: string) => void,
+  sendPasswordResetEmail?: (email: string, token: string) => Promise<any>,
 }
 
 const initialState: Context = {
@@ -53,16 +53,10 @@ function useProvideAuth() {
       }
     }
 
-    return result.success;
+    return result;
   };
   const signup = async (username: string, email: string, ethWallet: string, password: string, token: string) => {
-    console.log("username", username);
-    console.log("email", email);
-    console.log("ethWallet", ethWallet);
-    console.log("password", password);
-    console.log("token", token);
-
-    const result = await api.post('/auth/local/register', {
+    return await api.post('/auth/local/register', {
       username: username,
       password: password,
       eth_wallet: ethWallet,
@@ -70,16 +64,17 @@ function useProvideAuth() {
       token: token,
       confirmed: false
     });
-
-    return result.success;
   };
   const signout = () => {
     localStorage.removeItem("auth");
     localStorage.removeItem("user");
     setUser(null);
   };
-  const sendPasswordResetEmail = (email: string) => {
-    console.log("sendPasswordResetEmail", email);
+  const sendPasswordResetEmail = async (email: string, token: string) => {
+    return await api.post('/auth/forgot-password', {
+      email: email,
+      token: token
+    });
   };
 
   useEffect(() => {

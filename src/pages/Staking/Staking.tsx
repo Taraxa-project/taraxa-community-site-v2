@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './staking.scss';
 import { menu } from '../../global/globalVars';
-import {  BaseCard, Text, DataCard, InputField, Chip, Tooltip, Modal, Button } from '@taraxa_project/taraxa-ui';
+import {  BaseCard, Text, DataCard, InputField, Chip, Tooltip, Modal, Button, TopCard } from '@taraxa_project/taraxa-ui';
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
 import InfoIcon from '../../assets/icons/info';

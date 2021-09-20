@@ -98,8 +98,6 @@ function Bounties() {
     { path: "date", name: "date" },
   ];
 
-  console.log(pinnedBounties)
-
   const numRows = Array.apply(null, Array(Math.ceil(bounties.length / 3))).map((_, i) => i);
 
   return (

@@ -11,6 +11,7 @@ import SuccessIcon from '../../assets/icons/success';
 import LockIcon from './../../assets/icons/lock';
 import ErrorIcon from './../../assets/icons/error';
 import TrophyIcon from '../../assets/icons/trophy';
+import CloseIcon from '../../assets/icons/close';
 
 let modalSuccess = false;
 let modalError = false;
@@ -116,7 +117,7 @@ function Staking() {
   return (
     <>
       <Header />
-      <Modal id="signinModal" title="Test" show={modalSuccess ? modalSuccess : modalError} children={modalSuccess ? stakingSuccessModal : stakingErrorModal } parentElementID="root" onRequestClose={modalTrigger}/>
+      <Modal id="signinModal" title="Test" show={modalSuccess ? modalSuccess : modalError} children={modalSuccess ? stakingSuccessModal : stakingErrorModal } parentElementID="root" onRequestClose={modalTrigger} closeIcon={CloseIcon}/>
       <div className={isMobile ? "stakingRootMobile" : "stakingRoot"}>
         <Sidebar />
         <div className="staking">
@@ -133,7 +134,7 @@ function Staking() {
               </div>  
             }
             <div>
-                <TopCard title="23,124,123" description="Total TARA Staked" topData={topData} />
+                {/* <TopCard title="23,124,123" description="Total TARA Staked" topData={topData} /> */}
               </div>
             <div className={isMobile ? "cardContainerMobile" : "cardContainer"}>
               <BaseCard title="0" description="Total TARA earned" tooltip={<Tooltip className="staking-icon-tooltip" title="Total number of TARA staking rewards earned for the lifetime of the connected wallet." Icon={InfoIcon} />} />

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 import { withRouter, RouteComponentProps } from "react-router-dom";
 import { Button, Text, InputField, Header as THeader, Modal, Checkbox } from "@taraxa_project/taraxa-ui";
@@ -12,6 +12,7 @@ import { store, useGlobalState } from 'state-pool';
 import { useMediaQuery } from 'react-responsive';
 import GoogleIcon from './../../assets/icons/google';
 import { useAuth } from "../../services/useAuth";
+import CloseIcon from './../../assets/icons/close';
 
 store.setState("sidebarOpened", false)
 store.setState("modalOpen", false)
@@ -38,7 +39,6 @@ const Header = ({ match }: RouteComponentProps) => {
   const [showProfile, setShowProfile] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [conditions, setConditions] = useState(false);
-  const [isLogged, setLogged] = useState(true);
   const [walletConnected, setWallet] = useState(true);
   const [forgottenPassword, setForgottenPassword] = useState(false);
   const [forgottenPasswordEmail, setForgottenPasswordEmail] = useState('');
@@ -112,13 +112,13 @@ const Header = ({ match }: RouteComponentProps) => {
     }} />
   </>;
 
-  const wallet = isLoggedIn && walletConnected ? <div id="walletContainer"><div className="walletIcon" /><Text label="0x2612b77E5ee1a5feeDdD5eC08731749bC2217F54" variant="caption" color="textSecondary" /></div> : isLoggedIn && !walletConnected ? <div id="noWalletContainer"><Button label="Connect Wallet" variant="text" color="primary" fullWidth /></div> : <></>;
+  const wallet = isLoggedIn && walletConnected ? <div id="walletContainer"><div className="walletIcon" /><Text label="0x2612b77E5ee1a5feeDdD5eC08731749bC2217F54" variant="caption" color="textSecondary" /></div> : isLoggedIn && !walletConnected ? <Button label="Connect Wallet" variant="text" color="primary" fullWidth id="noWalletContainer" /> : <></>;
   const modalSignIn =
     <div>
       <Text label="Sign In" variant="h6" color="primary" />
       <InputField label="E-mail" placeholder="Email or username..." value={username} variant="outlined" type="text" fullWidth onChange={usernameTrigger} margin="normal" />
       <InputField type="password" label="Password" placeholder="Password..." value={password} variant="outlined" fullWidth onChange={passwordTrigger} margin="normal" />
-      <Text id="forgotPasswordLabel" onClick={() => { setForgottenPassword(true) }} label="Forgot password?" variant="body2" color="textSecondary" />
+      <Text id="forgotPasswordLabel" onClick={() => { setSignIn(false); setForgottenPassword(true) }} label="Forgot password?" variant="body2" color="textSecondary" />
 
 
       <Button label="Login" color="secondary" variant="contained" onClick={async () => {
@@ -144,9 +144,9 @@ const Header = ({ match }: RouteComponentProps) => {
       <InputField type="password" label="Password" placeholder="Password..." value={password} variant="outlined" fullWidth onChange={passwordTrigger} margin="normal" />
       <InputField type="password" label="Repeat password" placeholder="Repeat password..." value={repeatedPassword} variant="outlined" fullWidth onChange={repeatedPasswordTrigger} margin="normal" />
 
-      <div style={{ textAlign: 'left', display: 'flex' }}>
+      <div className="checkboxContainer">
         <Checkbox name="conditions" onChange={conditionsTrigger} checked={conditions} />
-        <Text label="I agree to Terms &amp; Conditions and Privacy Policy" variant="body2" color="primary" />
+        I agree to &nbsp; <Link className="link" to ="/">Terms &amp; Conditions</Link>&nbsp; and &nbsp;<Link className="link" to="/">Privacy Policy</Link>
       </div>
 
       <Button label="Create an account" color="secondary" disableElevation variant="contained" onClick={async () => {
@@ -158,7 +158,7 @@ const Header = ({ match }: RouteComponentProps) => {
         }
       }} fullWidth className="marginButton" />
 
-      <Text label="or sign up with" variant="body2" color="primary" />
+      <Text label="or sign up with" variant="body2" color="primary" style={{margin: '2% 0'}} />
 
       <Button Icon={BubbleIcon} variant="contained" onClick={() => setSignIn(!signIn)} className="marginButton bubbleButton" id="bubbleButtonLeft" />
       <Button Icon={BubbleIcon} variant="contained" onClick={() => setSignIn(!signIn)} className="marginButton bubbleButton" />
@@ -233,7 +233,7 @@ const Header = ({ match }: RouteComponentProps) => {
 
   return (
     <>
-      <Modal id="signinModal" title="Test" show={modalOpen} children={modalContent} parentElementID="root" onRequestClose={modalTrigger} />
+      <Modal id="signinModal" title="Test" show={modalOpen} children={modalContent} parentElementID="root" onRequestClose={modalTrigger} closeIcon={CloseIcon} />
       <THeader color="primary" position="relative" Icon={TaraxaIcon} elevation={0} button={isMobile ? <></> : button} wallet={isMobile ? <></> : wallet} profileModal={profileModal} showProfileModal={showProfile} hamburger={hamburger} />
     </>
   )

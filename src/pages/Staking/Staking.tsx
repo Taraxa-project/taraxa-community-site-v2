@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useMetaMask } from "metamask-react";
 import './staking.scss';
-import { menu } from '../../global/globalVars';
 import {  BaseCard, Text, DataCard, InputField, Chip, Tooltip, Modal, Button, TopCard } from '@taraxa_project/taraxa-ui';
+import { useBlockchain } from '../../services/useBlockchain';
+import useToken from '../../services/useToken';
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
 import InfoIcon from '../../assets/icons/info';
@@ -18,12 +20,26 @@ let stakedFunds = true;
 let topCard = true;
 
 function Staking() {
+
+  const blockchain = useBlockchain();
+  const { status, account, connect } = useMetaMask();
+  const token = useToken();
+
   const isMobile = useMediaQuery({ query: `(max-width: 760px)` });
   const [availableToStake, setAvailableToStake] = useState(0);
   const [totalToStake, setTotalToStake] = useState(0);
   const [stake, setStake] = useState('');
   const [unstake, setUnstake] = useState('');
   const [walletConnected, setWallet] = useState(true);
+
+  useEffect(() => {
+    const getTokenBalance = async () => {
+      const ti = token();
+      const balance = await ti.balanceOf(account);
+      setAvailableToStake(balance.toString());
+    };
+    getTokenBalance();
+  }, []);
 
   const modalTrigger = () => {
     modalSuccess = false;
@@ -132,9 +148,9 @@ function Staking() {
                 <Text label="You are not connected to Metamask wallet" variant="body2" color="primary" className="staking-subtitle"/>
               </div>  
             }
-            <div>
+            {/* <div>
                 <TopCard title="23,124,123" description="Total TARA Staked" topData={topData} />
-              </div>
+              </div> */}
             <div className={isMobile ? "cardContainerMobile" : "cardContainer"}>
               <BaseCard title="0" description="Total TARA earned" tooltip={<Tooltip className="staking-icon-tooltip" title="Total number of TARA staking rewards earned for the lifetime of the connected wallet." Icon={InfoIcon} />} />
               <BaseCard title="0" description="Total TARA staked" tooltip={<Tooltip className="staking-icon-tooltip" title="Total number of TARA currently staked in the staking contract for connected wallet." Icon={InfoIcon} />} />

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Text, RewardCard, Switch, VerticalRewardCard, Table } from '@taraxa_project/taraxa-ui';
+import { Text, RewardCard, Switch, VerticalRewardCard, Table, SubmitCard } from '@taraxa_project/taraxa-ui';
 import PinnedIcon from '../../assets/icons/pinned';
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
@@ -11,6 +11,7 @@ import Sidebar from '../../components/Sidebar/Sidebar';
 import { useApi } from "../../services/useApi";
 
 import './bounties.scss';
+import { bountiesDescription, fileButtonLabel } from '../../global/globalVars';
 
 type BountyState = {
   id: number,
@@ -38,6 +39,12 @@ type Bounty = {
 function Bounties() {
   const api = useApi();
   const [allBounties, setAllBounties] = useState<Bounty[]>([]);
+  const isMobile = useMediaQuery({ query: `(max-width: 760px)` });
+  const [inactive, setInactive] = useState(false);
+  const [detailsPage, setDetailsPage] = useState(false);
+  const [submitPage, setSubmitPage] = useState(false);
+  const [submitEmail, setSubmitEmail] = useState('');
+  const [file, setFile] = useState();
 
   useEffect(() => {
     const getBounties = async () => {
@@ -73,9 +80,6 @@ function Bounties() {
     getBounties();
   }, []);
 
-  const isMobile = useMediaQuery({ query: `(max-width: 760px)` });
-  const [inactive, setInactive] = useState(false);
-
   const onChangeInactive = () => {
     setInactive(!inactive);
   }
@@ -109,42 +113,51 @@ function Bounties() {
           <Text label="Taraxa ecosystem bounties" variant="h4" color="primary" className={isMobile ? "mobile-bounties-title" : "bounties-title"} />
           <Text label="Earn rewards and help grow the Taraxa's ecosystem" variant="body2" color="textSecondary" className={isMobile ? "mobile-bounties-subtitle" : "bounties-subtitle"} />
 
-          {pinnedBounties.length > 0 && <div className={isMobile ? "mobile-icon-title-container" : "icon-title-container"}>
-            <PinnedIcon /> <Text label="Pinned" variant="body1" color="primary" className="icon-title" />
-          </div>}
+          {submitPage ?
+          
+          <SubmitCard title="Incentivized testnet" description={bountiesDescription} onClickText="Submit bounty" fileButtonLabel={fileButtonLabel} onClickButton={() => console.log('submited') } onFileChange={(e) => setFile(e.target.files[0])} onInputChange={(e) => setSubmitEmail(e.target.value)} /> 
+          
+          : pinnedBounties.length && 
+          
+            <>
+              <div className={isMobile ? "mobile-icon-title-container" : "icon-title-container"}>
+                <PinnedIcon /> <Text label="Pinned" variant="body1" color="primary" className="icon-title" />
+              </div>
 
-          {pinnedBounties.map(pinnedBounty => {
-            let list = undefined;
+              {pinnedBounties.map(pinnedBounty => {
+                let list = undefined;
 
-            if (pinnedBounty.submissions!.length > 0) {
-              const rows = pinnedBounty.submissions!.map(submission => ({ Icon: UserIcon, data: [{ username: submission.user.username, wallet: submission.hashed_content, date: new Date(submission.created_at) }] }));
-              const mobileRows = pinnedBounty.submissions!.map(submission => ({ Icon: UserIcon, data: [{ username: submission.user.username, date: new Date(submission.created_at), wallet: submission.hashed_content }] }));
+                if (pinnedBounty.submissions!.length > 0) {
+                  const rows = pinnedBounty.submissions!.map(submission => ({ Icon: UserIcon, data: [{ username: submission.user.username, wallet: submission.hashed_content, date: new Date(submission.created_at) }] }));
+                  const mobileRows = pinnedBounty.submissions!.map(submission => ({ Icon: UserIcon, data: [{ username: submission.user.username, date: new Date(submission.created_at), wallet: submission.hashed_content }] }));
 
-              list = <Table columns={columns} rows={isMobile ? mobileRows : rows} />
-            }
-            return <div className={isMobile ? "cardContainerMobile" : "cardContainer"}>
-              {isMobile ?
-                <VerticalRewardCard title={pinnedBounty.name} description={pinnedBounty.description} onClick={() => console.log('reward')} onClickText="Learn more" reward={pinnedBounty.reward} submissions={pinnedBounty.submissionsCount} expiration={new Date(pinnedBounty.end_date).toLocaleDateString()} SubmissionIcon={SubmissionIcon} ExpirationIcon={ExpirationIcon} />
-                :
-                <RewardCard title={pinnedBounty.name} description={pinnedBounty.description} onClick={() => console.log('reward')} onClickText="Learn more" reward={pinnedBounty.reward} submissions={pinnedBounty.submissionsCount} expiration={new Date(pinnedBounty.end_date).toLocaleDateString()} SubmissionIcon={SubmissionIcon} ExpirationIcon={ExpirationIcon} dataList={list} />
-              }
-            </div>
-          })}
+                  list = <Table columns={columns} rows={isMobile ? mobileRows : rows} />
+                }
+                return <div className={isMobile ? "cardContainerMobile" : "cardContainer"}>
+                  {isMobile ?
+                    <VerticalRewardCard title={pinnedBounty.name} description={pinnedBounty.description} onClickButton={() => console.log('reward')} onClickText="Learn more" reward={pinnedBounty.reward} submissions={pinnedBounty.submissionsCount} expiration={new Date(pinnedBounty.end_date).toLocaleDateString()} SubmissionIcon={SubmissionIcon} ExpirationIcon={ExpirationIcon} />
+                    :
+                    <RewardCard title={pinnedBounty.name} description={pinnedBounty.description} onClickButton={() => detailsPage ? setSubmitPage(true) : setDetailsPage(true)} onClickText={detailsPage ? "Submit" : 'Learn More'} reward={pinnedBounty.reward} submissions={pinnedBounty.submissionsCount} expiration={new Date(pinnedBounty.end_date).toLocaleDateString()} SubmissionIcon={SubmissionIcon} ExpirationIcon={ExpirationIcon} dataList={detailsPage ? list : undefined} />
+                  }
+                </div>
+              })}
 
-          <div className={isMobile ? "mobile-icon-title-container" : "icon-title-container"}>
-            <span className="dot inactive" /> <Text label={(inactive ? 'Inactive' : 'Active') + ` Bounties`} variant="body1" color="primary" className="icon-title" />
-          </div>
-          <Switch id="bountiesSwitch" name="Show inactive" value={inactive} label="Show inactive" onChange={() => onChangeInactive()} />
-          {numRows.map(row => {
-            const rows = bounties.slice(row * 3, (row * 3 + 3)).map(bounty => {
-              const endDate = new Date(bounty.end_date).toLocaleDateString();
-              return <VerticalRewardCard active key={bounty.id} title={bounty.name} description={bounty.description} onClick={() => console.log('reward')} onClickText="Learn more" reward={bounty.reward} submissions={bounty.submissionsCount} expiration={endDate} SubmissionIcon={SubmissionIcon} ExpirationIcon={ExpirationIcon} />
-            });
-            return <div className={isMobile ? "cardContainerMobile" : "cardContainer"}>
-              {rows}
-            </div>
-          })}
-          {bounties.length === 0 && <div><Text label={`No ` + (inactive ? 'inactive' : 'active') + ` bounties`} variant="body2" color="textSecondary" /></div>}
+              <div className={isMobile ? "mobile-icon-title-container" : "icon-title-container"}>
+                        <span className="dot inactive" /> <Text label={(inactive ? 'Inactive' : 'Active') + ` Bounties`} variant="body1" color="primary" className="icon-title" />
+                      </div>
+                      <Switch id="bountiesSwitch" name="Show inactive" value={inactive} label="Show inactive" onChange={() => onChangeInactive()} />
+                      {numRows.map(row => {
+                        const rows = bounties.slice(row * 3, (row * 3 + 3)).map(bounty => {
+                          const endDate = new Date(bounty.end_date).toLocaleDateString();
+                          return <VerticalRewardCard active key={bounty.id} title={bounty.name} description={bounty.description} onClick={() => console.log('reward')} onClickText="Learn more" reward={bounty.reward} submissions={bounty.submissionsCount} expiration={endDate} SubmissionIcon={SubmissionIcon} ExpirationIcon={ExpirationIcon} />
+                        });
+                        return <div className={isMobile ? "cardContainerMobile" : "cardContainer"}>
+                          {rows}
+                        </div>
+                      })}
+                      {bounties.length === 0 && <div><Text label={`No ` + (inactive ? 'inactive' : 'active') + ` bounties`} variant="body2" color="textSecondary" /></div>}
+            </>         
+          }     
         </div>
       </div>
       <Footer />

@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { menu } from '../../global/globalVars';
-import { BaseCard, Button, IconCard, Table, Text, ToggleButton, Tooltip} from '@taraxa_project/taraxa-ui';
+import { BaseCard, Button, IconCard, InputField, Modal, Table, Text, ToggleButton, Tooltip} from '@taraxa_project/taraxa-ui';
 import StakingIcon from '../../assets/icons/staking';
 import BountiesIcon from '../../assets/icons/bounties';
 import RedeemIcon from '../../assets/icons/redeem';
@@ -15,6 +15,7 @@ import { useMediaQuery } from 'react-responsive';
 import {store, useGlobalState} from 'state-pool';
 import Sidebar from '../../components/Sidebar/Sidebar';
 import InfoIcon from '../../assets/icons/info';
+import CloseIcon from '../../assets/icons/close';
 
 let activeNodes = true;
 
@@ -23,6 +24,8 @@ const RunNode = () => {
   const isMobile = useMediaQuery({ query: `(max-width: 760px)` });
   const [toggleValue, setToggleValue] = useState('earn');
   const [sidebarOpened, updateSidebarOpened] = useGlobalState("sidebarOpened");
+  const [registerNodeModal, setRegisterNodeModal] = useState(false);
+  const [nodePublicAddress, setNodePublicAddress] = useState('');
 
   const columns = [
     { path: "node",   name: "node" },
@@ -31,15 +34,23 @@ const RunNode = () => {
   ];
 
   const rows = [
-    {data: [{node: 'Bob’s node #1', senderWallet: '0xe08c0 ... 29b34', receiverWallet: '0xe08c0 ... 29b34'}]}, 
-    {data: [{node: 'Bob’s node #1', senderWallet: '0xe08c0 ... 29b34', receiverWallet: '0xe08c0 ... 29b34'}]}, 
-    {data: [{node: 'Bob’s node #1', senderWallet: '0xe08c0 ... 29b34', receiverWallet: '0xe08c0 ... 29b34'}]}, 
-    {data: [{node: 'Bob’s node #1', senderWallet: '0xe08c0 ... 29b34', receiverWallet: '0xe08c0 ... 29b34'}]}, 
-    {data: [{node: 'Bob’s node #1', senderWallet: '0xe08c0 ... 29b34', receiverWallet: '0xe08c0 ... 29b34'}]}, 
-    {data: [{node: 'Bob’s node #1', senderWallet: '0xe08c0 ... 29b34', receiverWallet: '0xe08c0 ... 29b34'}]}];
+    {data: [{node: <><span className="dot" />Bob’s node #1</>, senderWallet: <><span className="dot" />0xe08c0 ... 29b34</>, receiverWallet: <><span className="dot" />0xe08c0 ... 29b34</>}]}, 
+    {data: [{node: <><span className="dot" />Bob’s node #1</>, senderWallet: <><span className="dot" />0xe08c0 ... 29b34</>, receiverWallet: <><span className="dot" />0xe08c0 ... 29b34</>}]}, 
+    {data: [{node: <><span className="dot" />Bob’s node #1</>, senderWallet: <><span className="dot" />0xe08c0 ... 29b34</>, receiverWallet: <><span className="dot" />0xe08c0 ... 29b34</>}]}, 
+    {data: [{node: <><span className="dot" />Bob’s node #1</>, senderWallet: <><span className="dot" />0xe08c0 ... 29b34</>, receiverWallet: <><span className="dot" />0xe08c0 ... 29b34</>}]}, 
+    {data: [{node: <><span className="dot" />Bob’s node #1</>, senderWallet: <><span className="dot" />0xe08c0 ... 29b34</>, receiverWallet: <><span className="dot" />0xe08c0 ... 29b34</>}]}, 
+    {data: [{node: <><span className="dot" />Bob’s node #1</>, senderWallet: <><span className="dot" />0xe08c0 ... 29b34</>, receiverWallet: <><span className="dot" />0xe08c0 ... 29b34</>}]}];
 
   const onChangeToggle = (event: object, value: any) => {
     setToggleValue(value);
+  }
+
+  const modalTrigger = () => {
+    setRegisterNodeModal(!registerNodeModal);
+  }
+
+  const nodePublicAddressTrigger = (e: any) => {
+    setNodePublicAddress(e.target.value);
   }
 
   function useOutsideAlerter(ref: any) {
@@ -59,12 +70,24 @@ const RunNode = () => {
   const wrapperRef = useRef(null);
   useOutsideAlerter(wrapperRef);
 
+  const modalNode =
+    <div>     
+        <Text style={{ marginBottom: '2%' }} label="Register a node" variant="h6" color="primary" />
+
+        <InputField label="Node public address" value={nodePublicAddress} variant="outlined" type="text" fullWidth onChange={nodePublicAddressTrigger} margin="normal" />        
+
+        <Button label="Submit" color="secondary" variant="contained" onClick={() => console.log('submited')} fullWidth className="marginButton" />
+
+        <Text style={{margin: '5% 0'}} label="References:" variant="body1" color="primary"/>
+        <Button label="How to find my node's address" variant="contained" className="node-control-reference-button" onClick={() => console.log('go to')} />
+    </div>
 
   return (
     <>
       <Header />
       <div className={isMobile ? "runnode-mobile" : "runnode"}>
       <Sidebar  />
+      <Modal id="signinModal" title="Submit KYC" show={registerNodeModal} children={modalNode} parentElementID="root" onRequestClose={modalTrigger} closeIcon={CloseIcon} />
         <div className="runnode-content">
           <div className="runnode-icon-container">
               <Text label="Running Testnet Nodes" variant="h4" color="primary" className="runnode-title"/>
@@ -89,7 +112,7 @@ const RunNode = () => {
               : 
               <>
                 <IconCard title="Register a node" description="Register a node you’ve aleady set up."
-                onClickText="Register a node" onClickButton={() => console.log('yes')} Icon={NodeIcon} tooltip={<Tooltip className="runnode-icon-tooltip" title="A registered node (which has already been setup) will automatically be delegated enough testnet tokens to participate in consensus." Icon={InfoIcon} />}/>
+                onClickText="Register a node" onClickButton={() => setRegisterNodeModal(true)} Icon={NodeIcon} tooltip={<Tooltip className="runnode-icon-tooltip" title="A registered node (which has already been setup) will automatically be delegated enough testnet tokens to participate in consensus." Icon={InfoIcon} />}/>
                 <IconCard title="Set up a node" description="Learn how to set up a node on Taraxa’s testnet."
                 onClickText="Set up a node" onClickButton={() => console.log("here")} Icon={NodeIcon}/>
               </>
@@ -101,6 +124,8 @@ const RunNode = () => {
               <Text id={isMobile ? "mobileReferenceText" : "referenceText"} label="Active Nodes" variant="h6" color="primary"/>
 
               <Table columns={columns} rows={rows}/>
+
+              <Button label="Register a new node" className="node-control-button" color="secondary" variant="contained" onClick={() => setRegisterNodeModal(true)} />
             </div>
           }
 

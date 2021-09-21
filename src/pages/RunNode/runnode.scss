@@ -105,7 +105,7 @@ body {
 .referenceContainer {
   background-color: #151823;
   border: 2px solid #31364b;
-  width: 87%;
+  width: 95% !important;
   margin-bottom: 5%;
   box-sizing: border-box;
   border-radius: 4px;
@@ -182,4 +182,26 @@ body {
     margin-left: 10%;
     margin-top: 5%;
   }
+}
+
+.node-control-button {
+  margin: 0 5% 5% 5% !important;
+}
+
+.node-control-reference-button {
+  background: #31364b !important;
+  border: 1px solid #6a7085 !important;
+  box-sizing: border-box !important;
+  border-radius: 4px !important;
+  color: white !important;
+}
+
+.dot {
+  height: 14px;
+  width: 14px;
+  background-color: #15ac5b;
+  border-radius: 50%;
+  display: inline-block;
+  margin-top: 2%;
+  margin-right: 5%;
 }

@@ -5,8 +5,12 @@ import GetStarted from "../assets/icons/getStarted";
 import NodeSidebar from "../assets/icons/nodeSidebar";
 import RedeemSidebar from "../assets/icons/redeemSidebar";
 import StakingSidebar from "../assets/icons/stakingSidebar";
+import SubmitIcon from "../assets/icons/submit";
 import WalletSidebar from "../assets/icons/walletSidebar";
 import NavLink from "../components/NavLink/NavLink";
+import { Text } from "@taraxa_project/taraxa-ui";
+import AttachmentIcon from "../assets/icons/attachment";
+import "./globalVars.scss";
 
 export const menu = [
   { Link: <NavLink label="Get Started" Icon={GetStarted} to="/" />, name:"dashboard"},
@@ -29,3 +33,12 @@ export const menu = [
     ],
   }
 ];
+
+
+export const bountiesDescription = <div className="bounties-description-container">
+  <SubmitIcon /> <Text className="bounties-description" label="Submit bounty" color="primary" />
+</div>
+
+export const fileButtonLabel = <div className="file-button-label">
+<AttachmentIcon /> <Text className="file-input" label="Attach the file" color="primary" />
+</div>

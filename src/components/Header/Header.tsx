@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
+import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 import { withRouter, RouteComponentProps } from "react-router-dom";
 import { Button, Text, Header as THeader, Modal } from "@taraxa_project/taraxa-ui";
 import TaraxaIcon from '../../assets/icons/taraxaIcon';
@@ -8,13 +9,14 @@ import './header.scss'
 import { store, useGlobalState } from 'state-pool';
 import { useMediaQuery } from 'react-responsive';
 import { useAuth } from "../../services/useAuth";
-import Wallet from "./Wallet";
+import CloseIcon from './../../assets/icons/close';
 import SignIn from "./Modal/SignIn";
+import EmailConfirmed from "./Modal/EmailConfirmed";
 import SignUp from "./Modal/SignUp";
 import SignUpSuccess from "./Modal/SignUpSuccess";
 import ForgotPassword from "./Modal/ForgotPassword";
 import ForgotPasswordSuccess from "./Modal/ForgotPasswordSuccess";
-import EmailConfirmed from "./Modal/EmailConfirmed";
+import Wallet from "./Wallet";
 
 store.setState("sidebarOpened", false)
 store.setState("modalOpen", false)
@@ -111,7 +113,7 @@ const Header = ({ match }: RouteComponentProps) => {
 
   return (
     <>
-      <Modal id="signinModal" title="Test" show={modalOpen} children={modalElement} parentElementID="root" onRequestClose={modalToggle} />
+      <Modal id="signinModal" title="Test" show={modalOpen} children={modalElement} parentElementID="root" onRequestClose={modalToggle} closeIcon={CloseIcon} />
       <THeader color="primary" position="relative" Icon={TaraxaIcon} elevation={0} button={isMobile ? <></> : button} wallet={isMobile ? <></> : <Wallet />} profileModal={profileModal} showProfileModal={showProfile} hamburger={hamburger} />
     </>
   )

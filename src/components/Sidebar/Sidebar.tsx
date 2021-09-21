@@ -8,6 +8,7 @@ import { useHistory } from "react-router-dom";
 import {store, useGlobalState} from 'state-pool';
 import { useMediaQuery } from 'react-responsive';
 import { menu } from '../../global/globalVars';
+import CloseIcon from "../../assets/icons/close";
 
 store.setState("sidebarOpened", false)
 store.setState("modalOpen", false)
@@ -149,7 +150,7 @@ const Sidebar = () => {
 
     return (
       <>
-        <Modal id="signinModal" title="Test" show={modalOpen} children={signIn ? modalSignIn : signUpSuccess ? modalSignUpSuccess : modalSignUp} parentElementID="root" onRequestClose={modalTrigger}/>
+        <Modal id="signinModal" title="Test" show={modalOpen} children={signIn ? modalSignIn : signUpSuccess ? modalSignUpSuccess : modalSignUp} parentElementID="root" onRequestClose={modalTrigger} closeIcon={CloseIcon}/>
         <div ref={wrapperRef}><MSidebar disablePadding={true} dense={true} items={menu} open={sidebarOpened} mobileActions={mobileButtons} onClose={updateSidebarOpened} className="sidebar" /></div>
       </>
     )

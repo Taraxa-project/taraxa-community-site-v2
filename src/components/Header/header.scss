@@ -4,16 +4,16 @@
   text-align: center;
 
   .marginButton {
-    margin: 5% 0;
+    margin: 2% 0;
     height: 52px;
   }
 
   #noAccountLabel {
-    margin: 5% 0;
+    margin: 3% 0;
   }
 
   #forgotPasswordLabel {
-    margin-left: 65%;
+    float: right;
     margin-bottom: 5%;
     cursor: pointer;
   }
@@ -29,7 +29,6 @@
     background-color: #282c3e;
     color: white;
     border: 0.5px solid rgba(255, 255, 255, 0.1);
-    margin-bottom: 8%;
   }
 
   #bubbleButtonLeft {
@@ -75,4 +74,16 @@
 
 .signUpSuccessfullTitle {
   margin-bottom: 13% !important;
+}
+
+.checkboxContainer {
+  text-align: left;
+  display: flex;
+  align-items: center;
+  margin-left: -3%;
+
+  .link {
+    color: #15ac5b !important;
+    text-decoration: none !important;
+  }
 }

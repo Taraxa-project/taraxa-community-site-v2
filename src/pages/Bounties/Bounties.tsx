@@ -138,7 +138,7 @@ function Bounties() {
           {numRows.map(row => {
             const rows = bounties.slice(row * 3, (row * 3 + 3)).map(bounty => {
               const endDate = new Date(bounty.end_date).toLocaleDateString();
-              return <VerticalRewardCard key={bounty.id} title={bounty.name} description={bounty.description} onClick={() => console.log('reward')} onClickText="Learn more" reward={bounty.reward} submissions={bounty.submissionsCount} expiration={endDate} SubmissionIcon={SubmissionIcon} ExpirationIcon={ExpirationIcon} />
+              return <VerticalRewardCard active key={bounty.id} title={bounty.name} description={bounty.description} onClick={() => console.log('reward')} onClickText="Learn more" reward={bounty.reward} submissions={bounty.submissionsCount} expiration={endDate} SubmissionIcon={SubmissionIcon} ExpirationIcon={ExpirationIcon} />
             });
             return <div className={isMobile ? "cardContainerMobile" : "cardContainer"}>
               {rows}

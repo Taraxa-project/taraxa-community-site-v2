@@ -60,7 +60,6 @@ const SignIn = ({ onSuccess, onForgotPassword, onCreateAccount }: SignIn) => {
           onSuccess();
           return;
         }
-        console.log(result.response)
         setErrors(result.response[0].messages.map((message: any) => ({ key: message.id.split('.')[3], value: message.message })));
 
       }} fullWidth className="marginButton" />

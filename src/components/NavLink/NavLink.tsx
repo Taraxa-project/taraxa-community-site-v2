@@ -1,18 +1,17 @@
-import { NavLink as Link } from "react-router-dom";
+import { NavLink as Link, NavLinkProps as LinkProps } from "react-router-dom";
 import './navlink.scss';
 
-interface NavLinkProps {
+interface NavLinkProps extends LinkProps {
   Icon?: React.FunctionComponent<React.SVGProps<SVGSVGElement>>;
   label: string;
-  to: string;
   subItem?: boolean;
 }
 
-const NavLink = ({Icon, label, to, subItem}: NavLinkProps) => {
+const NavLink = ({ Icon, label, ...props }: NavLinkProps) => {
   return (
     <div className="navlink">
-      {Icon && <Icon/>}
-      <Link className="link" exact to={to}>{label}</Link>
+      {Icon && <Icon />}
+      <Link className="link" exact {...props}>{label}</Link>
     </div>
   )
 }

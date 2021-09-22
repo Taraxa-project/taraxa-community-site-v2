@@ -27,9 +27,9 @@ export const menu = [
     label: 'Testnet',
     items: [
       { Link: <NavLink label="Run a node" Icon={NodeSidebar} to="/node" />, name: "node" },
-      { Link: <NavLink label="Taraxa Explorer" Icon={ExplorerSidebar} to="/explorer" /> },
-      { Link: <NavLink label="Deploy DApps" Icon={DeploySidebar} to="/deploy" /> },
-      { Link: <NavLink label="Wallet" Icon={WalletSidebar} to="/wallet" />, name: "wallet" }
+      { Link: <NavLink label="Taraxa Explorer" Icon={ExplorerSidebar} to={{ pathname: "https://explorer.testnet.taraxa.io/" }} target="_blank" /> },
+      { Link: <NavLink label="Deploy DApps" Icon={DeploySidebar} to={{ pathname: "https://sandbox.testnet.taraxa.io/" }} target="_blank" /> },
+      // { Link: <NavLink label="Wallet" Icon={WalletSidebar} to="/wallet" />, name: "wallet" }
     ],
   }
 ];

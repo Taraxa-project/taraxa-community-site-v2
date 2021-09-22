@@ -133,7 +133,7 @@ function Staking() {
   return (
     <>
       <Header />
-      <Modal id="signinModal" title="Test" show={modalSuccess ? modalSuccess : modalError} children={modalSuccess ? stakingSuccessModal : stakingErrorModal} parentElementID="root" onRequestClose={modalTrigger} closeIcon={CloseIcon} />
+      <Modal id={isMobile ? "mobile-signinModal" : "signinModal"} title="Test" show={modalSuccess ? modalSuccess : modalError} children={modalSuccess ? stakingSuccessModal : stakingErrorModal} parentElementID="root" onRequestClose={modalTrigger} closeIcon={CloseIcon} />
       <div className={isMobile ? "stakingRootMobile" : "stakingRoot"}>
         <Sidebar />
         <div className="staking">

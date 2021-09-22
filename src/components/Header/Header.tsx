@@ -113,7 +113,7 @@ const Header = ({ match }: RouteComponentProps) => {
 
   return (
     <>
-      <Modal id="signinModal" title="Test" show={modalOpen} children={modalElement} parentElementID="root" onRequestClose={modalToggle} closeIcon={CloseIcon} />
+      <Modal id={isMobile ? "mobile-signinModal" : "signinModal"} title="Test" show={modalOpen} children={modalElement} parentElementID="root" onRequestClose={modalToggle} closeIcon={CloseIcon} />
       <THeader color="primary" position="relative" Icon={TaraxaIcon} elevation={0} button={isMobile ? <></> : button} wallet={isMobile ? <></> : <Wallet />} profileModal={profileModal} showProfileModal={showProfile} hamburger={hamburger} />
     </>
   )

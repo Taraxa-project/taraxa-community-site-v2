@@ -71,6 +71,7 @@ function Staking() {
   const [tokenBalance, setTokenBalance] = useState<ethers.BigNumber>(ethers.BigNumber.from("0"));
   const [toStake, setToStake] = useState<ethers.BigNumber>(ethers.BigNumber.from("0"));
   const [stakeInput, setStakeInput] = useState("");
+  const [currentStakeBalance, setCurrentStakeBalance] = useState<ethers.BigNumber>(ethers.BigNumber.from("0"));
 
   const [lockingPeriod, setLockingPeriod] = useState<ethers.BigNumber>(ethers.BigNumber.from(30 * 24 * 60 * 60));
 
@@ -133,6 +134,8 @@ function Staking() {
               setToStake={setToStake}
               stakeInput={stakeInput}
               setStakeInput={setStakeInput}
+              currentStakeBalance={currentStakeBalance}
+              setCurrentStakeBalance={setCurrentStakeBalance}
               lockingPeriod={lockingPeriod}
             />
           </div>
@@ -159,12 +162,12 @@ interface StakingModal {
 
 function StakingModal({ isSuccess, isError, isApprove, isStaking, setIsSuccess, setIsError, setIsApprove, setIsStaking, stakedAmount, balance, lockingPeriod }: StakingModal) {
   const isMobile = useMediaQuery({ query: `(max-width: 760px)` });
-  
+
   let modal = <></>;
 
   if (isSuccess) {
     modal = (
-      <StakingSuccess amount={stakedAmount} lockingPeriod={lockingPeriod} onSuccess={() => {
+      <StakingSuccess lockingPeriod={lockingPeriod} onSuccess={() => {
         setIsSuccess(false);
       }} />
     );
@@ -282,10 +285,12 @@ interface Stake {
   setToStake: (toStake: ethers.BigNumber) => void;
   stakeInput: string;
   setStakeInput: (stakeInput: string) => void;
+  currentStakeBalance: ethers.BigNumber;
+  setCurrentStakeBalance: (currentStakeBalance: ethers.BigNumber) => void;
   lockingPeriod: ethers.BigNumber;
 }
 
-function Stake({ setIsSuccess, setIsError, setIsApprove, setIsStaking, tokenBalance, setTokenBalance, setToStake, stakeInput, setStakeInput, lockingPeriod }: Stake) {
+function Stake({ setIsSuccess, setIsError, setIsApprove, setIsStaking, tokenBalance, setTokenBalance, setToStake, stakeInput, setStakeInput, currentStakeBalance, setCurrentStakeBalance, lockingPeriod }: Stake) {
   const isMobile = useMediaQuery({ query: `(max-width: 760px)` });
 
   const { account } = useMetaMask();
@@ -294,7 +299,6 @@ function Stake({ setIsSuccess, setIsError, setIsApprove, setIsStaking, tokenBala
 
   const [hasStake, setHasStake] = useState(false);
   const [canClaimStake, setCanClaimStake] = useState(false);
-  const [currentStakeBalance, setCurrentStakeBalance] = useState<ethers.BigNumber>(ethers.BigNumber.from("0"));
   const [currentStakeStartDate, setCurrentStakeStartDate] = useState<Date | null>(null);
   const [currentStakeEndDate, setCurrentStakeEndDate] = useState<Date | null>(null);
 
@@ -366,6 +370,7 @@ function Stake({ setIsSuccess, setIsError, setIsApprove, setIsStaking, tokenBala
       setIsStaking(true);
       const stakeTx = await staking.stake(value);
       await stakeTx.wait(1);
+
       setIsStaking(false);
       setIsSuccess(true);
 
@@ -378,7 +383,7 @@ function Stake({ setIsSuccess, setIsError, setIsApprove, setIsStaking, tokenBala
 
       setHasStake(true);
       setCanClaimStake(false);
-      setCurrentStakeBalance(value);
+      setCurrentStakeBalance(currentStakeBalance.add(value));
       setCurrentStakeStartDate(new Date(currentTimestamp * 1000));
       setCurrentStakeEndDate(new Date((currentTimestamp + lockingPeriod.toNumber()) * 1000));
     } catch (err) {

@@ -4,19 +4,18 @@ import LockIcon from './../../../assets/icons/lock';
 
 
 interface StakingSuccess {
-  amount: string;
   lockingPeriod: string;
   onSuccess: () => void;
 }
 
-const StakingSuccess = ({ amount, lockingPeriod, onSuccess }: StakingSuccess) => {
+const StakingSuccess = ({ lockingPeriod, onSuccess }: StakingSuccess) => {
   return (
     <div>
       <Text label="SUCCESS" variant="h6" color="primary" />
       <div className="iconContainer">
         <SuccessIcon />
       </div>
-      <Text label={`Your ${amount} TARA has been successfully transferred to the staking contract. View Etherscan`} variant="body2" color="primary" />
+      <Text label={`Your TARA has been successfully transferred to the staking contract. View Etherscan`} variant="body2" color="primary" />
 
       <div className="staking-success-container">
         <Text label="Please keep in mind:" className="title" />

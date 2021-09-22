@@ -91,7 +91,7 @@ const RunNode = () => {
         <div className="runnode-content">
           <div className="runnode-icon-container">
               <Text label="Running Testnet Nodes" variant="h4" color="primary" className="runnode-title"/>
-              <Tooltip className="runnode-icon-tooltip" title="Test" Icon={InfoIcon} />
+              <Tooltip className={isMobile ? "mobile-runnode-icon-tooltip" : "runnode-icon-tooltip"} title="Test" Icon={InfoIcon} />
             </div>
           
           <Text label="Help accelerate Taraxa’s path towards mainnet by running nodes on the testnet" variant="body2" color="textSecondary" className={isMobile ? "mobile-runnode-subtitle" : "runnode-subtitle"}/>

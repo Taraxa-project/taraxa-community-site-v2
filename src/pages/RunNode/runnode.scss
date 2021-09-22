@@ -14,16 +14,16 @@ body {
 .runnode-mobile {
   display: flex;
   margin-top: 3%;
-  margin-left: 17%;
+  margin-left: 13%;
   height: auto;
   width: auto;
 
   @media only screen and (max-width: 320px) {
-    margin-left: 6%;
+    margin-left: 15%;
   }
 
   @media only screen and (min-width: 321px) and (max-width: 400px) {
-    margin-left: 13%;
+    margin-left: 15%;
   }
 }
 
@@ -33,7 +33,7 @@ body {
 
 .runnode-content {
   height: 100%;
-  width: 100%;
+  width: 85%;
   text-align: left;
   margin-left: 2%;
 
@@ -43,6 +43,10 @@ body {
 
     .runnode-icon-tooltip {
       margin-left: 400%;
+    }
+
+    .mobile-runnode-icon-tooltip {
+      margin-left: 100%;
     }
   }
 }
@@ -133,14 +137,8 @@ body {
 .mobileReferenceContainer {
   background-color: #151823;
   border: 2px solid #31364b;
-  width: 80% !important;
-  @media only screen and (max-width: 320px) {
-    width: 95% !important;
-  }
+  width: 95% !important;
 
-  @media only screen and (min-width: 321px) and (max-width: 400px) {
-    width: 87% !important;
-  }
   margin-bottom: 5%;
   box-sizing: border-box;
   border-radius: 4px;

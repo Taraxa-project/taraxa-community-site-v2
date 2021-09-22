@@ -36,6 +36,44 @@
   }
 }
 
+#mobile-signinModal {
+  width: 80% !important;
+  padding: 2% !important;
+  text-align: center;
+
+  .marginButton {
+    margin: 2% 0;
+    height: 52px;
+  }
+
+  #noAccountLabel {
+    margin: 3% 0;
+  }
+
+  #forgotPasswordLabel {
+    float: right;
+    margin-bottom: 5%;
+    cursor: pointer;
+  }
+
+  .greyButton {
+    background-color: #31364b;
+    color: white;
+    border: 0.5px solid rgba(255, 255, 255, 0.3);
+  }
+
+  .bubbleButton {
+    width: 45%;
+    background-color: #282c3e;
+    color: white;
+    border: 0.5px solid rgba(255, 255, 255, 0.1);
+  }
+
+  #bubbleButtonLeft {
+    margin-right: 10%;
+  }
+}
+
 #walletContainer {
   background-color: #31364b;
   color: #878ca4;

@@ -9,6 +9,7 @@ import {store, useGlobalState} from 'state-pool';
 import { useMediaQuery } from 'react-responsive';
 import { menu } from '../../global/globalVars';
 import CloseIcon from "../../assets/icons/close";
+import { useAuth } from "../../services/useAuth";
 
 store.setState("sidebarOpened", false)
 store.setState("modalOpen", false)
@@ -16,6 +17,8 @@ store.setState("isLogged", false)
 store.setState("walletConnected", false)
 
 const Sidebar = () => {
+  const auth = useAuth();
+  const isLoggedIn = auth.user?.id;
   const history = useHistory();
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
@@ -26,7 +29,6 @@ const Sidebar = () => {
   const [showProfile, setShowProfile] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [conditions, setConditions] = useState(false);
-  const [isLogged, setLogged] = useState(true);
   const [walletConnected, setWallet] = useState(false);
   const [sidebarOpened, updateSidebarOpened] = useGlobalState("sidebarOpened");
   const isMobile = useMediaQuery({ query: `(max-width: 760px)` });
@@ -78,7 +80,6 @@ const Sidebar = () => {
   }
 
   const logout = () => {
-    setLogged(false);
     setWallet(false);
     setShowProfile(false);
   }
@@ -90,12 +91,11 @@ const Sidebar = () => {
   const finalAction = () => {
     setSignUpSuccess(false);
     setModalOpen(false);
-    setLogged(true);
   }
   
-  const button = !isLogged ? <Button label="Sign in / Sign up" color="secondary" variant="contained" onClick={modalTrigger} /> : <div><Button label="My Profile" color="secondary" variant="contained" onClick={goToProfile} /></div>;
+  const button = !isLoggedIn ? <Button label="Sign in / Sign up" color="secondary" variant="contained" onClick={modalTrigger} /> : <div><Button label="My Profile" color="secondary" variant="contained" onClick={goToProfile} /></div>;
   
-  const wallet = isLogged && walletConnected ? <div id="mobileWalletContainer"><div className="walletIcon" /><Text label="0x2612b77E5ee1a5feeDdD5eC08731749bC2217F54" variant="caption" color="textSecondary"  /></div> : isLogged && !walletConnected ? <div id="mobileNoWalletContainer"><Button label="Connect Wallet" variant="text" color="primary" fullWidth/></div> : <></>;
+  const wallet = isLoggedIn && walletConnected ? <div id="mobileWalletContainer"><div className="walletIcon" /><Text label="0x2612b77E5ee1a5feeDdD5eC08731749bC2217F54" variant="caption" color="textSecondary"  /></div> : isLoggedIn && !walletConnected ? <div id="mobileNoWalletContainer"><Button label="Connect Wallet" variant="text" color="primary" fullWidth/></div> : <></>;
 
   const mobileButtons = <div className="mobileButtons">{button}{wallet}</div>
   
@@ -150,7 +150,7 @@ const Sidebar = () => {
 
     return (
       <>
-        <Modal id="signinModal" title="Test" show={modalOpen} children={signIn ? modalSignIn : signUpSuccess ? modalSignUpSuccess : modalSignUp} parentElementID="root" onRequestClose={modalTrigger} closeIcon={CloseIcon}/>
+        <Modal id={isMobile ? "mobile-signinModal" : "signinModal"} title="Test" show={modalOpen} children={signIn ? modalSignIn : signUpSuccess ? modalSignUpSuccess : modalSignUp} parentElementID="root" onRequestClose={modalTrigger} closeIcon={CloseIcon}/>
         <div ref={wrapperRef}><MSidebar disablePadding={true} dense={true} items={menu} open={sidebarOpened} mobileActions={mobileButtons} onClose={updateSidebarOpened} className="sidebar" /></div>
       </>
     )

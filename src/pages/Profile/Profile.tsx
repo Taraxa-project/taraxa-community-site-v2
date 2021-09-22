@@ -148,7 +148,7 @@ const Profile = () => {
             <>
               <div className={isMobile ? "mobileCardContainer" : "cardContainer"}>
 
-                <Modal id="signinModal" title="Submit KYC" show={kycModalOpen} children={modalKYC} parentElementID="root" onRequestClose={modalTrigger} closeIcon={CloseIcon} />
+                <Modal id={isMobile ? "mobile-signinModal" : "signinModal"} title="Submit KYC" show={kycModalOpen} children={modalKYC} parentElementID="root" onRequestClose={modalTrigger} closeIcon={CloseIcon} />
 
                 {auth.user && <ProfileCard username={auth.user!.username} email={auth.user!.email} wallet={auth.user!.eth_wallet} Icon={TaraxaIcon} buttonOptions={buttons} />}
                 <ProfileBasicCard title="KYC" description="Not submitted" Icon={KYCIcon} buttonOptions={kycButton} />

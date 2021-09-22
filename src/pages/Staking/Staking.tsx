@@ -158,7 +158,8 @@ interface StakingModal {
 }
 
 function StakingModal({ isSuccess, isError, isApprove, isStaking, setIsSuccess, setIsError, setIsApprove, setIsStaking, stakedAmount, balance, lockingPeriod }: StakingModal) {
-
+  const isMobile = useMediaQuery({ query: `(max-width: 760px)` });
+  
   let modal = <></>;
 
   if (isSuccess) {
@@ -191,7 +192,7 @@ function StakingModal({ isSuccess, isError, isApprove, isStaking, setIsSuccess, 
 
   return (
     <Modal
-      id="signinModal"
+      id={isMobile ? "mobile-signinModal" : "signinModal"}
       title="Test"
       show={isStaking || isApprove || isSuccess || isError}
       children={modal}

@@ -20,9 +20,7 @@ const Wallet = () => {
 
   if (status === "notConnected") {
     return (
-      <div id="noWalletContainer">
-        <Button label="Connect Wallet" variant="text" color="primary" fullWidth onClick={connect} />
-      </div>
+        <Button id="noWalletContainer" label="Connect Wallet" variant="text" color="primary" fullWidth onClick={connect} />
     );
   }
 

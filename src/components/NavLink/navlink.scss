@@ -1,8 +1,7 @@
 .navlink {
-  display: flex !important;
-  width: 150% !important;
-
-  .link {
+  padding: 14px 20px;
+  display: flex;
+  span {
     margin-left: 5% !important;
   }
 }

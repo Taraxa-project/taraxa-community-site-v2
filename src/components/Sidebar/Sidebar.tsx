@@ -154,7 +154,7 @@ const Sidebar = () => {
   return (
     <>
       <Modal id={isMobile ? "mobile-signinModal" : "signinModal"} title="Test" show={modalOpen} children={signIn ? modalSignIn : signUpSuccess ? modalSignUpSuccess : modalSignUp} parentElementID="root" onRequestClose={modalTrigger} closeIcon={CloseIcon} />
-      <div ref={wrapperRef}><MSidebar disablePadding={true} dense={true} items={menu} open={sidebarOpened} mobileActions={mobileButtons} onClose={updateSidebarOpened} className="sidebar" /></div>
+      <div ref={wrapperRef}><MSidebar disablePadding={true} dense={true} items={menu} open={sidebarOpened} mobileActions={mobileButtons} onClose={updateSidebarOpened} /></div>
     </>
   )
 }

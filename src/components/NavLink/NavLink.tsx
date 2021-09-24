@@ -9,10 +9,12 @@ interface NavLinkProps extends LinkProps {
 
 const NavLink = ({ Icon, label, ...props }: NavLinkProps) => {
   return (
-    <div className="navlink">
-      {Icon && <Icon />}
-      <Link className="link" exact {...props}>{label}</Link>
-    </div>
+    <Link className="link" exact {...props}>
+      <div className="navlink">
+        {Icon && <Icon />}
+        <span>{label}</span>
+      </div>
+    </Link>
   )
 }
 

@@ -64,8 +64,8 @@ const SignIn = ({ onSuccess, onForgotPassword, onCreateAccount }: SignIn) => {
 
       }} fullWidth className="marginButton" />
 
-      <Button Icon={GoogleIcon} variant="contained" onClick={() => false} className="marginButton bubbleButton" id="bubbleButtonLeft" />
-      <Button Icon={BubbleIcon} variant="contained" onClick={() => false} className="marginButton bubbleButton" />
+      {/* <Button Icon={GoogleIcon} variant="contained" onClick={() => false} className="marginButton bubbleButton" id="bubbleButtonLeft" /> */}
+      {/* <Button Icon={BubbleIcon} variant="contained" onClick={() => false} className="marginButton bubbleButton" /> */}
 
       <Text id="noAccountLabel" label="Don't have an account yet?" variant="body2" color="primary" />
       <Button label="Create an account" variant="contained" onClick={() => onCreateAccount()} fullWidth className="marginButton greyButton" />

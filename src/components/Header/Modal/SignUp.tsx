@@ -41,7 +41,7 @@ const SignUp = ({ onSuccess }: SignUp) => {
   let hasGeneralError = false;
   let generalErrorMessage = undefined;
 
-  if(errors.length > 0 && !hasUsernameError && !hasEmailError && !hasPasswordError && !hasPasswordConfirmationError) {
+  if (errors.length > 0 && !hasUsernameError && !hasEmailError && !hasPasswordError && !hasPasswordConfirmationError) {
     hasGeneralError = true;
     generalErrorMessage = errValues[0];
   }
@@ -66,11 +66,14 @@ const SignUp = ({ onSuccess }: SignUp) => {
         setPasswordConfirmation(event.target.value);
       }} margin="normal" />
 
-      <div style={{ textAlign: 'left', display: 'flex' }}>
+      <div style={{ textAlign: 'left', display: 'flex', height: '42px' }}>
         <Checkbox name="conditions" onChange={event => {
           setTc(event.target.checked);
         }} checked={tc} />
-        <Text label="I agree to Terms &amp; Conditions and Privacy Policy" variant="body2" color="primary" />
+        <Text style={{ lineHeight: '42px' }} label="I agree to the" variant="body2" color="primary" />&nbsp;
+        <a href="https://taraxa.io/privacy" target="_blank">
+          <Text style={{ lineHeight: '42px' }} label="Privacy Policy" variant="body2" color="primary" />
+        </a>
       </div>
 
       {hasGeneralError && <Text label={generalErrorMessage!} variant="body1" color="error" />}
@@ -78,6 +81,10 @@ const SignUp = ({ onSuccess }: SignUp) => {
       <Button label="Create an account" color="secondary" disableElevation variant="contained" onClick={async () => {
         setErrors([]);
         const errors = [];
+
+        if (password.length < 12) {
+          errors.push({ key: 'password', value: "The password needs to have at least 12 characters." });
+        }
 
         if (password !== passwordConfirmation) {
           errors.push({ key: 'password-confirmation', value: "Passwords do not match." });
@@ -109,8 +116,8 @@ const SignUp = ({ onSuccess }: SignUp) => {
 
       <Text label="or sign up with" variant="body2" color="primary" />
 
-      <Button Icon={GoogleIcon} variant="contained" onClick={() => false} className="marginButton bubbleButton" id="bubbleButtonLeft" />
-      <Button Icon={BubbleIcon} variant="contained" onClick={() => false} className="marginButton bubbleButton" />
+      {/* <Button Icon={GoogleIcon} variant="contained" onClick={() => false} className="marginButton bubbleButton" id="bubbleButtonLeft" /> */}
+      {/* <Button Icon={BubbleIcon} variant="contained" onClick={() => false} className="marginButton bubbleButton" /> */}
     </div>
   )
 }

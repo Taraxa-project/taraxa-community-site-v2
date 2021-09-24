@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { Link, useHistory } from "react-router-dom";
-import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 import { withRouter, RouteComponentProps } from "react-router-dom";
 import { Button, Text, Header as THeader, Modal } from "@taraxa_project/taraxa-ui";
 import TaraxaIcon from '../../assets/icons/taraxaIcon';

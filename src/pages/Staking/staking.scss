@@ -4,46 +4,17 @@ body {
 
 .staking {
   display: flex;
-  margin-top: 3%;
-  margin-left: 0% !important;
-  margin-right: auto;
-  height: auto;
-  width: auto;
 }
 
 .stakingRoot {
   display: flex;
-  margin-top: 3%;
-  margin-left: auto;
-  margin-right: auto;
-  height: auto;
-  width: auto;
 }
 
 .stakingRootMobile {
   display: flex;
-  margin-top: 3%;
-  margin-left: 7%;
-  height: auto;
-  width: auto;
-
-  @media only screen and (max-width: 320px) {
-    margin-left: -6%;
-  }
-
-  @media only screen and (min-width: 321px) and (max-width: 400px) {
-    margin-left: 2%;
-  }
-}
-
-.staking-sidebar {
-  height: 100%;
 }
 
 .staking-content {
-  height: 100%;
-  width: 100%;
-  margin-left: 6%;
   text-align: left;
 
   .staking-icon-container {

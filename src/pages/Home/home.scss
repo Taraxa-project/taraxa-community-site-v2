@@ -4,38 +4,15 @@ body {
 
 .home {
   display: flex;
-  margin-top: 3%;
-  margin-left: auto;
-  margin-right: auto;
-  height: auto;
-  width: auto;
 }
 
 .home-mobile {
   display: flex;
-  margin-top: 3%;
-  margin-left: 18%;
-  height: auto;
-  width: auto;
-
-  @media only screen and (max-width: 320px) {
-    margin-left: 5%;
-  }
-
-  @media only screen and (min-width: 321px) and (max-width: 400px) {
-    margin-left: 12%;
-  }
-}
-
-.home-sidebar {
-  height: 100%;
 }
 
 .home-content {
-  height: 100%;
-  width: 100%;
   text-align: left;
-  margin-left: 2%;
+  flex-grow: 1;
 }
 
 .home-title {

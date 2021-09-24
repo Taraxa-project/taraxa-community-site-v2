@@ -5,10 +5,6 @@ import { useMetaMask } from "metamask-react";
 
 import { Modal, Text, Tooltip, TopCard, BaseCard, DataCard, InputField } from '@taraxa_project/taraxa-ui';
 
-import Header from '../../components/Header/Header';
-import Footer from '../../components/Footer/Footer';
-import Sidebar from '../../components/Sidebar/Sidebar';
-
 import CloseIcon from '../../assets/icons/close';
 import InfoIcon from '../../assets/icons/info';
 import TrophyIcon from '../../assets/icons/trophy';
@@ -103,7 +99,6 @@ function Staking() {
 
   return (
     <>
-      <Header />
       <StakingModal
         isSuccess={isSuccess}
         isError={isError}
@@ -118,7 +113,6 @@ function Staking() {
         lockingPeriod={formatTime(lockingPeriod.toNumber())}
       />
       <div className={isMobile ? "stakingRootMobile" : "stakingRoot"}>
-        <Sidebar />
         <div className="staking">
           <div className="staking-content">
             <StakingTitle />
@@ -142,7 +136,6 @@ function Staking() {
           </div>
         </div>
       </div>
-      <Footer />
     </>
   );
 }
@@ -354,12 +347,12 @@ function Stake({ setIsSuccess, setIsError, setIsApprove, setIsStaking, tokenBala
     setStakeInput(formatEth(weiToEth(value)));
     setToStake(value);
 
-    if(value.isZero()) {
+    if (value.isZero()) {
       setStakeInputError("No tokens available");
       return;
     }
 
-    if(value.gt(tokenBalance)) {
+    if (value.gt(tokenBalance)) {
       setStakeInputError("Not enough tokens available");
       return;
     }
@@ -409,7 +402,7 @@ function Stake({ setIsSuccess, setIsError, setIsApprove, setIsStaking, tokenBala
   };
 
   const unstakeTokens = async () => {
-    if(!canClaimStake) {
+    if (!canClaimStake) {
       setUnstakeInputError("No stake available");
       return;
     }

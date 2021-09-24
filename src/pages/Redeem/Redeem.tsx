@@ -1,10 +1,7 @@
 import { useState } from 'react';
 import './redeem.scss';
 import { BaseCard, Text, DataCard, InputField, Chip, Snackbar } from '@taraxa_project/taraxa-ui';
-import Header from '../../components/Header/Header';
-import Footer from '../../components/Footer/Footer';
 import { useMediaQuery } from 'react-responsive';
-import Sidebar from '../../components/Sidebar/Sidebar';
 
 function Redeem() {
   const [availableToclaim, setAvailableToclaim] = useState(0);
@@ -35,27 +32,22 @@ function Redeem() {
   </>
 
   return (
-    <>
-      <Header />
-      <div className={isMobile ? "claim-mobile" : "claim"}>
-        <Snackbar severity="success" message="Insufficient TARA points" open={open} autoHideDuration={50000} onSnackbarClose={onClose} />
-        <Sidebar />
-        <div className="claim-content">
-          <Text label="Redeem TARA Points" variant="h4" color="primary" className={isMobile ? "mobile-claim-title" : "claim-title"} />
-          <Text label="Earn rewards and help test &amp; secure the Taraxa’s network " variant="body2" color="textSecondary" className={isMobile ? "mobile-claim-subtitle" : "claim-subtitle"} />
+    <div className={isMobile ? "claim-mobile" : "claim"}>
+      <Snackbar severity="success" message="Insufficient TARA points" open={open} autoHideDuration={50000} onSnackbarClose={onClose} />
+      <div className="claim-content">
+        <Text label="Redeem TARA Points" variant="h4" color="primary" className={isMobile ? "mobile-claim-title" : "claim-title"} />
+        <Text label="Earn rewards and help test &amp; secure the Taraxa’s network " variant="body2" color="textSecondary" className={isMobile ? "mobile-claim-subtitle" : "claim-subtitle"} />
 
-          <div className={isMobile ? "MobileCardContainer" : "cardContainer"}>
-            <BaseCard title="26,322" description="TARA locked till next month" />
-            <BaseCard title="141,234" description="TARA claimed total" />
-            <BaseCard title="41,234" description="Current wallet balance" />
-          </div>
-          <div className="cardContainer">
-            <DataCard title="122,234,123" description="Available to claim" label="TARA" onClickButton={() => console.log('tara')} onClickText="Claim" input={availableInput} dataOptions={claimchips} />
-          </div>
+        <div className={isMobile ? "MobileCardContainer" : "cardContainer"}>
+          <BaseCard title="26,322" description="TARA locked till next month" />
+          <BaseCard title="141,234" description="TARA claimed total" />
+          <BaseCard title="41,234" description="Current wallet balance" />
+        </div>
+        <div className="cardContainer">
+          <DataCard title="122,234,123" description="Available to claim" label="TARA" onClickButton={() => console.log('tara')} onClickText="Claim" input={availableInput} dataOptions={claimchips} />
         </div>
       </div>
-      <Footer />
-    </>
+    </div>
   )
 }
 

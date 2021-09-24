@@ -11,28 +11,10 @@ body {
 
 .profile {
   display: flex;
-  margin-top: 3%;
-  margin-left: auto;
-  margin-right: auto;
-  height: auto;
-  width: auto;
 }
 
 .mobile-profile {
   display: flex;
-  margin-top: 3%;
-  margin-left: 15%;
-  margin-right: 25%;
-  height: auto;
-  width: auto;
-
-  @media only screen and (max-width: 320px) {
-    margin-left: 2%;
-  }
-
-  @media only screen and (min-width: 321px) and (max-width: 400px) {
-    margin-left: 9%;
-  }
 }
 
 .formInputContainer {
@@ -86,14 +68,7 @@ body {
   }
 }
 
-.profile-sidebar {
-  height: 100%;
-}
-
 .profile-content {
-  height: 100%;
-  width: 100%;
-  margin-left: 6%;
   text-align: left;
 }
 

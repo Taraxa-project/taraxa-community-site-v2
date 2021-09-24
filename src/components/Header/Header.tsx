@@ -1,56 +1,27 @@
-import { useEffect, useState } from "react";
-import { Link, useHistory } from "react-router-dom";
-import { withRouter, RouteComponentProps } from "react-router-dom";
-import { Button, Text, Header as THeader, Modal } from "@taraxa_project/taraxa-ui";
+import { useState } from "react";
+import { useHistory } from "react-router-dom";
+import { Button, Header as THeader } from "@taraxa_project/taraxa-ui";
 import TaraxaIcon from '../../assets/icons/taraxaIcon';
 import HamburgerIcon from "../../assets/icons/hamburger";
-import './header.scss'
 import { store, useGlobalState } from 'state-pool';
 import { useMediaQuery } from 'react-responsive';
 import { useAuth } from "../../services/useAuth";
-import CloseIcon from './../../assets/icons/close';
-import SignIn from "./Modal/SignIn";
-import EmailConfirmed from "./Modal/EmailConfirmed";
-import SignUp from "./Modal/SignUp";
-import SignUpSuccess from "./Modal/SignUpSuccess";
-import ForgotPassword from "./Modal/ForgotPassword";
-import ForgotPasswordSuccess from "./Modal/ForgotPasswordSuccess";
-import Wallet from "./Wallet";
+
+import Wallet from "./../Wallet";
+import './header.scss'
 
 store.setState("sidebarOpened", false)
-store.setState("modalOpen", false)
 
-const Header = ({ match }: RouteComponentProps) => {
+const Header = ({ signIn }: { signIn: () => void }) => {
+
+  const history = useHistory();
 
   const auth = useAuth();
   const isLoggedIn = auth.user?.id;
 
-  const history = useHistory();
-
-  const [modalOpen, setModalOpen] = useState(false);
-  const [modalContent, setModalContent] = useState('sign-in');
-
-  const modalToggle = () => {
-    setModalContent('sign-in');
-    setModalOpen(!modalOpen);
-  }
-
-  const modalReset = () => {
-    setModalContent('sign-in');
-    setModalOpen(false);
-    history.push('/');
-  }
-
   const [showProfile, setShowProfile] = useState(false);
   const [sidebarOpened, updateSidebarOpened] = useGlobalState("sidebarOpened");
   const isMobile = useMediaQuery({ query: `(max-width: 760px)` });
-
-  useEffect(() => {
-    if (match.path.includes('/first-login')) {
-      setModalOpen(true);
-      setModalContent('email-confirmed');
-    }
-  }, []);
 
   const profileTrigger = () => {
     setShowProfile(!showProfile);
@@ -60,7 +31,7 @@ const Header = ({ match }: RouteComponentProps) => {
     history.push('/profile');
   }
 
-  const button = !isLoggedIn ? <Button label="Sign in / Sign up" color="primary" variant="text" onClick={modalToggle} /> : <div><Button label={auth.user?.username} color="primary" variant="outlined" onClick={profileTrigger} /></div>;
+  const button = !isLoggedIn ? <Button label="Sign in / Sign up" color="primary" variant="text" onClick={signIn} /> : <div><Button label={auth.user?.username} color="primary" variant="outlined" onClick={profileTrigger} /></div>;
 
   const profileModal = <>
     <Button label="My Profile" color="secondary" variant="contained" id="profileButton" onClick={goToProfile} />
@@ -72,50 +43,19 @@ const Header = ({ match }: RouteComponentProps) => {
 
   const hamburger = <div style={{ cursor: 'pointer' }} onClick={() => updateSidebarOpened(true)}><HamburgerIcon /></div>
 
-  let modalElement = <SignIn onSuccess={() => {
-    setModalOpen(false);
-  }} onForgotPassword={() => {
-    setModalContent('forgot-password');
-  }} onCreateAccount={() => {
-    setModalContent('sign-up');
-  }} />;
-
-  if (modalContent === 'email-confirmed') {
-    modalElement = <EmailConfirmed onSuccess={() => {
-      modalReset();
-    }} />;
-  }
-
-  if (modalContent === 'sign-up') {
-    modalElement = <SignUp onSuccess={() => {
-      setModalContent('sign-up-success');
-    }} />;
-  }
-
-  if (modalContent === 'sign-up-success') {
-    modalElement = <SignUpSuccess onSuccess={() => {
-      modalReset();
-    }} />;
-  }
-
-  if (modalContent === 'forgot-password') {
-    modalElement = <ForgotPassword onSuccess={() => {
-      setModalContent('forgot-password-success');
-    }} />;
-  }
-
-  if (modalContent === 'forgot-password-success') {
-    modalElement = <ForgotPasswordSuccess onSuccess={() => {
-      modalReset();
-    }} />;
-  }
-
   return (
-    <>
-      <Modal id={isMobile ? "mobile-signinModal" : "signinModal"} title="Test" show={modalOpen} children={modalElement} parentElementID="root" onRequestClose={modalToggle} closeIcon={CloseIcon} />
-      <THeader color="primary" position="relative" Icon={TaraxaIcon} elevation={0} button={isMobile ? <></> : button} wallet={isMobile ? <></> : <Wallet />} profileModal={profileModal} showProfileModal={showProfile} hamburger={hamburger} />
-    </>
-  )
+    <THeader
+      color="primary"
+      position="relative"
+      Icon={TaraxaIcon}
+      elevation={0}
+      button={isMobile ? <></> : button}
+      wallet={isMobile ? <></> : <Wallet />}
+      profileModal={profileModal}
+      showProfileModal={showProfile}
+      hamburger={hamburger}
+    />
+  );
 }
 
-export default withRouter(Header);
+export default Header;

@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { Button, Text, InputField } from "@taraxa_project/taraxa-ui";
-import { useAuth } from "../../../services/useAuth";
-import BubbleIcon from "../../../assets/icons/bubbleIcon";
-import GoogleIcon from "../../../assets/icons/google";
+import { useAuth } from "../../services/useAuth";
+import BubbleIcon from "../../assets/icons/bubbleIcon";
+import GoogleIcon from "../../assets/icons/google";
 
 type SignIn = {
   onSuccess: () => void,

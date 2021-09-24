@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 import { Button, Text, InputField, Checkbox } from "@taraxa_project/taraxa-ui";
-import { useAuth } from "../../../services/useAuth";
-import BubbleIcon from "../../../assets/icons/bubbleIcon";
-import GoogleIcon from "../../../assets/icons/google";
+import { useAuth } from "../../services/useAuth";
+import BubbleIcon from "../../assets/icons/bubbleIcon";
+import GoogleIcon from "../../assets/icons/google";
 
 type SignUp = {
   onSuccess: () => void

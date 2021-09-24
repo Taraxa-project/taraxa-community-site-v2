@@ -1,14 +1,8 @@
 import { useMetaMask } from "metamask-react";
 import { Button, Text } from "@taraxa_project/taraxa-ui";
-import { useBlockchain } from "../../services/useBlockchain";
 
 const Wallet = () => {
-  const blockchain = useBlockchain();
   const { status, account, connect } = useMetaMask();
-
-  if (!blockchain.enabled) {
-    return null;
-  }
 
   if (status === "unavailable") {
     return (
@@ -20,7 +14,7 @@ const Wallet = () => {
 
   if (status === "notConnected") {
     return (
-        <Button id="noWalletContainer" label="Connect Wallet" variant="text" color="primary" fullWidth onClick={connect} />
+      <Button id="noWalletContainer" label="Connect Wallet" variant="text" color="primary" fullWidth onClick={connect} />
     );
   }
 

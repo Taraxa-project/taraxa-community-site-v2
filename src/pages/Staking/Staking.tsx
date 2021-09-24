@@ -26,6 +26,7 @@ import './staking.scss';
 
 const weiToEth = (val: ethers.BigNumberish) => ethers.utils.formatUnits(val, "ether");
 const formatEth = (val: ethers.BigNumberish) => ethers.utils.commify(val.toString());
+const roundEth = (val: string) => (+val).toFixed(4);
 
 const formatTime = (seconds: number) => {
   const unit = [
@@ -70,7 +71,7 @@ function Staking() {
 
   const [tokenBalance, setTokenBalance] = useState<ethers.BigNumber>(ethers.BigNumber.from("0"));
   const [toStake, setToStake] = useState<ethers.BigNumber>(ethers.BigNumber.from("0"));
-  const [stakeInput, setStakeInput] = useState("");
+  const [stakeInput, setStakeInput] = useState("0.0");
   const [currentStakeBalance, setCurrentStakeBalance] = useState<ethers.BigNumber>(ethers.BigNumber.from("0"));
 
   const [lockingPeriod, setLockingPeriod] = useState<ethers.BigNumber>(ethers.BigNumber.from(30 * 24 * 60 * 60));
@@ -112,8 +113,8 @@ function Staking() {
         setIsError={setIsError}
         setIsApprove={setIsApprove}
         setIsStaking={setIsStaking}
-        stakedAmount={formatEth(weiToEth(toStake))}
-        balance={formatEth(weiToEth(tokenBalance))}
+        stakedAmount={formatEth(roundEth(weiToEth(toStake)))}
+        balance={formatEth(roundEth(weiToEth(tokenBalance)))}
         lockingPeriod={formatTime(lockingPeriod.toNumber())}
       />
       <div className={isMobile ? "stakingRootMobile" : "stakingRoot"}>
@@ -302,6 +303,9 @@ function Stake({ setIsSuccess, setIsError, setIsApprove, setIsStaking, tokenBala
   const [currentStakeStartDate, setCurrentStakeStartDate] = useState<Date | null>(null);
   const [currentStakeEndDate, setCurrentStakeEndDate] = useState<Date | null>(null);
 
+  const [stakeInputError, setStakeInputError] = useState<string | null>(null);
+  const [unstakeInputError, setUnstakeInputError] = useState<string | null>(null);
+
   const resetStake = () => {
     setHasStake(false);
     setCanClaimStake(false);
@@ -344,9 +348,21 @@ function Stake({ setIsSuccess, setIsError, setIsApprove, setIsStaking, tokenBala
   }, [account, token, staking]);
 
   const stakeTokens = async () => {
-    const value = ethers.utils.parseUnits(stakeInput.replace(',', ''));
+    setStakeInputError(null);
+
+    const value = ethers.utils.parseUnits(stakeInput.replace(/,/ig, ''));
     setStakeInput(formatEth(weiToEth(value)));
     setToStake(value);
+
+    if(value.isZero()) {
+      setStakeInputError("No tokens available");
+      return;
+    }
+
+    if(value.gt(tokenBalance)) {
+      setStakeInputError("Not enough tokens available");
+      return;
+    }
 
     if (!token || !staking) {
       return;
@@ -393,6 +409,11 @@ function Stake({ setIsSuccess, setIsError, setIsApprove, setIsStaking, tokenBala
   };
 
   const unstakeTokens = async () => {
+    if(!canClaimStake) {
+      setUnstakeInputError("No stake available");
+      return;
+    }
+
     if (!token || !staking) {
       return;
     }
@@ -421,6 +442,8 @@ function Stake({ setIsSuccess, setIsError, setIsApprove, setIsStaking, tokenBala
       placeholder="Enter amount..."
       variant="outlined"
       margin="normal"
+      error={stakeInputError !== null}
+      helperText={stakeInputError !== null ? stakeInputError : ""}
       fullWidth
       value={stakeInput}
       onChange={(event) => setStakeInput(event.target.value)}
@@ -434,6 +457,8 @@ function Stake({ setIsSuccess, setIsError, setIsApprove, setIsStaking, tokenBala
       color="secondary"
       variant="outlined"
       margin="normal"
+      error={unstakeInputError !== null}
+      helperText={unstakeInputError !== null ? unstakeInputError : ""}
       disabled={true}
       fullWidth
       value={canClaimStake ? formatEth(weiToEth(currentStakeBalance)) : "0.0"}
@@ -443,13 +468,13 @@ function Stake({ setIsSuccess, setIsError, setIsApprove, setIsStaking, tokenBala
     <>
       <div className={isMobile ? "cardContainerMobile" : "cardContainer"}>
         <BaseCard title="0.0" description="Total TARA earned" tooltip={<Tooltip className="staking-icon-tooltip" title="Total number of TARA staking rewards earned for the lifetime of the connected wallet." Icon={InfoIcon} />} />
-        <BaseCard title={formatEth(weiToEth(currentStakeBalance))} description="Total TARA staked" tooltip={<Tooltip className="staking-icon-tooltip" title="Total number of TARA currently staked in the staking contract for connected wallet." Icon={InfoIcon} />} />
+        <BaseCard title={formatEth(roundEth(weiToEth(currentStakeBalance)))} description="Total TARA staked" tooltip={<Tooltip className="staking-icon-tooltip" title="Total number of TARA currently staked in the staking contract for connected wallet." Icon={InfoIcon} />} />
         <BaseCard title="20.0%" description="Anualized yield" tooltip={<Tooltip className="staking-icon-tooltip" title="Effective annualized yield, this could be different than the stated expected yields due to special community events. " Icon={InfoIcon} />} />
       </div>
       <div className={isMobile ? "cardContainerMobile" : "cardContainer"}>
-        <DataCard title={formatEth(weiToEth(tokenBalance))} description="Available to Stake" label="TARA" onClickButton={() => stakeTokens()} onClickText="Stake" input={stakeInputField} tooltip={<Tooltip title="Total number of TARA currently in the connected wallet that could be staked." Icon={InfoIcon} />} />
-        <DataCard title={canClaimStake ? formatEth(weiToEth(currentStakeBalance)) : "0.0"} description="Staked total" label="TARA" onClickButton={() => unstakeTokens()} onClickText="Un-stake" input={unstakeInputField} tooltip={<Tooltip title="Total number of TARA that’s currently staked but NOT locked, and can be un-staked (withdrawn) from the staking contract. " Icon={InfoIcon} />} />
-        {hasStake && currentStakeEndDate !== null && <BaseCard title={formatEth(weiToEth(currentStakeBalance))} description={`Locked till ${currentStakeEndDate.toLocaleDateString()}`} tooltip={<Tooltip className="staking-icon-tooltip" title="" Icon={LockIcon} />} />}
+        <DataCard title={formatEth(roundEth(weiToEth(tokenBalance)))} description="Available to Stake" label="TARA" onClickButton={() => stakeTokens()} onClickText="Stake" input={stakeInputField} tooltip={<Tooltip title="Total number of TARA currently in the connected wallet that could be staked." Icon={InfoIcon} />} />
+        <DataCard title={canClaimStake ? formatEth(roundEth(weiToEth(currentStakeBalance))) : "0.0"} description="Staked total" label="TARA" onClickButton={() => unstakeTokens()} onClickText="Un-stake" input={unstakeInputField} tooltip={<Tooltip title="Total number of TARA that’s currently staked but NOT locked, and can be un-staked (withdrawn) from the staking contract. " Icon={InfoIcon} />} />
+        {hasStake && currentStakeEndDate !== null && <BaseCard title={formatEth(roundEth(weiToEth(currentStakeBalance)))} description={`Locked till ${currentStakeEndDate.toLocaleDateString()}`} tooltip={<Tooltip className="staking-icon-tooltip" title="" Icon={LockIcon} />} />}
       </div>
     </>
   );

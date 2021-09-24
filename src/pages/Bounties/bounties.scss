@@ -4,33 +4,15 @@ body {
 
 .bounties {
   display: flex;
-  margin-top: 3%;
-  margin-left: auto;
-  margin-right: auto;
-  height: auto;
-  width: auto;
 }
 
 .mobile-bounties {
   width: 90% !important;
   display: flex;
-  margin-top: 3%;
-  margin-left: 1.5%;
   height: auto;
-
-  @media only screen and (max-width: 400px) {
-    margin-left: 5%;
-  }
-}
-
-.bounties-sidebar {
-  height: 100%;
 }
 
 .bounties-content {
-  height: 100%;
-  width: 100%;
-  margin-left: 6%;
   text-align: left;
 }
 

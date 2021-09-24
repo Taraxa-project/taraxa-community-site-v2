@@ -52,7 +52,7 @@ const Home = () => {
           <Text label="Get started" variant="h4" color="primary" className="home-title" />
           <Text label="Welcome to Taraxa's community site!" variant="body2" color="textSecondary" className="home-subtitle" />
           {isMobile &&
-            <ToggleButton exclusive onChange={onChangeToggle} currentValue={toggleValue} data={[{ value: 'earn', label: 'Earn' }, { value: 'testnet', label: 'Testnet' }]} className="toggleButton" />
+            <ToggleButton exclusive onChange={onChangeToggle} currentValue={toggleValue} data={[{ value: 'earn', label: 'EARN' }, { value: 'testnet', label: 'TESTNET' }]} className="toggleButton" />
           }
           <div className={isMobile ? "home-green-stripe-mobile" : "home-green-stripe"} style={{ display: isMobile && toggleValue !== "earn" ? 'none' : 'inherit' }}>
             <Text label="EARN" variant="body1" color="primary" className="home-title" />

@@ -466,7 +466,7 @@ function Stake({ setIsSuccess, setIsError, setIsApprove, setIsStaking, tokenBala
       </div>
       <div className={isMobile ? "cardContainerMobile" : "cardContainer"}>
         <DataCard title={formatEth(roundEth(weiToEth(tokenBalance)))} description="Available to Stake" label="TARA" onClickButton={() => stakeTokens()} onClickText="Stake" input={stakeInputField} tooltip={<Tooltip title="Total number of TARA currently in the connected wallet that could be staked." Icon={InfoIcon} />} />
-        <DataCard title={canClaimStake ? formatEth(roundEth(weiToEth(currentStakeBalance))) : "0.0"} description="Available to Unstake" label="TARA" onClickButton={() => unstakeTokens()} onClickText="Un-stake" input={unstakeInputField} tooltip={<Tooltip title="Total number of TARA that’s currently staked but NOT locked, and can be un-staked (withdrawn) from the staking contract. " Icon={InfoIcon} />} />
+        <DataCard title={canClaimStake ? formatEth(roundEth(weiToEth(currentStakeBalance))) : "0.0"} disabled={!canClaimStake} description="Available to Unstake" label="TARA" onClickButton={() => unstakeTokens()} onClickText="Un-stake" input={unstakeInputField} tooltip={<Tooltip title="Total number of TARA that’s currently staked but NOT locked, and can be un-staked (withdrawn) from the staking contract. " Icon={InfoIcon} />} />
         {hasStake && currentStakeEndDate !== null && <BaseCard title={formatEth(roundEth(weiToEth(currentStakeBalance)))} description={`Locked till ${currentStakeEndDate.toLocaleDateString()}`} tooltip={<Tooltip className="staking-icon-tooltip" title="" Icon={LockIcon} />} />}
       </div>
     </>

@@ -21,7 +21,7 @@ const Profile = () => {
   }
 
   const [editProfile, setEditProfile] = useState(false);
-  const [nickname, setNickname] = useState('username');
+  const [nickname, setNickname] = useState(auth.user && auth.user.username || 'username');
   const [password, setPassword] = useState('password');
   const [newPassword, setNewPassword] = useState('');
   const [confirmNewPassword, setConfirmNewPassword] = useState('');
@@ -29,7 +29,7 @@ const Profile = () => {
   const [confirmationCode, setConfirmationCode] = useState('');
   const [newEmail, setNewEmail] = useState('');
   const [emailPassword, setEmailPassword] = useState('');
-  const [email, setEmail] = useState('email@email.com');
+  const [email, setEmail] = useState(auth.user && auth.user.email || '');
   const [updatingPassword, setUpdatingPassword] = useState(false);
   const [updatingEmail, setUpdatingEmail] = useState(false);
   const [changesMade, setChangesMade] = useState(false);

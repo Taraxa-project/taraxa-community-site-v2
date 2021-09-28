@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useHistory } from "react-router-dom";
 import './profile.scss';
 import { ProfileBasicCard, Text, ProfileCard, Button, LinkedCards, InputField, Tooltip, Modal, Checkbox } from '@taraxa_project/taraxa-ui';
@@ -8,6 +8,9 @@ import { useMediaQuery } from 'react-responsive';
 import InfoIcon from '../../assets/icons/info';
 import { useAuth } from "../../services/useAuth";
 import CloseIcon from '../../assets/icons/close';
+import { useMetaMask } from 'metamask-react';
+import useToken from '../../services/useToken';
+import { ethers } from 'ethers';
 
 const Profile = () => {
 
@@ -36,6 +39,23 @@ const Profile = () => {
   const [kycModalOpen, setKycModalOpen] = useState(false);
   const [agreement, setAgreement] = useState(false);
   const isMobile = useMediaQuery({ query: `(max-width: 760px)` });
+
+  const { account } = useMetaMask();
+  const token = useToken();
+  const [tokenBalance, setTokenBalance] = useState<ethers.BigNumber>(ethers.BigNumber.from("0"));
+
+  useEffect(() => {
+    const getTokenBalance = async () => {
+      if (!token) {
+        return;
+      }
+
+      const balance = await token.balanceOf(account);
+      setTokenBalance(balance);
+    };
+
+    getTokenBalance();
+  }, [account, token])
 
   const modalTrigger = () => {
     setKycModalOpen(!kycModalOpen);
@@ -146,7 +166,7 @@ const Profile = () => {
 
               {auth.user && <ProfileCard username={auth.user!.username} email={auth.user!.email} wallet={auth.user!.eth_wallet} Icon={TaraxaIcon} buttonOptions={buttons} />}
               <ProfileBasicCard title="KYC" description="Not submitted" Icon={KYCIcon} buttonOptions={kycButton} />
-              <ProfileBasicCard title="Wallet Balance" description="TARA" value="41,234" />
+              <ProfileBasicCard title="Wallet Balance" description="TARA" value={tokenBalance.toString()} />
             </div>
             <div className={isMobile ? "mobileCardContainer" : "cardContainer"}>
               <LinkedCards rejectedContent={rejectedContent} approvedContent={approvedContent} reviewContent={reviewContent} rejectedTooltip={<Tooltip className="staking-icon-tooltip" title="Bounty submissions that have been rejected. " Icon={InfoIcon} />} reviewTooltip={<Tooltip className="staking-icon-tooltip" title="Bounty submissions are being reviewed." Icon={InfoIcon} />} approvedTooltip={<Tooltip className="staking-icon-tooltip" title="Bounty submissions that have been approved and points have been rewarded. " Icon={InfoIcon} />} />

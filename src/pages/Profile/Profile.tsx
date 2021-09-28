@@ -208,9 +208,9 @@ const Profile = () => {
                 </ div>
               }
             </div>
-            <div id="buttonsContainer">
-              <Button label="Save changes" variant="contained" color="secondary" onClick={() => { setEditProfile(false); setChangesMade(false) }} disabled={!changesMade} />
-              <Button label="Cancel" variant="contained" id="grayButton" onClick={() => { setEditProfile(false); setChangesMade(false) }} />
+            <div className="profileButtonsContainer">
+              <Button label="Save changes" variant="contained" color="secondary" onClick={() => { setEditProfile(false); setChangesMade(false) }} className={!changesMade ? 'disabledButton' : 'enabledButton'} />
+              <Button label="Cancel" color="primary" variant="outlined" onClick={() => { setEditProfile(false); setChangesMade(false) }} className={!changesMade ? 'disabledButton' : 'enabledButton'} />
             </div>
           </>
         }

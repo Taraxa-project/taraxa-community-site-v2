@@ -54,17 +54,29 @@ body {
   width: 65%;
 }
 
-#buttonsContainer {
+.profileButtonsContainer {
   margin: 6% 0 3% 0;
 
   button {
     width: 20% !important;
     margin-right: 3% !important;
+    padding: 6px 16px;
+    box-shadow: none;
   }
 
-  #grayButton {
-    background-color: #31364b;
+  .disabledButton, button.disabledButton:hover {
+    color: #40465F;
+    background-color: #202534;
+    border: 1px solid #282C3E;
+  }
+
+  .enabledButton {
     color: white;
+
+    .MuiButton-outlinedPrimary {
+      background-color: #31364B;
+    }
+
   }
 }
 

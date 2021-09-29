@@ -43,12 +43,12 @@ body {
   width: 100%;
 }
 
-.cardContainer {
+.wallet .cardContainer, .wallet-mobile .cardContainer {
   display: flex;
   margin-bottom: 0%;
 }
 
-.cardContainer > * {
+.wallet .cardContainer > *, .wallet-mobile .cardContainer > * {
   display: block;
   margin-right: 5% !important;
 }

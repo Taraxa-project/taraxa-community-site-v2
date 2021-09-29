@@ -2,19 +2,8 @@ body {
   background-color: #151823 !important;
 }
 
-.staking {
-  display: flex;
-}
-
-.stakingRoot {
-  display: flex;
-}
-
+.stakingRoot,
 .stakingRootMobile {
-  display: flex;
-}
-
-.staking-content {
   text-align: left;
 
   .staking-icon-container {
@@ -34,6 +23,27 @@ body {
       margin-left: 150%;
       margin-top: 10% !important;
     }
+  }
+
+  .cardContainer {
+    display: flex;
+  }
+
+  .cardContainerMobile {
+    display: block;
+  }
+
+  .cardContainer > div {
+    margin-right: 16px;
+    margin-bottom: 32px;
+  }
+
+  .cardContainer:last-child > div {
+    margin-bottom: 0;
+  }
+
+  .cardContainer > div:last-child {
+    margin-right: 0;
   }
 }
 
@@ -110,21 +120,6 @@ body {
   padding-left: 2%;
   margin: 8% 0;
   width: 100%;
-}
-
-.cardContainer {
-  display: flex;
-  margin-bottom: 5%;
-}
-
-.cardContainerMobile {
-  display: block;
-  margin-bottom: 5%;
-}
-
-.cardContainer > * {
-  display: block;
-  margin-right: 5% !important;
 }
 
 .chip {

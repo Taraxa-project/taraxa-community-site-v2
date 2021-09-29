@@ -64,12 +64,12 @@ body {
   margin: 10% 0;
 }
 
-.cardContainer {
+.runnode .cardContainer, .runnode-mobile .cardContainer {
   display: flex;
   margin-bottom: 0%;
 }
 
-.cardContainer > * {
+.runnode .cardContainer > *, .runnode-mobile .cardContainer > * {
   display: block;
   margin-right: 5% !important;
 }

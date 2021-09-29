@@ -1,9 +1,9 @@
 import { ethers } from "ethers";
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useMediaQuery } from 'react-responsive';
 import { useMetaMask } from "metamask-react";
 
-import { Modal, Text, Tooltip, TopCard, BaseCard, DataCard, InputField } from '@taraxa_project/taraxa-ui';
+import { Modal, Text, Tooltip, TopCard, BaseCard, DataCard, InputField, Button, Chip } from '@taraxa_project/taraxa-ui';
 
 import CloseIcon from '../../assets/icons/close';
 import InfoIcon from '../../assets/icons/info';
@@ -14,9 +14,11 @@ import StakingSuccess from './Modal/StakingSuccess';
 import StakingError from './Modal/StakingError';
 import Approve from './Modal/Approve';
 import IsStaking from './Modal/IsStaking';
+import IsUnstaking from './Modal/IsUnstaking';
 
 import useToken from '../../services/useToken';
 import useStaking from '../../services/useStaking';
+import { useAuth } from "../../services/useAuth";
 
 import './staking.scss';
 
@@ -64,6 +66,7 @@ function Staking() {
   const [isError, setIsError] = useState(false);
   const [isApprove, setIsApprove] = useState(false);
   const [isStaking, setIsStaking] = useState(false);
+  const [isUnstaking, setIsUnstaking] = useState(false);
 
   const [tokenBalance, setTokenBalance] = useState<ethers.BigNumber>(ethers.BigNumber.from("0"));
   const [toStake, setToStake] = useState<ethers.BigNumber>(ethers.BigNumber.from("0"));
@@ -71,6 +74,8 @@ function Staking() {
   const [currentStakeBalance, setCurrentStakeBalance] = useState<ethers.BigNumber>(ethers.BigNumber.from("0"));
 
   const [lockingPeriod, setLockingPeriod] = useState<ethers.BigNumber>(ethers.BigNumber.from(30 * 24 * 60 * 60));
+
+  const [transactionHash, setTransactionHash] = useState<null | string>(null);
 
   useEffect(() => {
     const getTokenBalance = async () => {
@@ -104,64 +109,70 @@ function Staking() {
         isError={isError}
         isApprove={isApprove}
         isStaking={isStaking}
+        isUnstaking={isUnstaking}
         setIsSuccess={setIsSuccess}
         setIsError={setIsError}
         setIsApprove={setIsApprove}
         setIsStaking={setIsStaking}
+        setIsUnstaking={setIsUnstaking}
         stakedAmount={formatEth(roundEth(weiToEth(toStake)))}
+        currentStakeBalance={formatEth(roundEth(weiToEth(currentStakeBalance)))}
         balance={formatEth(roundEth(weiToEth(tokenBalance)))}
         lockingPeriod={formatTime(lockingPeriod.toNumber())}
+        transactionHash={transactionHash}
       />
       <div className={isMobile ? "stakingRootMobile" : "stakingRoot"}>
-        <div className="staking">
-          <div className="staking-content">
-            <StakingTitle />
-            <StakingMetamaskNotification />
-            {/* <StakingTop /> */}
-            <Stake
-              setIsSuccess={setIsSuccess}
-              setIsError={setIsError}
-              setIsApprove={setIsApprove}
-              setIsStaking={setIsStaking}
-              tokenBalance={tokenBalance}
-              setTokenBalance={setTokenBalance}
-              toStake={toStake}
-              setToStake={setToStake}
-              stakeInput={stakeInput}
-              setStakeInput={setStakeInput}
-              currentStakeBalance={currentStakeBalance}
-              setCurrentStakeBalance={setCurrentStakeBalance}
-              lockingPeriod={lockingPeriod}
-            />
-          </div>
-        </div>
+        <StakingTitle />
+        <StakingMetamaskNotification />
+        {false && <StakingTop />}
+        <Stake
+          setIsSuccess={setIsSuccess}
+          setIsError={setIsError}
+          setIsApprove={setIsApprove}
+          setIsStaking={setIsStaking}
+          setIsUnstaking={setIsUnstaking}
+          tokenBalance={tokenBalance}
+          setTokenBalance={setTokenBalance}
+          toStake={toStake}
+          setToStake={setToStake}
+          stakeInput={stakeInput}
+          setStakeInput={setStakeInput}
+          currentStakeBalance={currentStakeBalance}
+          setCurrentStakeBalance={setCurrentStakeBalance}
+          lockingPeriod={lockingPeriod}
+          setTransactionHash={setTransactionHash}
+        />
       </div>
     </>
   );
 }
 
-interface StakingModal {
+interface StakingModalProps {
   isSuccess: boolean;
   isError: boolean;
   isApprove: boolean;
   isStaking: boolean;
+  isUnstaking: boolean;
   setIsSuccess: (isSuccess: boolean) => void;
   setIsError: (isError: boolean) => void;
   setIsApprove: (isApprove: boolean) => void;
   setIsStaking: (isStaking: boolean) => void;
+  setIsUnstaking: (isUnstaking: boolean) => void;
   stakedAmount: string;
+  currentStakeBalance: string;
   balance: string;
   lockingPeriod: string;
+  transactionHash: null | string;
 }
 
-function StakingModal({ isSuccess, isError, isApprove, isStaking, setIsSuccess, setIsError, setIsApprove, setIsStaking, stakedAmount, balance, lockingPeriod }: StakingModal) {
+function StakingModal({ isSuccess, isError, isApprove, isStaking, isUnstaking, setIsSuccess, setIsError, setIsApprove, setIsStaking, setIsUnstaking, stakedAmount, currentStakeBalance, balance, lockingPeriod, transactionHash }: StakingModalProps) {
   const isMobile = useMediaQuery({ query: `(max-width: 760px)` });
 
   let modal = <></>;
 
   if (isSuccess) {
     modal = (
-      <StakingSuccess lockingPeriod={lockingPeriod} onSuccess={() => {
+      <StakingSuccess lockingPeriod={lockingPeriod} transactionHash={transactionHash} onSuccess={() => {
         setIsSuccess(false);
       }} />
     );
@@ -187,11 +198,17 @@ function StakingModal({ isSuccess, isError, isApprove, isStaking, setIsSuccess, 
     );
   }
 
+  if (isUnstaking) {
+    modal = (
+      <IsUnstaking amount={currentStakeBalance} />
+    );
+  }
+
   return (
     <Modal
       id={isMobile ? "mobile-signinModal" : "signinModal"}
       title="Test"
-      show={isStaking || isApprove || isSuccess || isError}
+      show={isStaking || isUnstaking || isApprove || isSuccess || isError}
       children={modal}
       parentElementID="root"
       onRequestClose={() => {
@@ -199,6 +216,7 @@ function StakingModal({ isSuccess, isError, isApprove, isStaking, setIsSuccess, 
         setIsError(false);
         setIsApprove(false);
         setIsStaking(false);
+        setIsUnstaking(false);
       }}
       closeIcon={CloseIcon}
     />
@@ -220,15 +238,20 @@ function StakingTitle() {
 
 function StakingMetamaskNotification() {
   const { status } = useMetaMask();
+  const auth = useAuth();
   const isMobile = useMediaQuery({ query: `(max-width: 760px)` });
-  if (status === "connected") {
-    return null;
-  }
   return (
-    <div className={isMobile ? "staking-red-stripe-mobile" : "staking-red-stripe"}>
-      <Text label="Notice:" variant="body1" color="primary" className="staking-title" />
-      <Text label="You are not connected to the Metamask wallet" variant="body2" color="primary" className="staking-subtitle" />
-    </div>
+    <>
+      {status !== "connected" && <div className={isMobile ? "staking-red-stripe-mobile" : "staking-red-stripe"}>
+        <Text label="Notice:" variant="body1" color="primary" className="staking-title" />
+        <Text label="You are not connected to the Metamask wallet" variant="body2" color="primary" className="staking-subtitle" />
+      </div>}
+
+      {(auth.user !== null && auth.user.kyc !== 'APPROVED') && <div className={isMobile ? "staking-red-stripe-mobile" : "staking-red-stripe"}>
+        <Text label="Notice:" variant="body1" color="primary" className="staking-title" />
+        <Text label="In order to participate in staking and receive rewards, you must first pass KYC" variant="body2" color="primary" className="staking-subtitle" />
+      </div>}
+    </>
   );
 }
 
@@ -268,11 +291,12 @@ function StakingTop() {
   );
 }
 
-interface Stake {
+interface StakeProps {
   setIsSuccess: (isSuccess: boolean) => void;
   setIsError: (isError: boolean) => void;
   setIsApprove: (isApprove: boolean) => void;
-  setIsStaking: (isApprove: boolean) => void;
+  setIsStaking: (isStaking: boolean) => void;
+  setIsUnstaking: (isUnstaking: boolean) => void;
   tokenBalance: ethers.BigNumber;
   setTokenBalance: (tokenBalance: ethers.BigNumber) => void;
   toStake: ethers.BigNumber;
@@ -282,30 +306,31 @@ interface Stake {
   currentStakeBalance: ethers.BigNumber;
   setCurrentStakeBalance: (currentStakeBalance: ethers.BigNumber) => void;
   lockingPeriod: ethers.BigNumber;
+  setTransactionHash: (transactionHash: null | string) => void;
 }
 
-function Stake({ setIsSuccess, setIsError, setIsApprove, setIsStaking, tokenBalance, setTokenBalance, setToStake, stakeInput, setStakeInput, currentStakeBalance, setCurrentStakeBalance, lockingPeriod }: Stake) {
+function Stake({ setIsSuccess, setIsError, setIsApprove, setIsStaking, setIsUnstaking, tokenBalance, setTokenBalance, setToStake, stakeInput, setStakeInput, currentStakeBalance, setCurrentStakeBalance, lockingPeriod, setTransactionHash }: StakeProps) {
   const isMobile = useMediaQuery({ query: `(max-width: 760px)` });
 
-  const { account } = useMetaMask();
+  const { account, status } = useMetaMask();
+  const auth = useAuth();
+
   const token = useToken();
   const staking = useStaking();
 
   const [hasStake, setHasStake] = useState(false);
   const [canClaimStake, setCanClaimStake] = useState(false);
-  const [currentStakeStartDate, setCurrentStakeStartDate] = useState<Date | null>(null);
   const [currentStakeEndDate, setCurrentStakeEndDate] = useState<Date | null>(null);
 
   const [stakeInputError, setStakeInputError] = useState<string | null>(null);
-  const [unstakeInputError, setUnstakeInputError] = useState<string | null>(null);
 
-  const resetStake = () => {
+  const resetStake = useCallback(() => {
     setHasStake(false);
     setCanClaimStake(false);
     setCurrentStakeBalance(ethers.BigNumber.from("0"));
-    setCurrentStakeStartDate(null);
     setCurrentStakeEndDate(null);
-  };
+  }, [setHasStake, setCanClaimStake, setCurrentStakeBalance, setCurrentStakeEndDate]);
+
 
   useEffect(() => {
     const getStakedBalance = async () => {
@@ -316,10 +341,9 @@ function Stake({ setIsSuccess, setIsError, setIsApprove, setIsStaking, tokenBala
       const currentStake = await staking.stakeOf(account);
 
       const currentStakeBalance = currentStake[0];
-      let currentStakeStartDate = currentStake[1].toNumber();
       let currentStakeEndDate = currentStake[2].toNumber();
 
-      if (currentStakeBalance.toString() === "0" || currentStakeStartDate === 0 || currentStakeEndDate === 0) {
+      if (currentStakeBalance.toString() === "0" || currentStakeEndDate === 0) {
         resetStake();
         return;
       }
@@ -327,18 +351,16 @@ function Stake({ setIsSuccess, setIsError, setIsApprove, setIsStaking, tokenBala
       const currentTimestamp = Math.ceil(new Date().getTime() / 1000);
       const canClaimStake = currentTimestamp > currentStakeEndDate;
 
-      currentStakeStartDate = new Date(currentStakeStartDate * 1000);
       currentStakeEndDate = new Date(currentStakeEndDate * 1000);
 
       setHasStake(true);
       setCanClaimStake(canClaimStake);
       setCurrentStakeBalance(currentStakeBalance);
-      setCurrentStakeStartDate(currentStakeStartDate);
       setCurrentStakeEndDate(currentStakeEndDate);
     };
 
     getStakedBalance();
-  }, [account, token, staking]);
+  }, [account, token, staking, resetStake, setCurrentStakeBalance,]);
 
   const stakeTokens = async () => {
     setStakeInputError(null);
@@ -378,6 +400,7 @@ function Stake({ setIsSuccess, setIsError, setIsApprove, setIsStaking, tokenBala
     try {
       setIsStaking(true);
       const stakeTx = await staking.stake(value);
+      setTransactionHash(stakeTx.hash);
       await stakeTx.wait(1);
 
       setIsStaking(false);
@@ -393,29 +416,27 @@ function Stake({ setIsSuccess, setIsError, setIsApprove, setIsStaking, tokenBala
       setHasStake(true);
       setCanClaimStake(false);
       setCurrentStakeBalance(currentStakeBalance.add(value));
-      setCurrentStakeStartDate(new Date(currentTimestamp * 1000));
       setCurrentStakeEndDate(new Date((currentTimestamp + lockingPeriod.toNumber()) * 1000));
     } catch (err) {
+      setTransactionHash(null);
       setIsStaking(false);
       setIsSuccess(false);
     }
   };
 
   const unstakeTokens = async () => {
-    if (!canClaimStake) {
-      setUnstakeInputError("No stake available");
-      return;
-    }
-
     if (!token || !staking) {
       return;
     }
 
+    setIsUnstaking(true);
     try {
       const unstakeTx = await staking.unstake();
       await unstakeTx.wait(1);
     } catch (err) {
       return;
+    } finally {
+      setIsUnstaking(false);
     }
 
     const newBalance = tokenBalance.add(currentStakeBalance);
@@ -438,35 +459,64 @@ function Stake({ setIsSuccess, setIsError, setIsApprove, setIsStaking, tokenBala
       error={stakeInputError !== null}
       helperText={stakeInputError !== null ? stakeInputError : ""}
       fullWidth
-      value={stakeInput}
+      value={status !== "connected" ? "" : stakeInput}
       onChange={(event) => setStakeInput(event.target.value)}
+      disabled={auth.user !== null && auth.user.kyc !== 'APPROVED'}
     />);
 
-  const unstakeInputField = (
-    <InputField
-      type="text"
-      className="whiteInput"
-      label=""
-      color="secondary"
-      variant="outlined"
-      margin="normal"
-      error={unstakeInputError !== null}
-      helperText={unstakeInputError !== null ? unstakeInputError : ""}
-      disabled={true}
-      fullWidth
-      value={canClaimStake ? formatEth(weiToEth(currentStakeBalance)) : "0.0"}
-    />);
+  const chips = [25, 50, 75, 100].map(percentage => {
+    const value = tokenBalance.mul(ethers.BigNumber.from(percentage)).div(100);
+    const input = ethers.utils.parseUnits(stakeInput.replace(/,/ig, ''));
+
+    const chipsTrigger = (selectedPercentage: number) => {
+      const newValue = tokenBalance.mul(ethers.BigNumber.from(selectedPercentage)).div(100);
+      setStakeInput(formatEth(weiToEth(newValue)));
+      setToStake(newValue);
+    };
+
+    return (
+      <Chip
+        key={percentage}
+        label={`${percentage}%`}
+        onClick={() => chipsTrigger(percentage)}
+        variant="default"
+        clickable
+        className={value.gt(ethers.BigNumber.from("0")) && value.eq(input) ? "chipSelected" : "chip"}
+        disabled={auth.user !== null && auth.user.kyc !== 'APPROVED'}
+      />
+    );
+  });
+  const stakingchips = <>{chips}</>;
 
   return (
     <>
       <div className={isMobile ? "cardContainerMobile" : "cardContainer"}>
-        <BaseCard title="0.0" description="Total TARA earned" tooltip={<Tooltip className="staking-icon-tooltip" title="Total number of TARA staking rewards earned for the lifetime of the connected wallet." Icon={InfoIcon} />} />
-        <BaseCard title={formatEth(roundEth(weiToEth(currentStakeBalance)))} description="Total TARA staked" tooltip={<Tooltip className="staking-icon-tooltip" title="Total number of TARA currently staked in the staking contract for connected wallet." Icon={InfoIcon} />} />
+        <BaseCard
+          title="0.0"
+          description="TARA rewards"
+          tooltip={<Tooltip className="staking-icon-tooltip" title="Total number of TARA staking rewards earned for the lifetime of the connected wallet." Icon={InfoIcon} />}
+          button={<Button disabled={true} variant="outlined" color="secondary" onClick={() => { }} label="Redeem" size="small"></Button>}
+        />
+        <BaseCard
+          title={formatEth(roundEth(weiToEth(currentStakeBalance)))}
+          description="My staked TARA"
+          tooltip={<Tooltip className="staking-icon-tooltip" title="Total number of TARA currently staked in the staking contract for connected wallet." Icon={InfoIcon} />}
+          button={<Button disabled={!canClaimStake} variant="outlined" color="secondary" onClick={() => unstakeTokens()} label="Unstake" size="small"></Button>}
+        />
         <BaseCard title="20.0%" description="Anualized yield" tooltip={<Tooltip className="staking-icon-tooltip" title="Effective annualized yield, this could be different than the stated expected yields due to special community events. " Icon={InfoIcon} />} />
       </div>
       <div className={isMobile ? "cardContainerMobile" : "cardContainer"}>
-        <DataCard title={formatEth(roundEth(weiToEth(tokenBalance)))} description="Available to Stake" label="TARA" onClickButton={() => stakeTokens()} onClickText="Stake" input={stakeInputField} tooltip={<Tooltip title="Total number of TARA currently in the connected wallet that could be staked." Icon={InfoIcon} />} />
-        <DataCard title={canClaimStake ? formatEth(roundEth(weiToEth(currentStakeBalance))) : "0.0"} disabled={!canClaimStake} description="Available to Unstake" label="TARA" onClickButton={() => unstakeTokens()} onClickText="Un-stake" input={unstakeInputField} tooltip={<Tooltip title="Total number of TARA that’s currently staked but NOT locked, and can be un-staked (withdrawn) from the staking contract. " Icon={InfoIcon} />} />
+        <DataCard
+          title={status === "connected" ? formatEth(roundEth(weiToEth(tokenBalance))) : "N/A"}
+          description="Available to Stake"
+          label="TARA"
+          onClickButton={() => stakeTokens()}
+          onClickText="Stake"
+          input={stakeInputField}
+          tooltip={<Tooltip title="Total number of TARA currently in the connected wallet that could be staked." Icon={InfoIcon} />}
+          dataOptions={stakingchips}
+          disabled={auth.user !== null && auth.user.kyc !== 'APPROVED'}
+        />
         {hasStake && currentStakeEndDate !== null && <BaseCard title={formatEth(roundEth(weiToEth(currentStakeBalance)))} description={`Locked till ${currentStakeEndDate.toLocaleDateString()}`} tooltip={<Tooltip className="staking-icon-tooltip" title="" Icon={LockIcon} />} />}
       </div>
     </>

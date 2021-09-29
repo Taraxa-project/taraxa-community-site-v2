@@ -1,12 +1,12 @@
 import { Button, Text } from "@taraxa_project/taraxa-ui";
 import ErrorIcon from './../../../assets/icons/error';
 
-interface StakingError {
+interface StakingErrorProps {
   amount: string;
   onSuccess: () => void;
 }
 
-const StakingError = ({ amount, onSuccess }: StakingError) => {
+const StakingError = ({ amount, onSuccess }: StakingErrorProps) => {
   return (
     <div>
       <Text label="ERROR" variant="h6" color="primary" />

@@ -6,6 +6,24 @@ body {
   display: flex;
 }
 
+.bounties,
+.mobile-bounties {
+  .cardContainer {
+    display: flex;
+    margin-bottom: 5%;
+  }
+
+  .cardContainerMobile {
+    display: block;
+    margin-bottom: 5%;
+  }
+
+  .cardContainer > * {
+    display: block;
+    margin-right: 5% !important;
+  }
+}
+
 .mobile-bounties {
   width: 90% !important;
   display: flex;
@@ -67,21 +85,6 @@ body {
   border-left: 3px solid #ff515a;
   padding-left: 2%;
   width: 100%;
-}
-
-.cardContainer {
-  display: flex;
-  margin-bottom: 5%;
-}
-
-.cardContainerMobile {
-  display: block;
-  margin-bottom: 5%;
-}
-
-.cardContainer > * {
-  display: block;
-  margin-right: 5% !important;
 }
 
 .chip {

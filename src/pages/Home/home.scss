@@ -2,12 +2,19 @@ body {
   background-color: #151823 !important;
 }
 
-.home {
-  display: flex;
-}
-
+.home,
 .home-mobile {
   display: flex;
+
+  .cardContainer {
+    display: flex;
+    margin-bottom: 5%;
+  }
+
+  .cardContainer > * {
+    display: block;
+    margin-right: 5% !important;
+  }
 }
 
 .home-content {
@@ -38,14 +45,4 @@ body {
   padding-left: 2%;
   width: 100%;
   margin: 5% 0 10% 0;
-}
-
-.cardContainer {
-  display: flex;
-  margin-bottom: 5%;
-}
-
-.cardContainer > * {
-  display: block;
-  margin-right: 5% !important;
 }

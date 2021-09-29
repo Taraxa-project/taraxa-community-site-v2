@@ -6,6 +6,7 @@ type User = {
   username: string;
   email: string;
   eth_wallet: string;
+  kyc: string;
 }
 
 type Context = {

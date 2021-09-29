@@ -1,11 +1,11 @@
 import { Text, Loading } from "@taraxa_project/taraxa-ui";
 
 
-interface IsStaking {
+interface IsStakingProps {
   amount: string;
 }
 
-const IsStaking = ({ amount }: IsStaking) => {
+const IsStaking = ({ amount }: IsStakingProps) => {
   return (
     <div>
       <Text label="STAKING" variant="h6" color="primary" />

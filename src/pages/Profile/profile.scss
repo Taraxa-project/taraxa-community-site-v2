@@ -9,6 +9,37 @@ body {
   margin-top: 5%;
 }
 
+.profile,
+.mobile-profile {
+  .cardContainer .MuiPaper-root {
+    padding: 2%;
+  }
+
+  .cardContainer .buttonsContainer {
+    margin: 0 auto;
+  }
+
+  .cardContainer {
+    display: flex;
+    margin-bottom: 5%;
+  }
+
+  .cardContainer > * {
+    display: block;
+    margin-right: 5% !important;
+  }
+
+  .mobileCardContainer {
+    display: block;
+    margin-bottom: 5%;
+  }
+
+  .mobileCardContainer > * {
+    display: block;
+    margin-right: 5% !important;
+  }
+}
+
 .profile {
   display: flex;
 }
@@ -94,34 +125,6 @@ body {
   border-left: 3px solid #ff515a;
   padding-left: 2%;
   width: 100%;
-}
-
-.cardContainer {
-  display: flex;
-  margin-bottom: 5%;
-}
-
-.cardContainer > * {
-  display: block;
-  margin-right: 5% !important;
-}
-
-.cardContainer .MuiPaper-root {
-  padding: 2%;
-}
-
-.cardContainer .buttonsContainer {
-  margin: 0 auto;
-}
-
-.mobileCardContainer {
-  display: block;
-  margin-bottom: 5%;
-}
-
-.mobileCardContainer > * {
-  display: block;
-  margin-right: 5% !important;
 }
 
 .chip {

@@ -1,20 +1,10 @@
-import { useMediaQuery } from 'react-responsive';
 import { GoogleReCaptchaProvider } from "react-google-recaptcha-v3";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import { MetaMaskProvider } from "metamask-react";
 
-import { Modal } from "@taraxa_project/taraxa-ui";
 
 import { AuthProvider } from "./services/useAuth";
 import { ModalProvider, useModal } from "./services/useModal";
-
-import SignIn from "./components/Modal/SignIn";
-import EmailConfirmed from "./components/Modal/EmailConfirmed";
-import SignUp from "./components/Modal/SignUp";
-import SignUpSuccess from "./components/Modal/SignUpSuccess";
-import ForgotPassword from "./components/Modal/ForgotPassword";
-import ForgotPasswordSuccess from "./components/Modal/ForgotPasswordSuccess";
-import ResetPassword from "./components/Modal/ResetPassword";
 
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
@@ -28,73 +18,15 @@ import Profile from "./pages/Profile/Profile";
 import RunNode from "./pages/RunNode/RunNode";
 import Wallet from "./pages/Wallet/Wallet";
 
-import CloseIcon from './assets/icons/close';
-
 import "./App.css";
 
 const Root = () => {
 
-  const { isOpen, setIsOpen, content, setContent, code, reset } = useModal();
-  const isMobile = useMediaQuery({ query: `(max-width: 760px)` });
-
-  let modalElement = <SignIn onSuccess={() => {
-    setIsOpen!(false);
-  }} onForgotPassword={() => {
-    setContent!('forgot-password');
-  }} onCreateAccount={() => {
-    setContent!('sign-up');
-  }} />;
-
-  if (content === 'email-confirmed') {
-    modalElement = <EmailConfirmed onSuccess={() => {
-      reset!();
-    }} />;
-  }
-
-  if (content === 'sign-up') {
-    modalElement = <SignUp onSuccess={() => {
-      setContent!('sign-up-success');
-    }} />;
-  }
-
-  if (content === 'sign-up-success') {
-    modalElement = <SignUpSuccess onSuccess={() => {
-      reset!();
-    }} />;
-  }
-
-  if (content === 'forgot-password') {
-    modalElement = <ForgotPassword onSuccess={() => {
-      setContent!('forgot-password-success');
-    }} />;
-  }
-
-  if (content === 'forgot-password-success') {
-    modalElement = <ForgotPasswordSuccess onSuccess={() => {
-      reset!();
-    }} />;
-  }
-
-  if (content === 'reset-password') {
-    modalElement = <ResetPassword
-      code={code}
-      onSuccess={() => {
-        reset!();
-      }}
-    />;
-  }
+  const { modal } = useModal();
 
   return (
     <div className="App">
-      <Modal
-        id={isMobile ? "mobile-signinModal" : "signinModal"}
-        title="Test"
-        show={isOpen}
-        children={modalElement}
-        parentElementID="root"
-        onRequestClose={reset!}
-        closeIcon={CloseIcon}
-      />
+      {modal}
       <Header />
       <div className="App-Container">
         <Sidebar />

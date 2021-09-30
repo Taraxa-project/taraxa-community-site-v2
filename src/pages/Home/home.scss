@@ -1,10 +1,14 @@
-body {
-  background-color: #151823 !important;
-}
-
 .home,
 .home-mobile {
   display: flex;
+
+  .home-title {
+    margin-bottom: 1% !important;
+  }
+
+  .home-subtitle {
+    margin-bottom: 3% !important;
+  }
 
   .cardContainer {
     display: flex;

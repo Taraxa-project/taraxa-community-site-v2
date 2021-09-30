@@ -10,6 +10,8 @@ import { useApi } from "../../services/useApi";
 import './bounties.scss';
 import { bountiesDescription, fileButtonLabel } from '../../global/globalVars';
 
+import Title from "../../components/Title/Title";
+
 type BountyState = {
   id: number,
 }
@@ -104,9 +106,10 @@ function Bounties() {
   return (
     <div className={isMobile ? "mobile-bounties" : "bounties"}>
       <div className="bounties-content">
-        <Text label="Taraxa ecosystem bounties" variant="h4" color="primary" className={isMobile ? "mobile-bounties-title" : "bounties-title"} />
-        <Text label="Earn rewards and help grow the Taraxa's ecosystem" variant="body2" color="textSecondary" className={isMobile ? "mobile-bounties-subtitle" : "bounties-subtitle"} />
-
+        <Title
+          title="Taraxa ecosystem bounties"
+          subtitle="Earn rewards and help grow the Taraxa's ecosystem"
+        />
         {submitPage ?
 
           <SubmitCard title="Incentivized testnet" description={bountiesDescription} onClickText="Submit bounty" fileButtonLabel={fileButtonLabel} onClickButton={() => console.log('submited')} onFileChange={(e) => setFile(e.target.files[0])} onInputChange={(e) => setSubmitEmail(e.target.value)} />

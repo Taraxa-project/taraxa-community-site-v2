@@ -1,11 +1,14 @@
 import { useEffect, useRef, useState } from 'react';
 import { IconCard, Table, Text, Tooltip } from '@taraxa_project/taraxa-ui';
 import { useHistory } from "react-router-dom";
-import './wallet.scss';
 import { useMediaQuery } from 'react-responsive';
 import { useGlobalState } from 'state-pool';
 import WalletIcon from '../../assets/icons/wallet';
 import InfoIcon from '../../assets/icons/info';
+
+import Title from "../../components/Title/Title";
+
+import './wallet.scss';
 
 let walletConnected = false;
 
@@ -54,9 +57,10 @@ const Wallet = () => {
   return (
     <div className={isMobile ? "wallet-mobile" : "wallet"}>
       <div className="wallet-content">
-        <Text label="Testnet Wallet" variant="h4" color="primary" className="wallet-title" />
-        <Text label="Wallet for the testnet, DO NOT send on-ETH assets to these addresses." variant="body2" color="textSecondary" className={isMobile ? "mobile-wallet-subtitle" : "wallet-subtitle"} />
-
+        <Title
+          title="Testnet Wallet"
+          subtitle="Wallet for the testnet, DO NOT send on-ETH assets to these addresses."
+        />
         <div className={isMobile ? "mobileCardContainer" : "cardContainer"}>
           {walletConnected ?
             <>

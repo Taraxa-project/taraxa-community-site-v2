@@ -1,4 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
+import { useMediaQuery } from 'react-responsive';
+import { useGlobalState } from 'state-pool';
 import { useHistory, withRouter, RouteComponentProps } from "react-router-dom";
 
 import { useModal } from "../../services/useModal";
@@ -10,8 +12,8 @@ import RedeemIcon from '../../assets/icons/redeem';
 import NodeIcon from '../../assets/icons/node';
 import ExplorerIcon from '../../assets/icons/explorer';
 import DeployIcon from '../../assets/icons/deploy';
-import { useMediaQuery } from 'react-responsive';
-import { useGlobalState } from 'state-pool';
+
+import Title from "../../components/Title/Title";
 
 import './home.scss';
 
@@ -64,8 +66,10 @@ const Home = ({ match }: RouteComponentProps<HomeProps>) => {
   return (
     <div className={isMobile ? "home-mobile" : "home"}>
       <div className="home-content">
-        <Text label="Get started" variant="h4" color="primary" className="home-title" />
-        <Text label="Welcome to Taraxa's community site!" variant="body2" color="textSecondary" className="home-subtitle" />
+        <Title
+          title="Get started"
+          subtitle="Welcome to Taraxa's community site!"
+        />
         {isMobile &&
           <ToggleButton exclusive onChange={onChangeToggle} currentValue={toggleValue} data={[{ value: 'earn', label: 'Earn' }, { value: 'testnet', label: 'Testnet' }]} className="toggleButton" />
         }

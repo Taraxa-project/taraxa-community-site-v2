@@ -20,6 +20,8 @@ import useToken from '../../services/useToken';
 import useStaking from '../../services/useStaking';
 import { useAuth } from "../../services/useAuth";
 
+import Title from "../../components/Title/Title";
+
 import './staking.scss';
 
 const weiToEth = (val: ethers.BigNumberish) => ethers.utils.formatUnits(val, "ether");
@@ -122,7 +124,11 @@ function Staking() {
         transactionHash={transactionHash}
       />
       <div className={isMobile ? "stakingRootMobile" : "stakingRoot"}>
-        <StakingTitle />
+        <Title
+          title="Staking: Phase 1 - Pre-staking"
+          subtitle="Earn rewards and help test &amp; secure the Taraxa’s network"
+          tooltip="We’re currently in the first phase of staking roll-out, Pre-staking, which enables TARA lockups on the ETH network. The next phase will be Mirrored Staking, which mirrors staking data from the ETH network over to the Taraxa testnet to enable delegation to consensus nodes. The last phase is mainnet launch, in which all tokens, staking, and delegation is migrated to the Taraxa mainnet."
+        />
         <StakingMetamaskNotification />
         {false && <StakingTop />}
         <Stake
@@ -220,19 +226,6 @@ function StakingModal({ isSuccess, isError, isApprove, isStaking, isUnstaking, s
       }}
       closeIcon={CloseIcon}
     />
-  );
-}
-
-function StakingTitle() {
-  const isMobile = useMediaQuery({ query: `(max-width: 760px)` });
-  return (
-    <>
-      <div className={isMobile ? "mobile-staking-icon-container" : "staking-icon-container"}>
-        <Text label="Staking: Phase 1 - Pre-staking" variant="h4" color="primary" className="staking-title" />
-        <Tooltip className="staking-icon-tooltip" title="We’re currently in the first phase of staking roll-out, Pre-staking, which enables TARA lockups on the ETH network. The next phase will be Mirrored Staking, which mirrors staking data from the ETH network over to the Taraxa testnet to enable delegation to consensus nodes. The last phase is mainnet launch, in which all tokens, staking, and delegation is migrated to the Taraxa mainnet." Icon={InfoIcon} />
-      </div>
-      <Text label="Earn rewards and help test &amp; secure the Taraxa’s network " variant="body2" color="textSecondary" className={isMobile ? "mobile-staking-subtitle" : "staking-subtitle"} />
-    </>
   );
 }
 

@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { useHistory } from "react-router-dom";
-import './profile.scss';
 import { ProfileBasicCard, Text, ProfileCard, Button, LinkedCards, InputField, Tooltip, Modal, Checkbox } from '@taraxa_project/taraxa-ui';
 import TaraxaIcon from '../../assets/icons/taraxaIcon';
 import KYCIcon from '../../assets/icons/kyc';
@@ -8,6 +7,10 @@ import { useMediaQuery } from 'react-responsive';
 import InfoIcon from '../../assets/icons/info';
 import { useAuth } from "../../services/useAuth";
 import CloseIcon from '../../assets/icons/close';
+
+import Title from "../../components/Title/Title";
+
+import './profile.scss';
 
 const Profile = () => {
 
@@ -136,8 +139,9 @@ const Profile = () => {
   return (
     <div className={isMobile ? "mobile-profile" : "profile"}>
       <div className="profile-content">
-        <Text label={editProfile ? "My profile - settings" : "My profile"} variant="h4" color="primary" className={isMobile ? "mobile-profile-title" : "profile-title"} />
-
+        <Title
+          title={editProfile ? "My profile - settings" : "My profile"}
+        />
         {!editProfile ?
           <>
             <div className={isMobile ? "mobileCardContainer" : "cardContainer"}>

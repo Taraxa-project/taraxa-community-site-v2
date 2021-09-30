@@ -1,7 +1,10 @@
 import { useState } from 'react';
-import './redeem.scss';
-import { BaseCard, Text, DataCard, InputField, Chip, Snackbar } from '@taraxa_project/taraxa-ui';
+import { BaseCard, DataCard, InputField, Chip, Snackbar } from '@taraxa_project/taraxa-ui';
 import { useMediaQuery } from 'react-responsive';
+
+import Title from "../../components/Title/Title";
+
+import './redeem.scss';
 
 function Redeem() {
   const [availableToclaim, setAvailableToclaim] = useState(0);
@@ -33,10 +36,12 @@ function Redeem() {
 
   return (
     <div className={isMobile ? "claim-mobile" : "claim"}>
-      <Snackbar severity="success" message="Insufficient TARA points" open={open} autoHideDuration={50000} onSnackbarClose={onClose} />
+      {/* <Snackbar severity="success" message="Insufficient TARA points" open={open} autoHideDuration={50000} onSnackbarClose={onClose} /> */}
       <div className="claim-content">
-        <Text label="Redeem TARA Points" variant="h4" color="primary" className={isMobile ? "mobile-claim-title" : "claim-title"} />
-        <Text label="Earn rewards and help test &amp; secure the Taraxa’s network " variant="body2" color="textSecondary" className={isMobile ? "mobile-claim-subtitle" : "claim-subtitle"} />
+        <Title
+          title="Redeem TARA Points"
+          subtitle="Earn rewards and help test &amp; secure the Taraxa’s network"
+        />
 
         <div className={isMobile ? "MobileCardContainer" : "cardContainer"}>
           <BaseCard title="26,322" description="TARA locked till next month" />

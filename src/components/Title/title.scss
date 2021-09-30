@@ -1,0 +1,20 @@
+.page-title {
+  margin-bottom: 40px;
+
+  .page-title-container {
+    display: flex;
+    align-items: center;
+
+    .page-title-tooltip {
+      margin-left: 100%;
+    }
+  }
+
+  .page-title-main {
+    margin-bottom: 1% !important;
+  }
+
+  .page-title-subtitle {
+    margin-bottom: 3% !important;
+  }
+}

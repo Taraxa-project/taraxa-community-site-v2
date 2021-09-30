@@ -1,17 +1,17 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useMediaQuery } from 'react-responsive';
-import { useGlobalState } from 'state-pool';
 import { useHistory, withRouter, RouteComponentProps } from "react-router-dom";
 
-import { useModal } from "../../services/useModal";
+import { IconCard, ToggleButton, Notification } from '@taraxa_project/taraxa-ui';
 
-import { IconCard, Text, ToggleButton } from '@taraxa_project/taraxa-ui';
 import StakingIcon from '../../assets/icons/staking';
 import BountiesIcon from '../../assets/icons/bounties';
 import RedeemIcon from '../../assets/icons/redeem';
 import NodeIcon from '../../assets/icons/node';
 import ExplorerIcon from '../../assets/icons/explorer';
 import DeployIcon from '../../assets/icons/deploy';
+
+import { useModal } from "../../services/useModal";
 
 import Title from "../../components/Title/Title";
 
@@ -39,29 +39,18 @@ const Home = ({ match }: RouteComponentProps<HomeProps>) => {
   const history = useHistory();
   const isMobile = useMediaQuery({ query: `(max-width: 760px)` });
   const [toggleValue, setToggleValue] = useState('earn');
-  const [sidebarOpened, updateSidebarOpened] = useGlobalState("sidebarOpened");
 
-  const onChangeToggle = (event: object, value: any) => {
-    setToggleValue(value);
+  const toggleOptions = [
+    { value: 'earn', label: 'Earn' },
+    { value: 'testnet', label: 'Testnet' }
+  ];
+
+  const onToggle = (event: React.MouseEvent<HTMLElement>, value: string) => {
+    const options = toggleOptions.map(toggleOption => toggleOption.value);
+    if (options.includes(value)) {
+      setToggleValue(value);
+    }
   }
-
-  function useOutsideAlerter(ref: any) {
-    useEffect(() => {
-      function handleClickOutside(event: any) {
-        if (ref.current && !ref.current.contains(event.target)) {
-          updateSidebarOpened(false);
-        }
-      }
-
-      document.addEventListener("mousedown", handleClickOutside);
-      return () => {
-        document.removeEventListener("mousedown", handleClickOutside);
-      };
-    }, [ref]);
-  }
-  const wrapperRef = useRef(null);
-  useOutsideAlerter(wrapperRef);
-
 
   return (
     <div className={isMobile ? "home-mobile" : "home"}>
@@ -71,12 +60,14 @@ const Home = ({ match }: RouteComponentProps<HomeProps>) => {
           subtitle="Welcome to Taraxa's community site!"
         />
         {isMobile &&
-          <ToggleButton exclusive onChange={onChangeToggle} currentValue={toggleValue} data={[{ value: 'earn', label: 'Earn' }, { value: 'testnet', label: 'Testnet' }]} className="toggleButton" />
+          <ToggleButton exclusive={true} onChange={onToggle} currentValue={toggleValue} data={toggleOptions} className="toggleButton" />
         }
-        <div className={isMobile ? "home-green-stripe-mobile" : "home-green-stripe"} style={{ display: isMobile && toggleValue !== "earn" ? 'none' : 'inherit' }}>
-          <Text label="EARN" variant="body1" color="primary" className="home-title" />
-          <Text label="Earn rewards while helping us grow." variant="body2" color="primary" className="home-subtitle" />
-        </div>
+        <Notification
+          title="EARN"
+          text="Earn rewards while helping us grow."
+          variant="success"
+          style={{ display: isMobile && toggleValue !== "earn" ? 'none' : 'inherit' }}
+        />
         <div className="cardContainer" style={{ display: isMobile && toggleValue !== "earn" ? 'none' : isMobile ? 'inherit' : 'flex' }}>
           <IconCard title="Staking" description="Earn rewards while helping to secure Taraxa’s network."
             onClickText="Get Started" onClickButton={() => history.push('/staking')} Icon={StakingIcon} />
@@ -86,10 +77,12 @@ const Home = ({ match }: RouteComponentProps<HomeProps>) => {
             onClickText="Get Started" onClickButton={() => history.push('/redeem')} Icon={RedeemIcon} />
         </div>
 
-        <div className={isMobile ? "home-green-stripe-mobile" : "home-green-stripe"} style={{ display: isMobile && toggleValue !== "testnet" ? 'none' : 'inherit' }}>
-          <Text label="TESTNET" variant="body1" color="primary" className="home-title" />
-          <Text label="Join Taraxa’s public testnet." variant="body2" color="primary" className="home-subtitle" />
-        </div>
+        <Notification
+          title="TESTNET"
+          text="Join Taraxa’s public testnet."
+          variant="success"
+          style={{ display: isMobile && toggleValue !== "testnet" ? 'none' : 'inherit' }}
+        />
         <div className="cardContainer" style={{ display: isMobile && toggleValue !== "testnet" ? 'none' : isMobile ? 'inherit' : 'flex' }}>
           <IconCard title="Run a node" description="Earn rewards while helping to secure Taraxa’s network."
             onClickText="Get Started" onClickButton={() => history.push('/node')} Icon={NodeIcon} />

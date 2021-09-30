@@ -1,6 +1,10 @@
 body {
-  width: 100% !important;
+  width: 100%;
+  margin: 0;
   display: flex !important;
+  background-color: #151823 !important;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 #root {

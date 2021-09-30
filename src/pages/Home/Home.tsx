@@ -1,4 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
+import { useHistory, withRouter, RouteComponentProps } from "react-router-dom";
+
+import { useModal } from "../../services/useModal";
+
 import { IconCard, Text, ToggleButton } from '@taraxa_project/taraxa-ui';
 import StakingIcon from '../../assets/icons/staking';
 import BountiesIcon from '../../assets/icons/bounties';
@@ -6,13 +10,30 @@ import RedeemIcon from '../../assets/icons/redeem';
 import NodeIcon from '../../assets/icons/node';
 import ExplorerIcon from '../../assets/icons/explorer';
 import DeployIcon from '../../assets/icons/deploy';
-import { useHistory } from "react-router-dom";
 import { useMediaQuery } from 'react-responsive';
 import { useGlobalState } from 'state-pool';
 
 import './home.scss';
 
-const Home = () => {
+interface HomeProps {
+  code: string | undefined;
+}
+
+const Home = ({ match }: RouteComponentProps<HomeProps>) => {
+  const { setIsOpen, setContent, setCode } = useModal();
+
+  useEffect(() => {
+    if (match.path.includes('/first-login')) {
+      setIsOpen!(true);
+      setContent!('email-confirmed');
+    }
+    if (match.path.includes('/reset-password')) {
+      setIsOpen!(true);
+      setContent!('reset-password');
+      setCode!(match.params.code);
+    }
+  }, []);
+
   const history = useHistory();
   const isMobile = useMediaQuery({ query: `(max-width: 760px)` });
   const [toggleValue, setToggleValue] = useState('earn');
@@ -78,4 +99,4 @@ const Home = () => {
   )
 }
 
-export default Home;
+export default withRouter(Home);

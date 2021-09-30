@@ -6,17 +6,20 @@ import HamburgerIcon from "../../assets/icons/hamburger";
 import { store, useGlobalState } from 'state-pool';
 import { useMediaQuery } from 'react-responsive';
 import { useAuth } from "../../services/useAuth";
+import { useModal } from "../../services/useModal";
 
 import Wallet from "./../Wallet";
 import './header.scss'
 
 store.setState("sidebarOpened", false)
 
-const Header = ({ signIn }: { signIn: () => void }) => {
+const Header = () => {
 
   const history = useHistory();
 
   const auth = useAuth();
+  const { signIn } = useModal();
+
   const isLoggedIn = auth.user?.id;
 
   const [showProfile, setShowProfile] = useState(false);

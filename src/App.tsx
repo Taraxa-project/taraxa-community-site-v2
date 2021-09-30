@@ -1,5 +1,3 @@
-import { useEffect, useState } from "react";
-import { useHistory, withRouter, RouteComponentProps } from "react-router-dom";
 import { useMediaQuery } from 'react-responsive';
 import { GoogleReCaptchaProvider } from "react-google-recaptcha-v3";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
@@ -8,6 +6,7 @@ import { MetaMaskProvider } from "metamask-react";
 import { Modal } from "@taraxa_project/taraxa-ui";
 
 import { AuthProvider } from "./services/useAuth";
+import { ModalProvider, useModal } from "./services/useModal";
 
 import SignIn from "./components/Modal/SignIn";
 import EmailConfirmed from "./components/Modal/EmailConfirmed";
@@ -15,6 +14,7 @@ import SignUp from "./components/Modal/SignUp";
 import SignUpSuccess from "./components/Modal/SignUpSuccess";
 import ForgotPassword from "./components/Modal/ForgotPassword";
 import ForgotPasswordSuccess from "./components/Modal/ForgotPasswordSuccess";
+import ResetPassword from "./components/Modal/ResetPassword";
 
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
@@ -32,68 +32,56 @@ import CloseIcon from './assets/icons/close';
 
 import "./App.css";
 
-const Root = withRouter(({ match }: RouteComponentProps) => {
+const Root = () => {
 
-  const history = useHistory();
+  const { isOpen, setIsOpen, content, setContent, code, reset } = useModal();
   const isMobile = useMediaQuery({ query: `(max-width: 760px)` });
 
-  const [modalOpen, setModalOpen] = useState(false);
-  const [modalContent, setModalContent] = useState('sign-in');
-
-  useEffect(() => {
-    if (match.path.includes('/first-login')) {
-      setModalOpen(true);
-      setModalContent('email-confirmed');
-    }
-  }, []);
-
-  const signIn = () => {
-    setModalContent('sign-in');
-    setModalOpen(!modalOpen);
-  }
-
-  const modalReset = () => {
-    setModalContent('sign-in');
-    setModalOpen(false);
-    history.push('/');
-  }
-
   let modalElement = <SignIn onSuccess={() => {
-    setModalOpen(false);
+    setIsOpen!(false);
   }} onForgotPassword={() => {
-    setModalContent('forgot-password');
+    setContent!('forgot-password');
   }} onCreateAccount={() => {
-    setModalContent('sign-up');
+    setContent!('sign-up');
   }} />;
 
-  if (modalContent === 'email-confirmed') {
+  if (content === 'email-confirmed') {
     modalElement = <EmailConfirmed onSuccess={() => {
-      modalReset();
+      reset!();
     }} />;
   }
 
-  if (modalContent === 'sign-up') {
+  if (content === 'sign-up') {
     modalElement = <SignUp onSuccess={() => {
-      setModalContent('sign-up-success');
+      setContent!('sign-up-success');
     }} />;
   }
 
-  if (modalContent === 'sign-up-success') {
+  if (content === 'sign-up-success') {
     modalElement = <SignUpSuccess onSuccess={() => {
-      modalReset();
+      reset!();
     }} />;
   }
 
-  if (modalContent === 'forgot-password') {
+  if (content === 'forgot-password') {
     modalElement = <ForgotPassword onSuccess={() => {
-      setModalContent('forgot-password-success');
+      setContent!('forgot-password-success');
     }} />;
   }
 
-  if (modalContent === 'forgot-password-success') {
+  if (content === 'forgot-password-success') {
     modalElement = <ForgotPasswordSuccess onSuccess={() => {
-      modalReset();
+      reset!();
     }} />;
+  }
+
+  if (content === 'reset-password') {
+    modalElement = <ResetPassword
+      code={code}
+      onSuccess={() => {
+        reset!();
+      }}
+    />;
   }
 
   return (
@@ -101,26 +89,27 @@ const Root = withRouter(({ match }: RouteComponentProps) => {
       <Modal
         id={isMobile ? "mobile-signinModal" : "signinModal"}
         title="Test"
-        show={modalOpen}
+        show={isOpen}
         children={modalElement}
         parentElementID="root"
-        onRequestClose={signIn}
+        onRequestClose={reset!}
         closeIcon={CloseIcon}
       />
-      <Header signIn={signIn} />
+      <Header />
       <div className="App-Container">
-        <Sidebar signIn={signIn} />
+        <Sidebar />
         <div className="App-Content">
           <div className="App-Page">
             <Switch>
-              <Route exact path="/" component={Home} />
               <Route exact path="/first-login" component={Home} />
+              <Route exact path="/reset-password/:code" component={Home} />
               <Route exact path="/staking" component={Staking} />
               <Route exact path="/bounties" component={Bounties} />
               <Route exact path="/redeem" component={Redeem} />
               <Route exact path="/profile" component={Profile} />
               <Route exact path="/node" component={RunNode} />
               <Route exact path="/wallet" component={Wallet} />
+              <Route exact path="/" component={Home} />
             </Switch>
           </div>
           <Footer />
@@ -128,7 +117,7 @@ const Root = withRouter(({ match }: RouteComponentProps) => {
       </div>
     </div>
   );
-});
+};
 
 function App() {
   return (
@@ -136,7 +125,9 @@ function App() {
       <GoogleReCaptchaProvider reCaptchaKey="6LdLJXAaAAAAAAipA9gQ8gpbvVs6b9Jq64Lmr9dl">
         <AuthProvider>
           <BrowserRouter>
-            <Root />
+            <ModalProvider>
+              <Root />
+            </ModalProvider>
           </BrowserRouter>
         </AuthProvider>
       </GoogleReCaptchaProvider>

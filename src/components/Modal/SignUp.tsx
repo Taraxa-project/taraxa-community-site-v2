@@ -114,7 +114,7 @@ const SignUp = ({ onSuccess }: SignUp) => {
         setErrors(result.response[0].messages.map((message: any) => ({ key: message.id.split('.')[3], value: message.message })));
       }} fullWidth className="marginButton" />
 
-      <Text label="or sign up with" variant="body2" color="primary" />
+      {/* <Text label="or sign up with" variant="body2" color="primary" /> */}
 
       {/* <Button Icon={GoogleIcon} variant="contained" onClick={() => false} className="marginButton bubbleButton" id="bubbleButtonLeft" /> */}
       {/* <Button Icon={BubbleIcon} variant="contained" onClick={() => false} className="marginButton bubbleButton" /> */}

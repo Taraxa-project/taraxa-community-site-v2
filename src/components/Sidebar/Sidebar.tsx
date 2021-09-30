@@ -7,6 +7,7 @@ import Wallet from "./../Wallet";
 
 import { menu } from '../../global/globalVars';
 import { useAuth } from "../../services/useAuth";
+import { useModal } from "../../services/useModal";
 
 import './sidebar.scss'
 
@@ -14,8 +15,10 @@ store.setState("sidebarOpened", false)
 store.setState("isLogged", false)
 store.setState("walletConnected", false)
 
-const Sidebar = ({ signIn }: { signIn: () => void }) => {
+const Sidebar = () => {
   const auth = useAuth();
+  const { signIn } = useModal();
+
   const isLoggedIn = auth.user?.id;
   const history = useHistory();
   const [sidebarOpened, updateSidebarOpened] = useGlobalState("sidebarOpened");

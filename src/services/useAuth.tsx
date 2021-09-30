@@ -15,6 +15,7 @@ type Context = {
   signup?: (username: string, email: string, ethWallet: string, password: string, token: string) => Promise<any>,
   signout?: () => void,
   sendPasswordResetEmail?: (email: string, token: string) => Promise<any>,
+  resetPassword?: (code: string, password: string, passwordConfirmation: string) => Promise<any>,
 }
 
 const initialState: Context = {
@@ -77,6 +78,27 @@ function useProvideAuth() {
       token: token
     });
   };
+  const resetPassword = async (code: string, password: string, passwordConfirmation: string) => {
+    const result = await api.post('/auth/reset-password', {
+      code,
+      password,
+      passwordConfirmation
+    });
+
+    if (result.success) {
+      if (result.response.jwt) {
+        localStorage.setItem("auth", result.response.jwt);
+      }
+
+      if (result.response.user) {
+        const user = result.response.user;
+        localStorage.setItem("user", JSON.stringify(user));
+        setUser(user);
+      }
+    }
+
+    return result;
+  };
 
   useEffect(() => {
     const user = localStorage.getItem("user");
@@ -91,5 +113,6 @@ function useProvideAuth() {
     signup,
     signout,
     sendPasswordResetEmail,
+    resetPassword,
   };
 }

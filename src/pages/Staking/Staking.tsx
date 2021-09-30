@@ -3,7 +3,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { useMediaQuery } from 'react-responsive';
 import { useMetaMask } from "metamask-react";
 
-import { Modal, Text, Tooltip, TopCard, BaseCard, DataCard, InputField, Button, Chip } from '@taraxa_project/taraxa-ui';
+import { Modal, Notification, Text, Tooltip, TopCard, BaseCard, DataCard, InputField, Button, Chip } from '@taraxa_project/taraxa-ui';
 
 import CloseIcon from '../../assets/icons/close';
 import InfoIcon from '../../assets/icons/info';
@@ -129,7 +129,7 @@ function Staking() {
           subtitle="Earn rewards and help test &amp; secure the Taraxa’s network"
           tooltip="We’re currently in the first phase of staking roll-out, Pre-staking, which enables TARA lockups on the ETH network. The next phase will be Mirrored Staking, which mirrors staking data from the ETH network over to the Taraxa testnet to enable delegation to consensus nodes. The last phase is mainnet launch, in which all tokens, staking, and delegation is migrated to the Taraxa mainnet."
         />
-        <StakingMetamaskNotification />
+        <StakingNotifications />
         {false && <StakingTop />}
         <Stake
           setIsSuccess={setIsSuccess}
@@ -229,21 +229,22 @@ function StakingModal({ isSuccess, isError, isApprove, isStaking, isUnstaking, s
   );
 }
 
-function StakingMetamaskNotification() {
+function StakingNotifications() {
   const { status } = useMetaMask();
   const auth = useAuth();
-  const isMobile = useMediaQuery({ query: `(max-width: 760px)` });
   return (
     <>
-      {status !== "connected" && <div className={isMobile ? "staking-red-stripe-mobile" : "staking-red-stripe"}>
-        <Text label="Notice:" variant="body1" color="primary" className="staking-title" />
-        <Text label="You are not connected to the Metamask wallet" variant="body2" color="primary" className="staking-subtitle" />
-      </div>}
+      {status !== "connected" && <div className="notification"><Notification
+        title="Notice:"
+        text="You are not connected to the Metamask wallet"
+        variant="danger"
+      /></div>}
 
-      {(auth.user !== null && auth.user.kyc !== 'APPROVED') && <div className={isMobile ? "staking-red-stripe-mobile" : "staking-red-stripe"}>
-        <Text label="Notice:" variant="body1" color="primary" className="staking-title" />
-        <Text label="In order to participate in staking and receive rewards, you must first pass KYC" variant="body2" color="primary" className="staking-subtitle" />
-      </div>}
+      {(auth.user !== null && auth.user.kyc !== 'APPROVED') && <div className="notification"><Notification
+        title="Notice:"
+        text="In order to participate in staking and receive rewards, you must first pass KYC"
+        variant="danger"
+      /></div>}
     </>
   );
 }

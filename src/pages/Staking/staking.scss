@@ -2,6 +2,10 @@
 .stakingRootMobile {
   text-align: left;
 
+  .notification {
+    margin-bottom: 40px;
+  }
+
   .cardContainer {
     display: flex;
   }
@@ -59,39 +63,6 @@
   margin-top: 5% !important;
   background-color: #31364b !important;
   border: 1px solid #6a7085 !important;
-}
-
-.staking-title {
-  margin-bottom: 1% !important;
-}
-
-.staking-subtitle {
-  margin-bottom: 3% !important;
-}
-
-.staking-green-stripe {
-  border-left: 3px solid #15ac5b;
-  padding-left: 2%;
-  width: 100%;
-}
-
-.staking-green-stripe-mobile {
-  border-left: 3px solid #15ac5b;
-  padding-left: 2%;
-  width: 100%;
-}
-
-.staking-red-stripe {
-  border-left: 3px solid #ff515a;
-  padding-left: 2%;
-  width: 100%;
-}
-
-.staking-red-stripe-mobile {
-  border-left: 3px solid #ff515a;
-  padding-left: 2%;
-  margin: 8% 0;
-  width: 100%;
 }
 
 .chip {

@@ -1,160 +1,217 @@
-import { useEffect, useRef, useState } from 'react';
-import { useMediaQuery } from 'react-responsive';
-import { useGlobalState } from 'state-pool';
+import { useState, useEffect } from 'react';
+import { ethers } from "ethers";
+import { Modal, Notification, BaseCard, IconCard, Tooltip, Text, Button } from '@taraxa_project/taraxa-ui';
 
-import { BaseCard, Button, IconCard, Modal, Table, Text, Tooltip } from '@taraxa_project/taraxa-ui';
-
+import CloseIcon from '../../assets/icons/close';
 import NodeIcon from '../../assets/icons/node';
 import InfoIcon from '../../assets/icons/info';
-import CloseIcon from '../../assets/icons/close';
-
-import RegisterNode from './RegisterNode';
 
 import { useApi } from "../../services/useApi";
+
+import Title from '../../components/Title/Title';
+
+import RegisterNode from './Modal/RegisterNode';
+import UpdateNode from './Modal/UpdateNode';
 
 import './runnode.scss';
 
 interface Node {
   id: number;
+  name: string;
   ethWallet: string;
-  created_at: Date;
-  published_at: Date;
-  updated_at: Date;
+  topPosition: null | number;
+  blocksProduced: number;
+  lastMinedBlockDate: null | Date;
 }
-
 
 const RunNode = () => {
   const api = useApi();
 
-  const isMobile = useMediaQuery({ query: `(max-width: 760px)` });
-  const [sidebarOpened, updateSidebarOpened] = useGlobalState("sidebarOpened");
-  const [registerNodeModal, setRegisterNodeModal] = useState(false);
+  const [hasRegisterNodeModal, setHasRegisterNodeModal] = useState(false);
+  const [hasUpdateNodeModal, setHasUpdateNodeModal] = useState(false);
+  const [currentEditedNode, setCurrentEditedNode] = useState<null | Node>(null);
 
-  const [hasActiveNodes, setHasActiveNodes] = useState(false);
   const [nodes, setNodes] = useState<Node[]>([]);
+  const [blocksProduced, setBlocksProduced] = useState("0");
+  const [weeklyRating, setWeeklyRating] = useState("N/A");
+
+  const getNodes = async () => {
+    const data = await api.get(`/nodes?_limit=-1`, true);
+    if (!data.success) {
+      return;
+    }
+    const nodes: Node[] = data.response;
+
+    function notEmpty<TValue>(value: TValue | null | undefined): value is TValue {
+      return value !== null && value !== undefined;
+    }
+
+    const rating = Math.min(...nodes.map(node => node.topPosition).filter(notEmpty));
+    const produced = nodes.map(node => node.blocksProduced).reduce((acc, blocks) => acc + blocks, 0);
+    setNodes(nodes.map(node => {
+      if (node.lastMinedBlockDate !== null) {
+        return {
+          ...node,
+          lastMinedBlockDate: new Date(node.lastMinedBlockDate),
+        }
+      }
+      return node;
+    }));
+    setWeeklyRating(`#${rating}`);
+    setBlocksProduced(ethers.utils.commify(produced.toString()));
+  }
 
   useEffect(() => {
-    const getNodes = async () => {
-      const data = await api.get(`/nodes?_limit=-1`, true);
-      if (!data.success) {
-        return;
-      }
-      setHasActiveNodes(data.response.length > 0);
-      setNodes(data.response);
-    }
     getNodes();
   }, []);
 
-  const columns = [
-    { path: "name", name: "name" },
-    { path: "node", name: "node" },
-  ];
+  console.log(nodes)
 
-
-  const rows = nodes.map(node => ({
-    data: [
-      {
-        name: <><span className="dot" />{node.ethWallet}</>,
-        node: <>{node.ethWallet}</>
-      }
-    ]
-  }));
-
-  const modalTrigger = () => {
-    setRegisterNodeModal(!registerNodeModal);
+  const formatNodeName = (name: string) => {
+    if (name.length <= 17) {
+      return name;
+    }
+    return `${name.substr(0, 7)} ... ${name.substr(-5)}`;
   }
-
-  function useOutsideAlerter(ref: any) {
-    useEffect(() => {
-      function handleClickOutside(event: any) {
-        if (ref.current && !ref.current.contains(event.target)) {
-          updateSidebarOpened(false);
-        }
+  const rows = nodes.map(node => {
+    let className = "dot";
+    if (node.lastMinedBlockDate !== null) {
+      const now = new Date();
+      const diff = Math.ceil((now.getTime() - node.lastMinedBlockDate.getTime()) / 1000);
+      if (diff / 60 < 120) {
+        className += " active";
       }
+    }
+    return (
+      <div key={node.id}>
+        <span className={className} />
+        {formatNodeName(node.name === '' ? node.ethWallet : node.name)}
+        <a href="#" onClick={(e: React.MouseEvent<HTMLElement>) => {
+          e.preventDefault();
+          setCurrentEditedNode(node);
+          setHasUpdateNodeModal(true);
 
-      document.addEventListener("mousedown", handleClickOutside);
-      return () => {
-        document.removeEventListener("mousedown", handleClickOutside);
-      };
-    }, [ref]);
-  }
-  const wrapperRef = useRef(null);
-  useOutsideAlerter(wrapperRef);
-  const registerModal = (
-    <RegisterNode onSuccess={(address: string) => {
-      console.log(address)
-    }} />
-  );
+        }}>e</a>
+        <a href="#" onClick={(e: React.MouseEvent<HTMLElement>) => {
+          e.preventDefault();
+
+        }}>d</a>
+      </div>
+    );
+  });
+
   return (
-    <div className={isMobile ? "runnode-mobile" : "runnode"}>
-      <Modal id="signinModal" title="Submit KYC" show={registerNodeModal} children={registerModal} parentElementID="root" onRequestClose={modalTrigger} closeIcon={CloseIcon} />
+    <div className="runnode">
+      <RunNodeModal
+        hasUpdateNodeModal={hasUpdateNodeModal}
+        hasRegisterNodeModal={hasRegisterNodeModal}
+        setHasRegisterNodeModal={setHasRegisterNodeModal}
+        setHasUpdateNodeModal={setHasUpdateNodeModal}
+        currentEditedNode={currentEditedNode}
+        getNodes={getNodes}
+      />
       <div className="runnode-content">
-        <div className="runnode-icon-container">
-          <Text label="Running Testnet Nodes" variant="h4" color="primary" className="runnode-title" />
-          <Tooltip className={isMobile ? "mobile-runnode-icon-tooltip" : "runnode-icon-tooltip"} title="Test" Icon={InfoIcon} />
-        </div>
-
-        <Text label="Help accelerate Taraxa’s path towards mainnet by running nodes on the testnet" variant="body2" color="textSecondary" className={isMobile ? "mobile-runnode-subtitle" : "runnode-subtitle"} />
-
-        {!hasActiveNodes &&
-          <div className={isMobile ? "mobile-runnode-red-stripe" : "runnode-red-stripe"}>
-            <Text label="Notice:" variant="body1" color="primary" className="runnode-title" />
-            <Text label="You aren’t running any block-producing nodes" variant="body2" color="primary" className="runnode-subtitle" />
+        <Title
+          title="Running Testnet Nodes"
+          subtitle="Help accelerate Taraxa’s path towards mainnet by running nodes on the testnet"
+          tooltip="Test"
+        />
+        {nodes.length === 0 &&
+          <div className="notification">
+            <Notification
+              title="Notice:"
+              text="You aren’t running any block-producing nodes"
+              variant="danger"
+            />
           </div>
         }
-        <div className={isMobile ? "mobileCardContainer" : "cardContainer"}>
-          {hasActiveNodes ?
-            <>
-              <BaseCard title={`${nodes.length}`} description="Active nodes" id="mobileBasicCard" />
-              <BaseCard title="3,238" description="Blocks produced" id="mobileBasicCard" />
-              <BaseCard title="#16" description="Weekly rating" id="mobileBasicCard" />
-            </>
-            :
-            <>
-              <IconCard title="Register a node" description="Register a node you’ve aleady set up."
-                onClickText="Register a node" onClickButton={() => setRegisterNodeModal(true)} Icon={NodeIcon} tooltip={<Tooltip className="runnode-icon-tooltip" title="A registered node (which has already been setup) will automatically be delegated enough testnet tokens to participate in consensus." Icon={InfoIcon} />} />
-              <IconCard title="Set up a node" description="Learn how to set up a node on Taraxa’s testnet."
-                onClickText="Set up a node" onClickButton={() => console.log("here")} Icon={NodeIcon} />
-            </>
-          }
+        <div className="cardContainer">
+          {nodes.length > 0 && <>
+            <BaseCard title={`${nodes.length}`} description="Active nodes" />
+            <BaseCard title={blocksProduced} description="Blocks produced" />
+            <BaseCard title={weeklyRating} description="Weekly rating" />
+          </>}
+          {nodes.length === 0 && <>
+            <IconCard title="Register a node" description="Register a node you’ve aleady set up."
+              onClickText="Register a node" onClickButton={() => setHasRegisterNodeModal(true)} Icon={NodeIcon} tooltip={<Tooltip className="runnode-icon-tooltip" title="A registered node (which has already been setup) will automatically be delegated enough testnet tokens to participate in consensus." Icon={InfoIcon} />} />
+            <IconCard title="Set up a node" description="Learn how to set up a node on Taraxa’s testnet."
+              onClickText="Set up a node" onClickButton={() => {
+                window.open('https://docs.taraxa.io/node-setup/testnet_node_setup', '_blank')
+              }} Icon={NodeIcon} />
+          </>}
         </div>
-
-        {hasActiveNodes &&
-          <div className={isMobile ? "mobileReferenceContainer" : "referenceContainer"}>
-            <Text id={isMobile ? "mobileReferenceText" : "referenceText"} label="Active Nodes" variant="h6" color="primary" />
-
-            <Table columns={columns} rows={rows} />
-            <Button label="Register a new node" className="node-control-button" color="secondary" variant="contained" onClick={() => setRegisterNodeModal(true)} />
-          </div>
-        }
-
-        <div className={isMobile ? "mobileReferenceContainer" : "referenceContainer"}>
-          <Text id={isMobile ? "mobileReferenceText" : "referenceText"} label="References" variant="h6" color="primary" />
-          {isMobile ?
-            <div className="mobileReferencesButtonContainer">
-              <Button label="How to setup a node" className="referenceButton" variant="contained" onClick={() => console.log('go to')} />
-              <Button label="How to find my node" variant="contained" className="referenceButton" onClick={() => console.log('go to')} />
-              <Button label="How to receive delegation" className="referenceButton" variant="contained" onClick={() => console.log('go to')} />
-              <Button label="What rewards are there" className="referenceButton" variant="contained" onClick={() => console.log('go to')} />
+        {nodes.length > 0 &&
+          <div className="box">
+            <Text label="Active Nodes" variant="h6" color="primary" className="box-title" />
+            <div className="box-list">
+              {[0, 1, 2].map(col => {
+                const l = col * 4;
+                const r = rows.slice(l, l + 4);
+                return (<div key={col} className="box-list-col">{r}</div>);
+              })}
             </div>
-            :
-            <>
-              <div className="referencesButtonContainer">
-                <Button label="How to setup a node" className="referenceButton" variant="contained" onClick={() => console.log('go to')} />
-                <Button label="How to find my node" variant="contained" className="referenceButton" onClick={() => console.log('go to')} />
-              </div>
-              <div className="bottomReferencesButtonContainer">
-                <Button label="How to receive delegation" className="referenceButton" variant="contained" onClick={() => console.log('go to')} />
-                <Button label="What rewards are there" className="referenceButton" variant="contained" onClick={() => console.log('go to')} />
-              </div>
-            </>
-          }
+            <Button label="Register a new node" color="secondary" variant="contained" onClick={() => setHasRegisterNodeModal(true)} />
+          </div>}
 
+        <div className="box">
+          <Text label="References" variant="h6" color="primary" className="box-title" />
+          <Button label="How to setup a node" className="referenceButton" variant="contained" onClick={() => console.log('go to')} />
+          <Button label="How to find my node" variant="contained" className="referenceButton" onClick={() => console.log('go to')} />
+          <Button label="How to receive delegation" className="referenceButton" variant="contained" onClick={() => console.log('go to')} />
+          <Button label="What rewards are there" className="referenceButton" variant="contained" onClick={() => console.log('go to')} />
         </div>
-
       </div>
     </div>
-  )
+  );
+}
+
+interface RunNodeModalProps {
+  hasRegisterNodeModal: boolean;
+  setHasRegisterNodeModal: (hasRegisterNodeModal: boolean) => void;
+  hasUpdateNodeModal: boolean;
+  setHasUpdateNodeModal: (hasUpdateNodeModal: boolean) => void;
+  getNodes: () => void;
+  currentEditedNode: null | Node;
+}
+
+const RunNodeModal = ({ hasRegisterNodeModal, hasUpdateNodeModal, setHasRegisterNodeModal, setHasUpdateNodeModal, getNodes, currentEditedNode }: RunNodeModalProps) => {
+  let modal;
+
+  if (hasRegisterNodeModal) {
+    modal = <RegisterNode onSuccess={() => {
+      getNodes();
+      setHasRegisterNodeModal(false);
+    }} />;
+  }
+
+  if (hasUpdateNodeModal && currentEditedNode !== null) {
+    modal = <UpdateNode
+      id={currentEditedNode.id}
+      name={currentEditedNode.name}
+      onSuccess={() => {
+        getNodes();
+        setHasUpdateNodeModal(false);
+      }} />;
+  }
+
+  if (!modal) {
+    return null;
+  }
+
+  return (
+    <Modal
+      id="signinModal"
+      title="Register Node"
+      show={hasRegisterNodeModal || hasUpdateNodeModal}
+      children={modal}
+      parentElementID="root"
+      onRequestClose={() => {
+        setHasRegisterNodeModal(false);
+        setHasUpdateNodeModal(false);
+      }}
+      closeIcon={CloseIcon}
+    />
+  );
 }
 
 export default RunNode;

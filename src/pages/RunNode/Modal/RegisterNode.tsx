@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { Button, Text, InputField } from "@taraxa_project/taraxa-ui";
 
-import { useApi } from "../../services/useApi"
+import { useApi } from "../../../services/useApi"
 
 type RegisterNode = {
-  onSuccess: (address: string) => void,
+  onSuccess: () => void,
 }
 
 const RegisterNode = ({ onSuccess }: RegisterNode) => {
@@ -39,7 +39,7 @@ const RegisterNode = ({ onSuccess }: RegisterNode) => {
 
           const result = await api.post(`/nodes`, { ethWallet: nodePublicAddress }, true);
           if (result.success) {
-            onSuccess(nodePublicAddress);
+            onSuccess();
             return;
           }
 
@@ -53,9 +53,13 @@ const RegisterNode = ({ onSuccess }: RegisterNode) => {
 
       <Button
         label="How to find my node's address"
-        variant="contained"
+        variant="outlined"
+        color="secondary"
         className="node-control-reference-button"
-        onClick={() => console.log('go to')}
+        onClick={() => {
+          window.open(`https://docs.taraxa.io/node-setup/node_address`, '_blank')
+        }}
+        fullWidth={true}
       />
     </div>
   )

@@ -1,91 +1,66 @@
-body {
-  background-color: #151823 !important;
-}
-
 .runnode {
   display: flex;
-}
 
-.runnode-mobile {
-  display: flex;
-}
+  .runnode-content {
+    flex-grow: 1;
+    text-align: left;
 
-.runnode-content {
-  flex-grow: 1;
-  text-align: left;
-
-  .runnode-icon-container {
-    display: flex;
-    align-items: center;
-
-    .runnode-icon-tooltip {
-      margin-left: 400%;
+    .notification {
+      margin-bottom: 40px;
     }
 
-    .mobile-runnode-icon-tooltip {
-      margin-left: 100%;
+    .cardContainer {
+      display: flex;
+    }
+
+    .cardContainer > div {
+      margin-right: 24px;
+    }
+
+    .cardContainer > div:last-child {
+      margin-right: 0;
+    }
+
+    .box {
+      background-color: #151823;
+      border: 2px solid #31364b;
+      border-radius: 4px;
+      width: 1008px;
+      margin-top: 38px;
+      box-sizing: border-box;
+      padding: 14px 24px 40px 24px;
+
+      .box-title {
+        font-family: 'Poppins';
+        font-weight: bold;
+        font-size: 22px;
+        margin-bottom: 40px;
+      }
+
+      .box-list {
+        display: flex;
+        margin-bottom: 40px;
+
+        .box-list-col {
+          flex: 1;
+        }
+      }
+
+      .referenceButton {
+        background: #31364b;
+        border: 1px solid #6a7085;
+        box-sizing: border-box;
+        border-radius: 4px;
+        color: white;
+        width: 35%;
+        margin-left: 10%;
+        margin-top: 5%;
+      }
     }
   }
 }
 
-.runnode-title {
-  margin-bottom: 1% !important;
-}
-
-.runnode-subtitle {
-  margin-bottom: 3% !important;
-}
-
-.mobile-runnode-subtitle {
-  margin: 5% 0 !important;
-  width: 80%;
-}
-
-.toggleButton {
-  margin: 5% 0 5% 0;
-}
-
-.runnode-green-stripe {
-  border-left: 3px solid #15ac5b;
-  padding-left: 2%;
-  width: 100%;
-}
-
-.runnode-red-stripe {
-  border-left: 3px solid #ff515a;
-  padding-left: 2%;
-  width: 100%;
-}
-
-.mobile-runnode-red-stripe {
-  border-left: 3px solid #ff515a;
-  padding-left: 2%;
-  width: 90%;
-  margin: 10% 0;
-}
-
-.runnode .cardContainer, .runnode-mobile .cardContainer {
-  display: flex;
-  margin-bottom: 0%;
-}
-
-.runnode .cardContainer > *, .runnode-mobile .cardContainer > * {
-  display: block;
-  margin-right: 5% !important;
-}
-
-.mobileCardContainer {
-  display: block;
-  margin-bottom: 0%;
-}
-
-#mobileBasicCard {
-  width: 95% !important;
-}
-
 .referenceContainer {
-  background-color: #151823;
-  border: 2px solid #31364b;
   width: 95% !important;
   margin-bottom: 5%;
   box-sizing: border-box;
@@ -99,16 +74,7 @@ body {
     margin-bottom: 5%;
   }
 
-  .referenceButton {
-    background: #31364b;
-    border: 1px solid #6a7085;
-    box-sizing: border-box;
-    border-radius: 4px;
-    color: white;
-    width: 35%;
-    margin-left: 10%;
-    margin-top: 5%;
-  }
+  
 }
 
 .mobileReferenceContainer {
@@ -174,9 +140,13 @@ body {
 .dot {
   height: 14px;
   width: 14px;
-  background-color: #15ac5b;
+  background-color: #6a7085;
   border-radius: 50%;
   display: inline-block;
   margin-top: 2%;
   margin-right: 5%;
+
+  &.active {
+    background-color: #15ac5b; 
+  }
 }

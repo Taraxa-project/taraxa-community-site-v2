@@ -1,6 +1,17 @@
 import axios, { AxiosError } from 'axios'
 
 export const useApi = () => {
+  const getUrl = (url: string) => {
+    let parsedUrl
+    try {
+      parsedUrl = new URL(url);
+      return parsedUrl.toString();
+    } catch (e) {
+      parsedUrl = new URL(`${process.env.REACT_APP_API_HOST}${url}`)
+      return parsedUrl.toString();
+    }
+  }
+
   const getOptions = (includeToken: boolean = false) => {
     let options = {}
 
@@ -39,7 +50,20 @@ export const useApi = () => {
   const post = async (url: string, data: {}, includeToken: boolean = false) => {
     const options = getOptions(includeToken)
     return axios
-      .post(`${process.env.REACT_APP_API_HOST}${url}`, data, options)
+      .post(getUrl(url), data, options)
+      .then((response) => {
+        return {
+          success: true,
+          response: response.data,
+        }
+      })
+      .catch((err) => getErrorResponse(err))
+  }
+
+  const put = async (url: string, data: {}, includeToken: boolean = false) => {
+    const options = getOptions(includeToken)
+    return axios
+      .put(getUrl(url), data, options)
       .then((response) => {
         return {
           success: true,
@@ -52,7 +76,7 @@ export const useApi = () => {
   const get = async (url: string, includeToken: boolean = false) => {
     const options = getOptions(includeToken)
     return axios
-      .get(`${process.env.REACT_APP_API_HOST}${url}`, options)
+      .get(getUrl(url), options)
       .then((response) => {
         return {
           success: true,
@@ -62,5 +86,5 @@ export const useApi = () => {
       .catch((err) => getErrorResponse(err))
   }
 
-  return { post, get }
+  return { post, put, get }
 }

@@ -16,6 +16,7 @@ type Context = {
   signout?: () => void,
   sendPasswordResetEmail?: (email: string, token: string) => Promise<any>,
   resetPassword?: (code: string, password: string, passwordConfirmation: string) => Promise<any>,
+  refreshUser?: () => Promise<any>,
 }
 
 const initialState: Context = {
@@ -100,6 +101,18 @@ function useProvideAuth() {
     return result;
   };
 
+  const refreshUser = async () => {
+    const result = await api.get('/users/me', true);
+    if (result.success) {
+      if (result.response) {
+        const user = result.response;
+        localStorage.setItem("user", JSON.stringify(user));
+        setUser(user);
+      }
+    }
+    return result;
+  };
+
   useEffect(() => {
     const user = localStorage.getItem("user");
     if (user) {
@@ -114,5 +127,6 @@ function useProvideAuth() {
     signout,
     sendPasswordResetEmail,
     resetPassword,
+    refreshUser,
   };
 }

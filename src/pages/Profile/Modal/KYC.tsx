@@ -3,11 +3,15 @@ import { Button, Text, Checkbox } from "@taraxa_project/taraxa-ui";
 
 import KYCIcon from '../../../assets/icons/kyc';
 
+import { useApi } from "../../../services/useApi";
+
 type KYCProps = {
   onSuccess: () => void,
 }
 
 const KYC = ({ onSuccess }: KYCProps) => {
+  const api = useApi();
+
   const [agreement, setAgreement] = useState(false);
 
   const agreementTrigger = (event: any) => {
@@ -44,7 +48,14 @@ const KYC = ({ onSuccess }: KYCProps) => {
         className="marginButton"
         disabled={!agreement}
         fullWidth
-        onClick={() => onSuccess()}
+        onClick={async () => {
+          const result = await api.post(`/users/kyc`, {}, true);
+          if (result.success) {
+            window.location.replace(result.response.kycLink)
+            return;
+          }
+          onSuccess();
+        }}
       />
     </div>
   )

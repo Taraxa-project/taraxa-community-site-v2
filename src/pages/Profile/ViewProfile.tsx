@@ -7,6 +7,8 @@ import { ProfileBasicCard, Text, ProfileCard, Button, LinkedCards, Tooltip } fro
 import TaraxaIcon from '../../assets/icons/taraxaIcon';
 import InfoIcon from '../../assets/icons/info';
 import KYCIcon from '../../assets/icons/kyc';
+import SuccessIcon from '../../assets/icons/success';
+import ErrorIcon from '../../assets/icons/error';
 
 import { formatTime } from "../../utils/time";
 
@@ -95,10 +97,6 @@ function ViewProfileDetails({ points, openEditProfile, openKYCModal }: ViewProfi
   const history = useHistory();
   const isMobile = useMediaQuery({ query: `(max-width: 760px)` });
 
-  const kycButton = <div className="buttonsContainer">
-    <Button color="primary" variant="outlined" label="Submit" onClick={() => openKYCModal()} />
-  </div>
-
   const buttons = <div className="buttonsContainer">
     <Button color="primary" variant="outlined" label="Edit Profile" onClick={() => openEditProfile()} />
     <Button color="primary" variant="text" label="Log out" onClick={() => {
@@ -110,9 +108,49 @@ function ViewProfileDetails({ points, openEditProfile, openKYCModal }: ViewProfi
   return (
     <div className={isMobile ? "mobileCardContainer" : "cardContainer"}>
       {auth.user && <ProfileCard username={auth.user!.username} email={auth.user!.email} wallet={auth.user!.eth_wallet} Icon={TaraxaIcon} buttonOptions={buttons} />}
-      <ProfileBasicCard title="KYC" description="Not submitted" Icon={KYCIcon} buttonOptions={kycButton} />
+      <ViewProfileDetailsKYC openKYCModal={openKYCModal} />
       <ProfileBasicCard title="My Rewards" description="TARA Points" value={points.toString()} />
     </div>
+  )
+}
+
+interface ViewProfileDetailsKYCProps {
+  openKYCModal: () => void;
+}
+
+function ViewProfileDetailsKYC({ openKYCModal }: ViewProfileDetailsKYCProps) {
+  const auth = useAuth();
+  const kyc = auth.user!.kyc;
+
+  const empty = [null, "", "-", "NOT_STARTED"];
+  const hasKYC = ![...empty, "VERIFYING"].includes(kyc);
+  const kycStatus = ![...empty].includes(kyc) ? kyc : "NOT_STARTED";
+
+  const status: { [string: string]: string } = {
+    "NOT_STARTED": "Not sumbitted",
+    "VERIFYING": "Verifying...",
+    "APPROVED": "Approved",
+    "DENIED": "Denied",
+  }
+
+  let kycButton;
+
+  if (!hasKYC) {
+    kycButton = <div className="buttonsContainer">
+      <Button variant="contained" color="secondary" label="Verify" onClick={() => openKYCModal()} />
+    </div>
+  }
+
+  if (kycStatus === "APPROVED") {
+    kycButton = <SuccessIcon />
+  }
+
+  if (kycStatus === "DENIED") {
+    kycButton = <ErrorIcon />
+  }
+
+  return (
+    <ProfileBasicCard title="KYC" description={status[kycStatus]} Icon={KYCIcon} buttonOptions={kycButton} />
   )
 }
 
@@ -130,7 +168,7 @@ function ViewProfileBounties({ approved, rejected, review }: ViewProfileBounties
     const date = new Date(sub.submission_date);
     const dateDiff = Math.ceil((now.getTime() - date.getTime()) / 1000);
     return (
-      <div className="contentGrid">
+      <div key={sub.id} className="contentGrid">
         <div className="gridLeft">
           <Text label={sub.bounty.name} className="profileContentTitle" variant="body2" color="primary" />
           <Text label={sub.submission_reward} variant="body2" color="textSecondary" />

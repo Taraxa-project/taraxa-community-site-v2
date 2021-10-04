@@ -149,39 +149,38 @@ const Profile = () => {
     if (token && token.id) {
       const getSubmissions = async () => {
         const data = await api.get(`/submissions?user.id=${token.id}`)
-        if (!data.success) {
-          return;
-        }
-        const submissionsPromise = data.response
-          .map(async (res: any) => {
+          .then(async (res: any) => {
+            if (!res.success) {
+              return;
+            }
+            console.log('promise')
             setApproved(
-              res.data.filter(
+              res.response.filter(
                 (sub: { reviewed: boolean; accepted: boolean; }) => sub.reviewed === true && sub.accepted === true
               )
             );
             setRejected(
-              res.data.filter(
+              res.response.filter(
                 (sub: { reviewed: boolean; accepted: boolean; }) => sub.reviewed === true && sub.accepted === false
               )
             );
             setReview(
-              res.data.filter(
+              res.response.filter(
                 (sub: { reviewed: boolean | null; }) => sub.reviewed === null || sub.reviewed === false
               )
             );
           })
-          await Promise.all(submissionsPromise)
       }
       getSubmissions();
     }
-  }, [token]);
+  }, []);
 
   useEffect(() => {
-    /*setPoints(
-      approved.reduce(function (tot, submission) {
+    setPoints(
+      approved.reduce(function (tot, submission: any) {
         return tot + parseFloat(submission.submission_reward);
       }, 0)
-    );*/
+    );
   }, [approved]);
 
   return (
@@ -198,7 +197,7 @@ const Profile = () => {
 
               {auth.user && <ProfileCard username={auth.user!.username} email={auth.user!.email} wallet={auth.user!.eth_wallet} Icon={TaraxaIcon} buttonOptions={buttons} />}
               <ProfileBasicCard title="KYC" description="Not submitted" Icon={KYCIcon} buttonOptions={kycButton} />
-              <ProfileBasicCard title="My Rewards" description="TARA Points" value="41,234" />
+              <ProfileBasicCard title="My Rewards" description="TARA Points" value={points.toString()} />
             </div>
             <div className={isMobile ? "mobileCardContainer" : "cardContainer"}>
               <LinkedCards rejectedContent={rejectedContent} approvedContent={approvedContent} reviewContent={reviewContent} rejectedTooltip={<Tooltip className="staking-icon-tooltip" title="Bounty submissions that have been rejected. " Icon={InfoIcon} />} reviewTooltip={<Tooltip className="staking-icon-tooltip" title="Bounty submissions are being reviewed." Icon={InfoIcon} />} approvedTooltip={<Tooltip className="staking-icon-tooltip" title="Bounty submissions that have been approved and points have been rewarded. " Icon={InfoIcon} />} />

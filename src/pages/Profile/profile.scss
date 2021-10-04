@@ -1,7 +1,3 @@
-body {
-  background-color: #151823 !important;
-}
-
 .buttonsContainer {
   display: grid;
   width: 90%;
@@ -101,7 +97,7 @@ body {
 
 .profile-content {
   text-align: left;
-  width: 100%;
+  flex: 1;
 }
 
 .profile-green-stripe {

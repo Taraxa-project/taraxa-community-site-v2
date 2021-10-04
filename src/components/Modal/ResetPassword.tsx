@@ -14,7 +14,7 @@ const ResetPassword = ({ code, onSuccess }: { code: string | undefined, onSucces
   const errIndex = errors.map(error => error.key);
   const errValues = errors.map(error => error.value);
 
-  const findErrorIndex = (field: string) => errIndex.findIndex((err) => err == field);
+  const findErrorIndex = (field: string) => errIndex.findIndex((err) => err === field);
   const hasError = (field: string) => findErrorIndex(field) !== -1;
 
   const hasPasswordError = hasError('password');

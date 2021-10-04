@@ -2,14 +2,12 @@ import { useState } from "react";
 import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 import { Button, Text, InputField, Checkbox } from "@taraxa_project/taraxa-ui";
 import { useAuth } from "../../services/useAuth";
-import BubbleIcon from "../../assets/icons/bubbleIcon";
-import GoogleIcon from "../../assets/icons/google";
 
-type SignUp = {
+type SignUpProps = {
   onSuccess: () => void
 }
 
-const SignUp = ({ onSuccess }: SignUp) => {
+const SignUp = ({ onSuccess }: SignUpProps) => {
 
   const auth = useAuth();
   const { executeRecaptcha } = useGoogleReCaptcha();
@@ -26,7 +24,7 @@ const SignUp = ({ onSuccess }: SignUp) => {
   const errIndex = errors.map(error => error.key);
   const errValues = errors.map(error => error.value);
 
-  const findErrorIndex = (field: string) => errIndex.findIndex((err) => err == field);
+  const findErrorIndex = (field: string) => errIndex.findIndex((err) => err === field);
   const hasError = (field: string) => findErrorIndex(field) !== -1;
 
   const hasUsernameError = hasError('username');
@@ -71,7 +69,7 @@ const SignUp = ({ onSuccess }: SignUp) => {
           setTc(event.target.checked);
         }} checked={tc} />
         <Text style={{ lineHeight: '42px' }} label="I agree to the" variant="body2" color="primary" />&nbsp;
-        <a href="https://taraxa.io/privacy" target="_blank">
+        <a href="https://taraxa.io/privacy" target="_blank" rel="noreferrer">
           <Text style={{ lineHeight: '42px' }} label="Privacy Policy" variant="body2" color="primary" />
         </a>
       </div>

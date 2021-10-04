@@ -3,11 +3,11 @@ import { Button, Text, InputField } from "@taraxa_project/taraxa-ui";
 
 import { useApi } from "../../../services/useApi"
 
-type RegisterNode = {
+type RegisterNodeProps = {
   onSuccess: () => void,
 }
 
-const RegisterNode = ({ onSuccess }: RegisterNode) => {
+const RegisterNode = ({ onSuccess }: RegisterNodeProps) => {
   const api = useApi();
 
   const [nodePublicAddress, setNodePublicAddress] = useState('');

@@ -1,16 +1,14 @@
 import { useState } from "react";
 import { Button, Text, InputField } from "@taraxa_project/taraxa-ui";
 import { useAuth } from "../../services/useAuth";
-import BubbleIcon from "../../assets/icons/bubbleIcon";
-import GoogleIcon from "../../assets/icons/google";
 
-type SignIn = {
+type SignInProps = {
   onSuccess: () => void,
   onForgotPassword: () => void,
   onCreateAccount: () => void
 }
 
-const SignIn = ({ onSuccess, onForgotPassword, onCreateAccount }: SignIn) => {
+const SignIn = ({ onSuccess, onForgotPassword, onCreateAccount }: SignInProps) => {
 
   const auth = useAuth();
 
@@ -22,7 +20,7 @@ const SignIn = ({ onSuccess, onForgotPassword, onCreateAccount }: SignIn) => {
   const errIndex = errors.map(error => error.key);
   const errValues = errors.map(error => error.value);
 
-  const findErrorIndex = (field: string) => errIndex.findIndex((err) => err == field);
+  const findErrorIndex = (field: string) => errIndex.findIndex((err) => err === field);
   const hasError = (field: string) => findErrorIndex(field) !== -1;
 
   const hasEmailError = hasError('email');

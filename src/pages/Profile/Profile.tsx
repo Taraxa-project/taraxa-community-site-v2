@@ -1,10 +1,11 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useHistory } from "react-router-dom";
 import { ProfileBasicCard, Text, ProfileCard, Button, LinkedCards, InputField, Tooltip, Modal, Checkbox } from '@taraxa_project/taraxa-ui';
 import TaraxaIcon from '../../assets/icons/taraxaIcon';
 import KYCIcon from '../../assets/icons/kyc';
 import { useMediaQuery } from 'react-responsive';
 import InfoIcon from '../../assets/icons/info';
+import { useApi } from '../../services/useApi';
 import { useAuth } from "../../services/useAuth";
 import CloseIcon from '../../assets/icons/close';
 
@@ -39,6 +40,12 @@ const Profile = () => {
   const [kycModalOpen, setKycModalOpen] = useState(false);
   const [agreement, setAgreement] = useState(false);
   const isMobile = useMediaQuery({ query: `(max-width: 760px)` });
+  const api = useApi();
+  const [points, setPoints] = useState(0);
+  const token = JSON.parse(localStorage.getItem('user') || '');
+  const [approved, setApproved] = useState([]);
+  const [rejected, setRejected] = useState([]);
+  const [review, setReview] = useState([]);
 
   const modalTrigger = () => {
     setKycModalOpen(!kycModalOpen);
@@ -129,12 +136,53 @@ const Profile = () => {
       </div>
     </div>
   </>
+
   const reviewContent = <div>
     <Text label="No submissions yet" className="noContent" variant="body2" color="textSecondary" />
   </div>
+
   const rejectedContent = <div>
     <Text label="No submissions yet" className="noContent" variant="body2" color="textSecondary" />
   </div>
+
+  useEffect(() => {
+    if (token && token.id) {
+      const getSubmissions = async () => {
+        const data = await api.get(`/submissions?user.id=${token.id}`)
+        if (!data.success) {
+          return;
+        }
+        const submissionsPromise = data.response
+          .map(async (res: any) => {
+            setApproved(
+              res.data.filter(
+                (sub: { reviewed: boolean; accepted: boolean; }) => sub.reviewed === true && sub.accepted === true
+              )
+            );
+            setRejected(
+              res.data.filter(
+                (sub: { reviewed: boolean; accepted: boolean; }) => sub.reviewed === true && sub.accepted === false
+              )
+            );
+            setReview(
+              res.data.filter(
+                (sub: { reviewed: boolean | null; }) => sub.reviewed === null || sub.reviewed === false
+              )
+            );
+          })
+          await Promise.all(submissionsPromise)
+      }
+      getSubmissions();
+    }
+  }, [token]);
+
+  useEffect(() => {
+    /*setPoints(
+      approved.reduce(function (tot, submission) {
+        return tot + parseFloat(submission.submission_reward);
+      }, 0)
+    );*/
+  }, [approved]);
 
   return (
     <div className={isMobile ? "mobile-profile" : "profile"}>
@@ -150,7 +198,7 @@ const Profile = () => {
 
               {auth.user && <ProfileCard username={auth.user!.username} email={auth.user!.email} wallet={auth.user!.eth_wallet} Icon={TaraxaIcon} buttonOptions={buttons} />}
               <ProfileBasicCard title="KYC" description="Not submitted" Icon={KYCIcon} buttonOptions={kycButton} />
-              <ProfileBasicCard title="Wallet Balance" description="TARA" value="41,234" />
+              <ProfileBasicCard title="My Rewards" description="TARA Points" value="41,234" />
             </div>
             <div className={isMobile ? "mobileCardContainer" : "cardContainer"}>
               <LinkedCards rejectedContent={rejectedContent} approvedContent={approvedContent} reviewContent={reviewContent} rejectedTooltip={<Tooltip className="staking-icon-tooltip" title="Bounty submissions that have been rejected. " Icon={InfoIcon} />} reviewTooltip={<Tooltip className="staking-icon-tooltip" title="Bounty submissions are being reviewed." Icon={InfoIcon} />} approvedTooltip={<Tooltip className="staking-icon-tooltip" title="Bounty submissions that have been approved and points have been rewarded. " Icon={InfoIcon} />} />

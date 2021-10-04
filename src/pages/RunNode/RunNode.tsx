@@ -1,10 +1,14 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { ethers } from "ethers";
 import { Modal, Notification, BaseCard, IconCard, Tooltip, Text, Button } from '@taraxa_project/taraxa-ui';
 
 import CloseIcon from '../../assets/icons/close';
 import NodeIcon from '../../assets/icons/node';
 import InfoIcon from '../../assets/icons/info';
+import EditIcon from '../../assets/icons/edit';
+import DeleteIcon from '../../assets/icons/delete';
+import LeftIcon from '../../assets/icons/left';
+import RightIcon from '../../assets/icons/right';
 
 import { useApi } from "../../services/useApi";
 
@@ -34,19 +38,15 @@ const RunNode = () => {
   const [nodes, setNodes] = useState<Node[]>([]);
   const [blocksProduced, setBlocksProduced] = useState("0");
   const [weeklyRating, setWeeklyRating] = useState("N/A");
+  const [page, setPage] = useState(1);
 
-  const getNodes = async () => {
+  const getNodes = useCallback(async () => {
     const data = await api.get(`/nodes?_limit=-1`, true);
     if (!data.success) {
       return;
     }
     const nodes: Node[] = data.response;
 
-    function notEmpty<TValue>(value: TValue | null | undefined): value is TValue {
-      return value !== null && value !== undefined;
-    }
-
-    const rating = Math.min(...nodes.map(node => node.topPosition).filter(notEmpty));
     const produced = nodes.map(node => node.blocksProduced).reduce((acc, blocks) => acc + blocks, 0);
     setNodes(nodes.map(node => {
       if (node.lastMinedBlockDate !== null) {
@@ -57,15 +57,29 @@ const RunNode = () => {
       }
       return node;
     }));
-    setWeeklyRating(`#${rating}`);
+
+    function notEmpty<TValue>(value: TValue | null | undefined): value is TValue {
+      return value !== null && value !== undefined;
+    }
+
+    const nodesWithTopPosition = nodes.map(node => node.topPosition).filter(notEmpty);
+    if (nodesWithTopPosition.length > 0) {
+      const rating = Math.min(...nodesWithTopPosition);
+      setWeeklyRating(`#${rating}`);
+    }
+
     setBlocksProduced(ethers.utils.commify(produced.toString()));
-  }
+  }, []);
 
   useEffect(() => {
     getNodes();
-  }, []);
+  }, [getNodes]);
 
-  console.log(nodes)
+
+  const deleteNode = async (node: Node) => {
+    await api.del(`/nodes/${node.id}`, true);
+    getNodes();
+  }
 
   const formatNodeName = (name: string) => {
     if (name.length <= 17) {
@@ -73,7 +87,14 @@ const RunNode = () => {
     }
     return `${name.substr(0, 7)} ... ${name.substr(-5)}`;
   }
-  const rows = nodes.map(node => {
+
+  const nodesPerPage = 12;
+  const totalPages = Math.ceil(nodes.length / nodesPerPage);
+  const start = (page - 1) * nodesPerPage;
+  const end = start + nodesPerPage;
+  const paginatedNodes = nodes.slice(start, end);
+
+  const rows = paginatedNodes.map(node => {
     let className = "dot";
     if (node.lastMinedBlockDate !== null) {
       const now = new Date();
@@ -84,18 +105,23 @@ const RunNode = () => {
     }
     return (
       <div key={node.id}>
-        <span className={className} />
-        {formatNodeName(node.name === '' ? node.ethWallet : node.name)}
-        <a href="#" onClick={(e: React.MouseEvent<HTMLElement>) => {
-          e.preventDefault();
+        <div className="status">
+          <div className={className}></div>
+        </div>
+        <div className="address">
+          {formatNodeName(!node.name || node.name === '' ? node.ethWallet : node.name)}
+        </div>
+        <Button size="small" Icon={EditIcon} className="edit" onClick={() => {
           setCurrentEditedNode(node);
           setHasUpdateNodeModal(true);
+        }} />
+        <Button size="small" Icon={DeleteIcon} className="delete" onClick={() => {
+          const confirmation = window.confirm("Are you sure you want to delete this node?");
 
-        }}>e</a>
-        <a href="#" onClick={(e: React.MouseEvent<HTMLElement>) => {
-          e.preventDefault();
-
-        }}>d</a>
+          if (confirmation) {
+            deleteNode(node);
+          }
+        }} />
       </div>
     );
   });
@@ -143,6 +169,25 @@ const RunNode = () => {
         {nodes.length > 0 &&
           <div className="box">
             <Text label="Active Nodes" variant="h6" color="primary" className="box-title" />
+            <div className="box-pagination">
+              <div className="box-pagination-info">
+                <Text label={`Page ${page}/${totalPages}`} />
+              </div>
+              <div className="box-pagination-buttons">
+                <Button size="small" Icon={LeftIcon} className="left"
+                  disabled={page === 1}
+                  onClick={() => {
+                    setPage(page => page - 1);
+                  }}
+                />
+                <Button size="small" Icon={RightIcon} className="right"
+                  disabled={page >= totalPages}
+                  onClick={() => {
+                    setPage(page => page + 1);
+                  }}
+                />
+              </div>
+            </div>
             <div className="box-list">
               {[0, 1, 2].map(col => {
                 const l = col * 4;

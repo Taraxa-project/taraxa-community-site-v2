@@ -73,6 +73,19 @@ export const useApi = () => {
       .catch((err) => getErrorResponse(err))
   }
 
+  const del = async (url: string, includeToken: boolean = false) => {
+    const options = getOptions(includeToken);
+    return axios
+      .delete(getUrl(url), options)
+      .then((response) => {
+        return {
+          success: true,
+          response: response.data,
+        }
+      })
+      .catch((err) => getErrorResponse(err))
+  }
+
   const get = async (url: string, includeToken: boolean = false) => {
     const options = getOptions(includeToken)
     return axios
@@ -86,5 +99,5 @@ export const useApi = () => {
       .catch((err) => getErrorResponse(err))
   }
 
-  return { post, put, get }
+  return { post, put, del, get }
 }

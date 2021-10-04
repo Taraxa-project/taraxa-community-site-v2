@@ -21,7 +21,21 @@
       margin-right: 0;
     }
 
+    .delete,
+    .edit,
+    .left,
+    .right {
+      width: 24px;
+      height: 24px;
+      border: 1px solid #6a7085;
+      border-radius: 4px;
+      padding: 0 !important;
+      min-width: auto;
+      margin-left: 9px;
+    }
+
     .box {
+      position: relative;
       background-color: #151823;
       border: 2px solid #31364b;
       border-radius: 4px;
@@ -37,12 +51,59 @@
         margin-bottom: 40px;
       }
 
+      .box-pagination {
+        display: flex;
+        position: absolute;
+        top: 32px;
+        right: 32px;
+        align-items: center;
+
+        .box-pagination-info > p {
+          font-size: 14px;
+        }
+      }
+
       .box-list {
         display: flex;
         margin-bottom: 40px;
 
         .box-list-col {
           flex: 1;
+          margin-right: 40px;
+
+          & > div {
+            display: flex;
+            min-height: 24px;
+            align-items: center;
+            margin-bottom: 12px;
+
+            button {
+              display: none;
+            }
+          }
+
+          & > div:last-child {
+            margin-bottom: 0;
+          }
+
+          & > div:hover {
+            button {
+              display: block;
+            }
+          }
+
+          .status {
+            display: flex;
+            padding-right: 10px;
+          }
+
+          .address {
+            flex: 1;
+          }
+        }
+
+        & > .box-list-col:last-child {
+          margin-right: 0;
         }
       }
 
@@ -73,8 +134,6 @@
   .bottomReferencesButtonContainer {
     margin-bottom: 5%;
   }
-
-  
 }
 
 .mobileReferenceContainer {
@@ -142,11 +201,8 @@
   width: 14px;
   background-color: #6a7085;
   border-radius: 50%;
-  display: inline-block;
-  margin-top: 2%;
-  margin-right: 5%;
 
   &.active {
-    background-color: #15ac5b; 
+    background-color: #15ac5b;
   }
 }

@@ -117,15 +117,18 @@ const Profile = () => {
   </div>
 
   const approvedContent = <>
-    <div className="contentGrid">
-      <div className="gridLeft">
-        <Text label="Incentivized testnet" className="profileContentTitle" variant="body2" color="primary" />
-        <Text label="number of points " variant="body2" color="textSecondary" />
+    {approved.map((sub: any) => {
+      return <div className="contentGrid">
+        <div className="gridLeft">
+          <Text label={sub.bounty.name} className="profileContentTitle" variant="body2" color="primary" />
+          <Text label="number of points " variant="body2" color="textSecondary" />
+        </div>
+        <div className="gridRight">
+          <Text label={sub.submission_date} variant="body2" color="textSecondary" />
+          <Text label={sub.submission_reward} variant="body2" color="textSecondary" />
+        </div>
       </div>
-      <div className="gridRight">
-        <Text label="3 weeks ago" variant="body2" color="textSecondary" />
-      </div>
-    </div>
+    })}
     <div className="contentGrid">
       <div className="gridLeft">
         <Text label="Bug bounty" className="profileContentTitle" variant="body2" color="primary" />

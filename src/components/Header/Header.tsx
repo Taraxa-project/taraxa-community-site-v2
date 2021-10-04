@@ -3,15 +3,13 @@ import { useHistory } from "react-router-dom";
 import { Button, Header as THeader } from "@taraxa_project/taraxa-ui";
 import TaraxaIcon from '../../assets/icons/taraxaIcon';
 import HamburgerIcon from "../../assets/icons/hamburger";
-import { store, useGlobalState } from 'state-pool';
 import { useMediaQuery } from 'react-responsive';
 import { useAuth } from "../../services/useAuth";
 import { useModal } from "../../services/useModal";
+import { useSidebar } from "../../services/useSidebar";
 
 import Wallet from "./../Wallet";
 import './header.scss'
-
-store.setState("sidebarOpened", false)
 
 const Header = () => {
 
@@ -19,11 +17,11 @@ const Header = () => {
 
   const auth = useAuth();
   const { signIn } = useModal();
+  const { open } = useSidebar();
 
   const isLoggedIn = auth.user?.id;
 
   const [showProfile, setShowProfile] = useState(false);
-  const [sidebarOpened, updateSidebarOpened] = useGlobalState("sidebarOpened");
   const isMobile = useMediaQuery({ query: `(max-width: 760px)` });
 
   const profileTrigger = () => {
@@ -44,7 +42,7 @@ const Header = () => {
     }} />
   </>;
 
-  const hamburger = <div style={{ cursor: 'pointer' }} onClick={() => updateSidebarOpened(true)}><HamburgerIcon /></div>
+  const hamburger = <div style={{ cursor: 'pointer' }} onClick={() => open!()}><HamburgerIcon /></div>
 
   return (
     <THeader

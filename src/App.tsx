@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { GoogleReCaptchaProvider } from "react-google-recaptcha-v3";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import { MetaMaskProvider } from "metamask-react";
@@ -5,6 +6,7 @@ import { MetaMaskProvider } from "metamask-react";
 
 import { AuthProvider } from "./services/useAuth";
 import { ModalProvider, useModal } from "./services/useModal";
+import { SidebarProvider } from "./services/useSidebar";
 
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
@@ -23,7 +25,6 @@ import "./App.css";
 const Root = () => {
 
   const { modal } = useModal();
-
   return (
     <div className="App">
       {modal}
@@ -58,7 +59,9 @@ function App() {
         <AuthProvider>
           <BrowserRouter>
             <ModalProvider>
-              <Root />
+              <SidebarProvider>
+                <Root />
+              </SidebarProvider>
             </ModalProvider>
           </BrowserRouter>
         </AuthProvider>

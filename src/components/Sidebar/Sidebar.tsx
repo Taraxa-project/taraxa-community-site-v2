@@ -1,6 +1,4 @@
-import { useEffect, useRef } from "react";
 import { useHistory, withRouter, RouteComponentProps } from "react-router-dom";
-import { store, useGlobalState } from 'state-pool';
 import { Button, Sidebar as MSidebar } from "@taraxa_project/taraxa-ui";
 
 import BountiesSidebar from "../../assets/icons/bountiesSidebar";
@@ -17,14 +15,14 @@ import Wallet from "./../Wallet";
 
 import { useAuth } from "../../services/useAuth";
 import { useModal } from "../../services/useModal";
+import { useSidebar } from "../../services/useSidebar";
 
 import './sidebar.scss'
 
-store.setState("sidebarOpened", false)
-
-const Sidebar = ({  }: RouteComponentProps) => {
+const Sidebar = ({}: RouteComponentProps) => {
   const auth = useAuth();
   const { signIn } = useModal();
+  const { isOpen, close } = useSidebar();
 
   const menu = [
     { Link: <NavLink label="Get Started" Icon={GetStarted} to="/" />, name: "dashboard" },
@@ -50,24 +48,6 @@ const Sidebar = ({  }: RouteComponentProps) => {
 
   const isLoggedIn = auth.user?.id;
   const history = useHistory();
-  const [sidebarOpened, updateSidebarOpened] = useGlobalState("sidebarOpened");
-
-  function useOutsideAlerter(ref: any) {
-    useEffect(() => {
-      function handleClickOutside(event: any) {
-        if (ref.current && !ref.current.contains(event.target)) {
-          updateSidebarOpened(false);
-        }
-      }
-
-      document.addEventListener("mousedown", handleClickOutside);
-      return () => {
-        document.removeEventListener("mousedown", handleClickOutside);
-      };
-    }, [ref]);
-  }
-  const wrapperRef = useRef(null);
-  useOutsideAlerter(wrapperRef);
 
   const goToProfile = () => {
     history.push('/profile');
@@ -83,7 +63,7 @@ const Sidebar = ({  }: RouteComponentProps) => {
   );
 
   return (
-    <div ref={wrapperRef}><MSidebar disablePadding={true} dense={true} items={menu} open={sidebarOpened} mobileActions={mobileButtons} onClose={updateSidebarOpened} /></div>
+    <MSidebar disablePadding={true} dense={true} items={menu} open={isOpen} mobileActions={mobileButtons} onClose={() => close!()} />
   );
 }
 

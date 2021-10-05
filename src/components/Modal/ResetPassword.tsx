@@ -30,45 +30,52 @@ const ResetPassword = ({ code, onSuccess }: { code: string | undefined, onSucces
     generalErrorMessage = errValues[0];
   }
 
+  const submit = async (event: React.MouseEvent<HTMLElement> | React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    setErrors([]);
+    const errors = [];
+
+    if (password.length < 12) {
+      errors.push({ key: 'password', value: "The password needs to have at least 12 characters." });
+    }
+
+    if (password !== passwordConfirmation) {
+      errors.push({ key: 'password-confirmation', value: "Passwords do not match." });
+    }
+
+    if (errors.length > 0) {
+      setErrors(errors);
+      return;
+    }
+
+    const result = await auth.resetPassword!(code!, password, passwordConfirmation);
+
+    if (result.success) {
+      onSuccess();
+      return;
+    }
+
+    setErrors(result.response[0].messages.map((message: any) => ({ key: message.id.split('.')[3], value: message.message })));
+  };
+
   return (
     <div>
       <Text label="Enter your new password" variant="h6" color="primary" />
       <Text label="Please, enter a new password." variant="body2" color="textSecondary" />
-      <InputField type="password" error={hasPasswordError} helperText={passwordErrorMessage} label="New password" placeholder="New password..." value={password} variant="outlined" fullWidth onChange={event => {
-        setPassword(event.target.value);
-      }} margin="normal" />
-      <InputField type="password" error={hasPasswordConfirmationError} helperText={passwordConfirmationErrorMessage} label="Repeat new password" placeholder="Repeat new password..." value={passwordConfirmation} variant="outlined" fullWidth onChange={event => {
-        setPasswordConfirmation(event.target.value);
-      }} margin="normal" />
 
-      {hasGeneralError && <Text label={generalErrorMessage!} variant="body1" color="error" />}
+      <form onSubmit={submit}>
+        <InputField type="password" error={hasPasswordError} helperText={passwordErrorMessage} label="New password" placeholder="New password..." value={password} variant="outlined" fullWidth onChange={event => {
+          setPassword(event.target.value);
+        }} margin="normal" />
+        <InputField type="password" error={hasPasswordConfirmationError} helperText={passwordConfirmationErrorMessage} label="Repeat new password" placeholder="Repeat new password..." value={passwordConfirmation} variant="outlined" fullWidth onChange={event => {
+          setPasswordConfirmation(event.target.value);
+        }} margin="normal" />
 
-      <Button label="Reset Password" color="secondary" variant="contained" onClick={async () => {
-        setErrors([]);
-        const errors = [];
+        {hasGeneralError && <Text label={generalErrorMessage!} variant="body1" color="error" />}
 
-        if (password.length < 12) {
-          errors.push({ key: 'password', value: "The password needs to have at least 12 characters." });
-        }
-
-        if (password !== passwordConfirmation) {
-          errors.push({ key: 'password-confirmation', value: "Passwords do not match." });
-        }
-
-        if (errors.length > 0) {
-          setErrors(errors);
-          return;
-        }
-
-        const result = await auth.resetPassword!(code!, password, passwordConfirmation);
-
-        if (result.success) {
-          onSuccess();
-          return;
-        }
-
-        setErrors(result.response[0].messages.map((message: any) => ({ key: message.id.split('.')[3], value: message.message })));
-      }} fullWidth className="marginButton" />
+        <Button type="submit" label="Reset Password" color="secondary" variant="contained" className="marginButton" onClick={submit} fullWidth />
+      </form>
     </div>
   )
 }

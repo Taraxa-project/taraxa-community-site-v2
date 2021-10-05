@@ -13,41 +13,48 @@ const RegisterNode = ({ onSuccess }: RegisterNodeProps) => {
   const [nodePublicAddress, setNodePublicAddress] = useState('');
   const [error, setError] = useState<string | undefined>(undefined);
 
+  const submit = async (event: React.MouseEvent<HTMLElement> | React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    setError(undefined);
+
+    const result = await api.post(`/nodes`, { ethWallet: nodePublicAddress }, true);
+    if (result.success) {
+      onSuccess();
+      return;
+    }
+
+    setError(typeof result.response === "string" ? result.response : undefined);
+  }
+
   return (
     <div>
       <Text style={{ marginBottom: '2%' }} label="Register a node" variant="h6" color="primary" />
 
-      <InputField
-        label="Node public address"
-        error={error !== undefined}
-        helperText={error}
-        value={nodePublicAddress}
-        variant="outlined"
-        type="text"
-        fullWidth
-        margin="normal"
-        onChange={event => {
-          setNodePublicAddress(event.target.value);
-        }}
-      />
-      <Button
-        label="Submit"
-        color="secondary"
-        variant="contained"
-        onClick={async () => {
-          setError(undefined);
-
-          const result = await api.post(`/nodes`, { ethWallet: nodePublicAddress }, true);
-          if (result.success) {
-            onSuccess();
-            return;
-          }
-
-          setError(typeof result.response === "string" ? result.response : undefined);
-        }}
-        fullWidth
-        className="marginButton"
-      />
+      <form onSubmit={submit}>
+        <InputField
+          label="Node public address"
+          error={error !== undefined}
+          helperText={error}
+          value={nodePublicAddress}
+          variant="outlined"
+          type="text"
+          fullWidth
+          margin="normal"
+          onChange={event => {
+            setNodePublicAddress(event.target.value);
+          }}
+        />
+        <Button
+          type="submit"
+          label="Submit"
+          color="secondary"
+          variant="contained"
+          className="marginButton"
+          onClick={submit}
+          fullWidth
+        />
+      </form>
 
       <Text style={{ margin: '5% 0' }} label="References:" variant="body1" color="primary" />
 

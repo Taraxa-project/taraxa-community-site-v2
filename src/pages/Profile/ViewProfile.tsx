@@ -2,8 +2,9 @@ import { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { useMediaQuery } from 'react-responsive';
 
-import { ProfileBasicCard, Text, ProfileCard, Button, LinkedCards, Tooltip } from '@taraxa_project/taraxa-ui';
+import { ProfileBasicCard, Text, ProfileCard, Button, LinkedCards, Tooltip, BaseCard } from '@taraxa_project/taraxa-ui';
 
+import BountyIcon from '../../assets/icons/bounties';
 import TaraxaIcon from '../../assets/icons/taraxaIcon';
 import InfoIcon from '../../assets/icons/info';
 import KYCIcon from '../../assets/icons/kyc';
@@ -14,6 +15,7 @@ import { formatTime } from "../../utils/time";
 
 import { useAuth } from "../../services/useAuth";
 import { useApi } from '../../services/useApi';
+import Title from "../../components/Title/Title";
 
 interface ViewProfileProps {
   openEditProfile: () => void;
@@ -213,15 +215,26 @@ function ViewProfileBounties({ approved, rejected, review }: ViewProfileBounties
   }
 
   return (
-    <div className={isMobile ? "mobileCardContainer" : "cardContainer"}>
-      <LinkedCards
-        approvedContent={approvedContent}
-        rejectedContent={rejectedContent}
-        reviewContent={reviewContent}
-        rejectedTooltip={<Tooltip className="staking-icon-tooltip" title="Bounty submissions that have been rejected." Icon={InfoIcon} />}
-        reviewTooltip={<Tooltip className="staking-icon-tooltip" title="Bounty submissions are being reviewed." Icon={InfoIcon} />}
-        approvedTooltip={<Tooltip className="staking-icon-tooltip" title="Bounty submissions that have been approved and points have been rewarded." Icon={InfoIcon} />} />
-    </div>
+    <>
+      <Title
+        title="Bounty submissions"
+        subtitle=""
+        tooltip=""
+        Icon={BountyIcon}
+        size='medium'
+      />
+      <div className={isMobile ? "mobileCardContainer" : "cardContainer"}>
+        
+        
+        <LinkedCards
+          approvedContent={approvedContent}
+          rejectedContent={rejectedContent}
+          reviewContent={reviewContent}
+          rejectedTooltip={<Tooltip className="staking-icon-tooltip" title="Bounty submissions that have been rejected." Icon={InfoIcon} />}
+          reviewTooltip={<Tooltip className="staking-icon-tooltip" title="Bounty submissions are being reviewed." Icon={InfoIcon} />}
+          approvedTooltip={<Tooltip className="staking-icon-tooltip" title="Bounty submissions that have been approved and points have been rewarded." Icon={InfoIcon} />} />
+      </div>
+    </>
   )
 }
 

@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { useHistory } from "react-router-dom";
+import { useMediaQuery } from 'react-responsive';
 import { Button, Header as THeader } from "@taraxa_project/taraxa-ui";
 import TaraxaIcon from '../../assets/icons/taraxaIcon';
 import HamburgerIcon from "../../assets/icons/hamburger";
-import { useMediaQuery } from 'react-responsive';
 import { useAuth } from "../../services/useAuth";
 import { useModal } from "../../services/useModal";
 import { useSidebar } from "../../services/useSidebar";
@@ -46,16 +46,17 @@ const Header = () => {
 
   return (
     <THeader
+      className="header"
       color="primary"
       position="relative"
       Icon={TaraxaIcon}
       elevation={0}
-      button={isMobile ? <></> : button}
-      wallet={isMobile ? <></> : <Wallet />}
       profileModal={profileModal}
       showProfileModal={showProfile}
-      hamburger={hamburger}
-    />
+    >
+      <Wallet />
+      {isMobile ? hamburger : (isMobile ? <></> : button)}
+    </THeader>
   );
 }
 

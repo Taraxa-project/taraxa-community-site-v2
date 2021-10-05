@@ -1,4 +1,6 @@
 import { useHistory, withRouter, RouteComponentProps } from "react-router-dom";
+import { useMediaQuery } from 'react-responsive';
+import { useMetaMask } from "metamask-react"
 import { Button, Sidebar as MSidebar } from "@taraxa_project/taraxa-ui";
 
 import BountiesSidebar from "../../assets/icons/bountiesSidebar";
@@ -12,7 +14,6 @@ import WalletSidebar from "../../assets/icons/walletSidebar";
 import HamburgerIcon from "../../assets/icons/hamburger"
 
 import NavLink from "../../components/NavLink/NavLink";
-import Wallet from "./../Wallet";
 
 import { useAuth } from "../../services/useAuth";
 import { useModal } from "../../services/useModal";
@@ -22,6 +23,9 @@ import './sidebar.scss'
 
 const Sidebar = ({ }: RouteComponentProps) => {
   const auth = useAuth();
+  const { status, connect } = useMetaMask();
+  const isMobile = useMediaQuery({ query: `(max-width: 760px)` });
+
   const { signIn } = useModal();
   const { isOpen, close } = useSidebar();
 
@@ -31,8 +35,8 @@ const Sidebar = ({ }: RouteComponentProps) => {
       label: 'Earn',
       items: [
         { Link: <NavLink label="Staking" Icon={StakingSidebar} to="/staking" />, name: "staking" },
-        { Link: <NavLink label="Bounties" Icon={BountiesSidebar} to="/bounties" />, name: "bounties" },
-        { Link: <NavLink label="Redeem" Icon={RedeemSidebar} to="/redeem" />, name: "redeem" },
+        // { Link: <NavLink label="Bounties" Icon={BountiesSidebar} to="/bounties" />, name: "bounties" },
+        // { Link: <NavLink label="Redeem" Icon={RedeemSidebar} to="/redeem" />, name: "redeem" },
       ],
     },
     {
@@ -56,6 +60,7 @@ const Sidebar = ({ }: RouteComponentProps) => {
   }
 
   const goToProfile = () => {
+    close!();
     history.push('/profile');
   }
 
@@ -66,7 +71,12 @@ const Sidebar = ({ }: RouteComponentProps) => {
 
   const mobileButtons = (
     <>
-      <Wallet />
+      {status === "notConnected" && <Button label="Connect Wallet" variant="outlined" color="primary" fullWidth={true} onClick={async () => {
+        try {
+          await connect();
+          close!();
+        } catch (e) { }
+      }} />}
       {button}
     </>
   );
@@ -74,7 +84,10 @@ const Sidebar = ({ }: RouteComponentProps) => {
   const hamburger = <div className="hamburger" style={{ cursor: 'pointer' }} onClick={() => close!()}><HamburgerIcon /></div>
 
   return (
-    <MSidebar hamburger={hamburger} disablePadding={true} dense={true} items={menu} open={isOpen} mobileActions={mobileButtons} onClose={() => close!()} />
+    <MSidebar disablePadding={true} dense={true} items={menu} open={isOpen} onClose={() => close!()}>
+      {hamburger && hamburger}
+      {isMobile && mobileButtons && mobileButtons}
+    </MSidebar>
   );
 }
 

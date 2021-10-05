@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { GoogleReCaptchaProvider } from "react-google-recaptcha-v3";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import { MetaMaskProvider } from "metamask-react";

@@ -9,6 +9,7 @@ import NodeSidebar from "../../assets/icons/nodeSidebar";
 import RedeemSidebar from "../../assets/icons/redeemSidebar";
 import StakingSidebar from "../../assets/icons/stakingSidebar";
 import WalletSidebar from "../../assets/icons/walletSidebar";
+import HamburgerIcon from "../../assets/icons/hamburger"
 
 import NavLink from "../../components/NavLink/NavLink";
 import Wallet from "./../Wallet";
@@ -19,7 +20,7 @@ import { useSidebar } from "../../services/useSidebar";
 
 import './sidebar.scss'
 
-const Sidebar = ({}: RouteComponentProps) => {
+const Sidebar = ({ }: RouteComponentProps) => {
   const auth = useAuth();
   const { signIn } = useModal();
   const { isOpen, close } = useSidebar();
@@ -49,21 +50,31 @@ const Sidebar = ({}: RouteComponentProps) => {
   const isLoggedIn = auth.user?.id;
   const history = useHistory();
 
+  const login = () => {
+    close!();
+    signIn!();
+  }
+
   const goToProfile = () => {
     history.push('/profile');
   }
 
-  const button = !isLoggedIn ? <Button label="Sign in / Sign up" color="secondary" variant="contained" onClick={signIn} /> : <div><Button label="My Profile" color="secondary" variant="contained" onClick={goToProfile} /></div>;
+  const button = !isLoggedIn ?
+    <Button label="Sign in / Sign up" color="secondary" variant="contained" fullWidth={true} onClick={login} />
+    :
+    <Button label="My Profile" color="secondary" variant="contained" fullWidth={true} onClick={goToProfile} />;
 
   const mobileButtons = (
-    <div className="mobileButtons">
-      {button}
+    <>
       <Wallet />
-    </div>
+      {button}
+    </>
   );
 
+  const hamburger = <div className="hamburger" style={{ cursor: 'pointer' }} onClick={() => close!()}><HamburgerIcon /></div>
+
   return (
-    <MSidebar disablePadding={true} dense={true} items={menu} open={isOpen} mobileActions={mobileButtons} onClose={() => close!()} />
+    <MSidebar hamburger={hamburger} disablePadding={true} dense={true} items={menu} open={isOpen} mobileActions={mobileButtons} onClose={() => close!()} />
   );
 }
 

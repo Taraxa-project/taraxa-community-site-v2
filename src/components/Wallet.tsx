@@ -14,7 +14,7 @@ const Wallet = () => {
 
   if (status === "notConnected") {
     return (
-      <Button id="noWalletContainer" label="Connect Wallet" variant="text" color="primary" fullWidth onClick={connect} />
+      <Button id="noWalletContainer" label="Connect Wallet" variant="outlined" color="primary" fullWidth onClick={connect} />
     );
   }
 

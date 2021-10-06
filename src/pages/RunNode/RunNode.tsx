@@ -23,6 +23,7 @@ interface Node {
   id: number;
   name: string;
   ethWallet: string;
+  active: boolean;
   topPosition: null | number;
   blocksProduced: number;
   lastMinedBlockDate: null | Date;
@@ -45,18 +46,29 @@ const RunNode = () => {
     if (!data.success) {
       return;
     }
-    const nodes: Node[] = data.response;
-
-    const produced = nodes.map(node => node.blocksProduced).reduce((acc, blocks) => acc + blocks, 0);
-    setNodes(nodes.map(node => {
+    const nodes: Node[] = data.response.map((node: Partial<Node>) => {
       if (node.lastMinedBlockDate !== null) {
         return {
           ...node,
-          lastMinedBlockDate: new Date(node.lastMinedBlockDate),
+          lastMinedBlockDate: new Date(node.lastMinedBlockDate!),
         }
       }
       return node;
-    }));
+    }).map((node: Partial<Node>) => {
+      let active = false;
+      if (node.lastMinedBlockDate !== null) {
+        const now = new Date();
+        const diff = Math.ceil((now.getTime() - node.lastMinedBlockDate!.getTime()) / 1000);
+        if (diff / 60 < 120) {
+          active = true;
+        }
+      }
+      return {
+        ...node,
+        active
+      }
+    });
+    setNodes(nodes);
 
     function notEmpty<TValue>(value: TValue | null | undefined): value is TValue {
       return value !== null && value !== undefined;
@@ -68,13 +80,13 @@ const RunNode = () => {
       setWeeklyRating(`#${rating}`);
     }
 
+    const produced = nodes.map(node => node.blocksProduced).reduce((acc, blocks) => acc + blocks, 0);
     setBlocksProduced(ethers.utils.commify(produced.toString()));
   }, []);
 
   useEffect(() => {
     getNodes();
   }, [getNodes]);
-
 
   const deleteNode = async (node: Node) => {
     await api.del(`/nodes/${node.id}`, true);
@@ -96,12 +108,8 @@ const RunNode = () => {
 
   const rows = paginatedNodes.map(node => {
     let className = "dot";
-    if (node.lastMinedBlockDate !== null) {
-      const now = new Date();
-      const diff = Math.ceil((now.getTime() - node.lastMinedBlockDate.getTime()) / 1000);
-      if (diff / 60 < 120) {
-        className += " active";
-      }
+    if (node.active) {
+      className += " active";
     }
     return (
       <div key={node.id}>
@@ -153,7 +161,7 @@ const RunNode = () => {
         }
         <div className="cardContainer">
           {nodes.length > 0 && <>
-            <BaseCard title={`${nodes.length}`} description="Active nodes" />
+            <BaseCard title={`${nodes.filter(node => node.active).length}`} description="Active nodes" />
             <BaseCard title={blocksProduced} description="Blocks produced" />
             <BaseCard title={weeklyRating} description="Weekly rating" />
           </>}

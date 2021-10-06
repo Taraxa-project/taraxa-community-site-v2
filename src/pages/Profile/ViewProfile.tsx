@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { useMediaQuery } from 'react-responsive';
 
-import { ProfileBasicCard, Text, ProfileCard, Button, LinkedCards, Tooltip, BaseCard } from '@taraxa_project/taraxa-ui';
+import { ProfileBasicCard, Text, ProfileCard, Button, LinkedCards, Tooltip, ProfileSubmissionsCard } from '@taraxa_project/taraxa-ui';
 
 import BountyIcon from '../../assets/icons/bounties';
 import TaraxaIcon from '../../assets/icons/taraxaIcon';
@@ -224,15 +224,18 @@ function ViewProfileBounties({ approved, rejected, review }: ViewProfileBounties
         size='medium'
       />
       <div className={isMobile ? "mobileCardContainer" : "cardContainer"}>
-        
-        
-        <LinkedCards
-          approvedContent={approvedContent}
-          rejectedContent={rejectedContent}
-          reviewContent={reviewContent}
-          rejectedTooltip={<Tooltip className="staking-icon-tooltip" title="Bounty submissions that have been rejected." Icon={InfoIcon} />}
-          reviewTooltip={<Tooltip className="staking-icon-tooltip" title="Bounty submissions are being reviewed." Icon={InfoIcon} />}
-          approvedTooltip={<Tooltip className="staking-icon-tooltip" title="Bounty submissions that have been approved and points have been rewarded." Icon={InfoIcon} />} />
+        <ProfileSubmissionsCard
+          title='Approved'
+          itemsContent={approvedContent}
+        />
+        <ProfileSubmissionsCard
+          title='In Review'
+          itemsContent={reviewContent}
+        />
+        <ProfileSubmissionsCard
+          title='Rejected'
+          itemsContent={rejectedContent}
+        />
       </div>
     </>
   )

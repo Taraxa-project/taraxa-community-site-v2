@@ -227,14 +227,17 @@ function ViewProfileBounties({ approved, rejected, review }: ViewProfileBounties
         <ProfileSubmissionsCard
           title='Approved'
           itemsContent={approvedContent}
+          tooltip={<Tooltip className="staking-icon-tooltip" title="Bounty submissions that have been approved and points have been rewarded." Icon={InfoIcon} />}
         />
         <ProfileSubmissionsCard
           title='In Review'
           itemsContent={reviewContent}
+          tooltip={<Tooltip className="staking-icon-tooltip" title="Bounty submissions are being reviewed." Icon={InfoIcon} />}
         />
         <ProfileSubmissionsCard
           title='Rejected'
           itemsContent={rejectedContent}
+          tooltip={<Tooltip className="staking-icon-tooltip" title="Bounty submissions that have been rejected." Icon={InfoIcon} />}
         />
       </div>
     </>

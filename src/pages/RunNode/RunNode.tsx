@@ -169,9 +169,7 @@ const RunNode = () => {
             <IconCard title="Register a node" description="Register a node you’ve aleady set up."
               onClickText="Register a node" onClickButton={() => setHasRegisterNodeModal(true)} Icon={NodeIcon} tooltip={<Tooltip className="runnode-icon-tooltip" title="A registered node (which has already been setup) will automatically be delegated enough testnet tokens to participate in consensus." Icon={InfoIcon} />} />
             <IconCard title="Set up a node" description="Learn how to set up a node on Taraxa’s testnet."
-              onClickText="Set up a node" onClickButton={() => {
-                window.open('https://docs.taraxa.io/node-setup/testnet_node_setup', '_blank')
-              }} Icon={NodeIcon} />
+              onClickText="Set up a node" onClickButton={() => window.open('https://docs.taraxa.io/node-setup/testnet_node_setup', '_blank', 'noreferrer noopener')} Icon={NodeIcon} />
           </>}
         </div>
         {nodes.length > 0 &&
@@ -208,10 +206,10 @@ const RunNode = () => {
 
         <div className="box">
           <Text label="References" variant="h6" color="primary" className="box-title" />
-          <Button label="How to setup a node" className="referenceButton" variant="contained" onClick={() => console.log('go to')} />
-          <Button label="How to find my node" variant="contained" className="referenceButton" onClick={() => console.log('go to')} />
-          <Button label="How to receive delegation" className="referenceButton" variant="contained" onClick={() => console.log('go to')} />
-          <Button label="What rewards are there" className="referenceButton" variant="contained" onClick={() => console.log('go to')} />
+          <Button label="How do I install a node?" className="referenceButton" variant="contained" onClick={() => window.open('https://docs.taraxa.io/node-setup/testnet_node_setup', '_blank', 'noreferrer noopener')} />
+          <Button label="How do I upgrade my node?" className="referenceButton" variant="contained" onClick={() => window.open('https://docs.taraxa.io/node-setup/upgrade-a-node/software-upgrade', '_blank', 'noreferrer noopener')} />
+          <Button label="How do I reset my node?" className="referenceButton" variant="contained" onClick={() => window.open('https://docs.taraxa.io/node-setup/upgrade-a-node/data-reset', '_blank', 'noreferrer noopener')} />
+          <Button label="I need help!" className="referenceButton" variant="contained" onClick={() => window.open('https://taraxa.io/discord', '_blank', 'noreferrer noopener')} />
         </div>
       </div>
     </div>

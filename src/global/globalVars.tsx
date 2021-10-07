@@ -1,6 +1,6 @@
-import SubmitIcon from "../assets/icons/submit";
 import { Text } from "@taraxa_project/taraxa-ui";
 import AttachmentIcon from "../assets/icons/attachment";
+import SubmitIcon from "../assets/icons/submit";
 import "./globalVars.scss";
 
 export const bountiesDescription = <div className="bounties-description-container">

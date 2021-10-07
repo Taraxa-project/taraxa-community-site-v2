@@ -39,10 +39,7 @@ const StakingSuccess = ({ lockingPeriod, transactionHash, onSuccess }: StakingSu
       </div>
       <Text label={`Your TARA has been successfully transferred to the staking contract.`} variant="body2" color="primary" />
 
-      <Button variant="text" color="secondary" label="View on Etherscan" onClick={() => {
-        window.open(`${etherscanBaseUrl}${transactionHash}`, '_blank')
-      }}>
-      </Button>
+      <Button variant="text" color="secondary" label="View on Etherscan" onClick={() => window.open(`${etherscanBaseUrl}${transactionHash}`, '_blank', 'noreferrer noopener')} />
 
       <div className="staking-success-container">
         <Text label="Please keep in mind:" className="title" />

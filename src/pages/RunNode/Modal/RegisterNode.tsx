@@ -63,9 +63,7 @@ const RegisterNode = ({ onSuccess }: RegisterNodeProps) => {
         variant="outlined"
         color="secondary"
         className="node-control-reference-button"
-        onClick={() => {
-          window.open(`https://docs.taraxa.io/node-setup/node_address`, '_blank')
-        }}
+        onClick={() => window.open(`https://docs.taraxa.io/node-setup/node_address`, '_blank', 'noreferrer noopener')}
         fullWidth={true}
       />
     </div>

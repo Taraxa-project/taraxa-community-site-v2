@@ -5,8 +5,8 @@ import { useHistory, withRouter, RouteComponentProps } from "react-router-dom";
 import { IconCard, ToggleButton, Notification } from '@taraxa_project/taraxa-ui';
 
 import StakingIcon from '../../assets/icons/staking';
-import BountiesIcon from '../../assets/icons/bounties';
-import RedeemIcon from '../../assets/icons/redeem';
+// import BountiesIcon from '../../assets/icons/bounties';
+// import RedeemIcon from '../../assets/icons/redeem';
 import NodeIcon from '../../assets/icons/node';
 import ExplorerIcon from '../../assets/icons/explorer';
 import DeployIcon from '../../assets/icons/deploy';
@@ -71,10 +71,10 @@ const Home = ({ match }: RouteComponentProps<HomeProps>) => {
         <div className="cardContainer" style={{ display: isMobile && toggleValue !== "earn" ? 'none' : isMobile ? 'inherit' : 'flex' }}>
           <IconCard title="Staking" description="Earn rewards while helping to secure Taraxa’s network."
             onClickText="Get Started" onClickButton={() => history.push('/staking')} Icon={StakingIcon} />
-          <IconCard title="Bounties" description="Earn rewards while learning about Taraxa and grow it’s ecosystem."
+          {/* <IconCard title="Bounties" description="Earn rewards while learning about Taraxa and grow it’s ecosystem."
             onClickText="Get Started" onClickButton={() => history.push('/bounties')} Icon={BountiesIcon} />
           <IconCard title="Redeem" description="Redeem TARA points for $TARA tokens and cool Taraxa swag."
-            onClickText="Get Started" onClickButton={() => history.push('/redeem')} Icon={RedeemIcon} />
+            onClickText="Get Started" onClickButton={() => history.push('/redeem')} Icon={RedeemIcon} /> */}
         </div>
 
         <Notification
@@ -87,9 +87,9 @@ const Home = ({ match }: RouteComponentProps<HomeProps>) => {
           <IconCard title="Run a node" description="Earn rewards while helping to secure Taraxa’s network."
             onClickText="Get Started" onClickButton={() => history.push('/node')} Icon={NodeIcon} />
           <IconCard title="Taraxa explorer" description="Explore the ledger and find the transaction’s data."
-            onClickText="Get Started" onClickButton={() => window.open('https://explorer.testnet.taraxa.io/', '_blank')} Icon={ExplorerIcon} />
+            onClickText="Get Started" onClickButton={() => window.open('https://explorer.testnet.taraxa.io/', '_blank', 'noreferrer noopener')} Icon={ExplorerIcon} />
           <IconCard title="Deploy DApps" description="Earn rewards while learning about Taraxa and grow it’s ecosystem."
-            onClickText="Get Started" onClickButton={() => window.open('https://sandbox.testnet.taraxa.io/', '_blank')} Icon={DeployIcon} />
+            onClickText="Get Started" onClickButton={() => window.open('https://sandbox.testnet.taraxa.io/', '_blank', 'noreferrer noopener')} Icon={DeployIcon} />
         </div>
       </div>
     </div>

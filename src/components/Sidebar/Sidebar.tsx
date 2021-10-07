@@ -1,16 +1,16 @@
-import { useHistory, withRouter, RouteComponentProps } from "react-router-dom";
+import { useHistory, withRouter } from "react-router-dom";
 import { useMediaQuery } from 'react-responsive';
 import { useMetaMask } from "metamask-react"
 import { Button, Sidebar as MSidebar } from "@taraxa_project/taraxa-ui";
 
-import BountiesSidebar from "../../assets/icons/bountiesSidebar";
+// import BountiesSidebar from "../../assets/icons/bountiesSidebar";
 import DeploySidebar from "../../assets/icons/deploySidebar";
 import ExplorerSidebar from "../../assets/icons/explorerSidebar";
 import GetStarted from "../../assets/icons/getStarted";
 import NodeSidebar from "../../assets/icons/nodeSidebar";
-import RedeemSidebar from "../../assets/icons/redeemSidebar";
+// import RedeemSidebar from "../../assets/icons/redeemSidebar";
 import StakingSidebar from "../../assets/icons/stakingSidebar";
-import WalletSidebar from "../../assets/icons/walletSidebar";
+// import WalletSidebar from "../../assets/icons/walletSidebar";
 import HamburgerIcon from "../../assets/icons/hamburger"
 
 import NavLink from "../../components/NavLink/NavLink";
@@ -21,7 +21,7 @@ import { useSidebar } from "../../services/useSidebar";
 
 import './sidebar.scss'
 
-const Sidebar = ({ }: RouteComponentProps) => {
+const Sidebar = () => {
   const auth = useAuth();
   const { status, connect } = useMetaMask();
   const isMobile = useMediaQuery({ query: `(max-width: 760px)` });
@@ -44,8 +44,8 @@ const Sidebar = ({ }: RouteComponentProps) => {
       label: 'Testnet',
       items: [
         { Link: <NavLink label="Run a node" Icon={NodeSidebar} to="/node" />, name: "node" },
-        { Link: <NavLink label="Taraxa Explorer" Icon={ExplorerSidebar} to={{ pathname: "https://explorer.testnet.taraxa.io/" }} target="_blank" /> },
-        { Link: <NavLink label="Deploy DApps" Icon={DeploySidebar} to={{ pathname: "https://sandbox.testnet.taraxa.io/" }} target="_blank" /> },
+        { Link: <NavLink label="Taraxa Explorer" Icon={ExplorerSidebar} to={{ pathname: "https://explorer.testnet.taraxa.io/" }} target="_blank" rel="noopener noreferrer" /> },
+        { Link: <NavLink label="Deploy DApps" Icon={DeploySidebar} to={{ pathname: "https://sandbox.testnet.taraxa.io/" }} target="_blank" rel="noopener noreferrer" /> },
         // { Link: <NavLink label="Wallet" Icon={WalletSidebar} to="/wallet" />, name: "wallet" }
       ],
     }

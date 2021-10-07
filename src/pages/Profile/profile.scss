@@ -27,6 +27,25 @@
 
 .mobile-profile {
   .profile-content {
+    .formInputContainer {
+      .profileInput,
+      .profileDisabledInput {
+        margin-left: 0 !important;
+        width: 100% !important;
+      }
+    }
+
+    .formInputContainer {
+      display: flex;
+      align-items: baseline;
+      margin-bottom: 24px;
+      align-items: center;
+
+      > div {
+        flex: 1;
+      }
+    }
+
     .mobileCardContainer {
       margin-bottom: 40px;
     }
@@ -38,13 +57,26 @@
     .mobileCardContainer > div:last-child {
       margin-bottom: 0;
     }
+
+    #buttonsContainer {
+      margin: 24px 0 0;
+
+      > button {
+        width: 100% !important;
+        margin: 0 0 12px !important;
+      }
+
+      > button:last-child {
+        margin: 0 !important;
+      }
+    }
   }
 }
 
-.formInputContainer {
+.formInputContainer > div {
   display: flex;
   align-items: baseline;
-  margin-bottom: 3%;
+  margin-bottom: 24px;
 }
 
 .verticalFormContainer {
@@ -60,9 +92,12 @@
   width: 100px;
 }
 
-.profileInput {
-  margin-left: 15% !important;
+.profileInput,
+.profileDisabledInput {
+  margin-top: 12px !important;
+  margin-left: 15%  !important;
   border-bottom: 1px solid #878ca4 !important;
+
   width: 65% !important;
   margin-bottom: 0% !important;
   input {
@@ -70,12 +105,6 @@
     border: none !important;
     background-color: #151823 !important;
   }
-}
-
-.profileDisabledInput {
-  margin-left: 15%;
-  border-bottom: 1px solid #878ca4;
-  width: 65%;
 }
 
 #buttonsContainer {
@@ -90,18 +119,6 @@
     background-color: #31364b;
     color: white;
   }
-}
-
-.profile-green-stripe {
-  border-left: 3px solid #15ac5b;
-  padding-left: 2%;
-  width: 100%;
-}
-
-.profile-red-stripe {
-  border-left: 3px solid #ff515a;
-  padding-left: 2%;
-  width: 100%;
 }
 
 .chip {

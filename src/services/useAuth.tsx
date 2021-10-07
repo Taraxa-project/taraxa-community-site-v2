@@ -16,6 +16,7 @@ type Context = {
   signout?: () => void,
   sendPasswordResetEmail?: (email: string, token: string) => Promise<any>,
   resetPassword?: (code: string, password: string, passwordConfirmation: string) => Promise<any>,
+  updateUser?: (username: string, password?: string) => Promise<any>,
   refreshUser?: () => Promise<any>,
 }
 
@@ -35,7 +36,7 @@ export const useAuth = () => {
 };
 
 function useProvideAuth() {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState<User | null>(null);
   const api = useApi();
 
   const signin = async (username: string, password: string) => {
@@ -100,7 +101,29 @@ function useProvideAuth() {
 
     return result;
   };
+  const updateUser = async (username: string, password?: string) => {
+    let result;
+    if (password) {
+      result = await api.put(`/users/${user!.id}`, {
+        username,
+        password,
+      }, true);
+    } else {
+      result = await api.put(`/users/${user!.id}`, {
+        username,
+      }, true);
+    }
 
+    console.log(result)
+
+    if (result.success) {
+      const user = result.response;
+      localStorage.setItem("user", JSON.stringify(user));
+      setUser(user);
+    }
+
+    return result;
+  };
   const refreshUser = async () => {
     const result = await api.get('/users/me', true);
     if (result.success) {
@@ -127,6 +150,7 @@ function useProvideAuth() {
     signout,
     sendPasswordResetEmail,
     resetPassword,
+    updateUser,
     refreshUser,
   };
 }

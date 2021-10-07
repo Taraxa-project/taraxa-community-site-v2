@@ -10,9 +10,9 @@ const Footer = () => {
         { label: 'Privacy Policy', link: 'https://taraxa.io/privacy' }
       ]}
       items={[
-        { label: 'Send', Icon: <a href="https://twitter.com/taraxa_project" target="_blank" rel="noreferrer"><SendIcon /></a> },
-        { label: 'Discord', Icon: <a href="https://discord.com/invite/WaXnwUb" target="_blank" rel="noreferrer"><DiscordIcon /></a> },
-        { label: 'Twitter', Icon: <a href="https://t.me/taraxa_project" target="_blank" rel="noreferrer"><TwitterIcon /></a> },
+        { label: 'Send', Icon: <a href="https://www.taraxa.io/tg" target="_blank" rel="noreferrer"><SendIcon /></a> },
+        { label: 'Discord', Icon: <a href="https://www.taraxa.io/discord" target="_blank" rel="noreferrer"><DiscordIcon /></a> },
+        { label: 'Twitter', Icon: <a href="https://www.taraxa.io/twitter" target="_blank" rel="noreferrer"><TwitterIcon /></a> },
       ]} />
   )
 }

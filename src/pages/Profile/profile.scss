@@ -1,47 +1,44 @@
-.buttonsContainer {
-  display: grid;
-  width: 90%;
-  margin-left: 2%;
-  margin-top: 5%;
-}
-
 .profile,
 .mobile-profile {
-  .cardContainer .MuiPaper-root {
-    padding: 2%;
-  }
-
-  .cardContainer .buttonsContainer {
-    margin: 0 auto;
-  }
-
-  .cardContainer {
-    display: flex;
-    margin-bottom: 5%;
-  }
-
-  .cardContainer > * {
-    display: block;
-    margin-right: 5% !important;
-  }
-
-  .mobileCardContainer {
-    display: block;
-    margin-bottom: 5%;
-  }
-
-  .mobileCardContainer > * {
-    display: block;
-    margin-right: 5% !important;
-  }
-}
-
-.profile {
   display: flex;
+
+  .page-title {
+    margin-bottom: 24px;
+  }
+
+  .profile-content {
+    text-align: left;
+    flex: 1;
+
+    .cardContainer {
+      display: flex;
+      margin-bottom: 40px;
+    }
+
+    .cardContainer > div {
+      margin-right: 24px;
+    }
+
+    .cardContainer > div:last-child {
+      margin-right: 0;
+    }
+  }
 }
 
 .mobile-profile {
-  display: flex;
+  .profile-content {
+    .mobileCardContainer {
+      margin-bottom: 40px;
+    }
+
+    .mobileCardContainer > div {
+      width: 100%;
+      margin-bottom: 24px;
+    }
+    .mobileCardContainer > div:last-child {
+      margin-bottom: 0;
+    }
+  }
 }
 
 .formInputContainer {
@@ -95,11 +92,6 @@
   }
 }
 
-.profile-content {
-  text-align: left;
-  flex: 1;
-}
-
 .profile-green-stripe {
   border-left: 3px solid #15ac5b;
   padding-left: 2%;
@@ -144,8 +136,8 @@
 
 .contentGrid {
   display: grid;
-  grid-template-columns: 50% 50%;
-  margin-top: 15% !important;
+  grid-template-columns: 65% 35%;
+  margin-top: 24px !important;
 
   .gridLeft {
     grid-column: 1;

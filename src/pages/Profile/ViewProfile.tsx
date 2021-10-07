@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { useMediaQuery } from 'react-responsive';
 
-import { ProfileBasicCard, Text, ProfileCard, Button, LinkedCards, Tooltip, ProfileSubmissionsCard } from '@taraxa_project/taraxa-ui';
+import { ProfileBasicCard, Text, ProfileCard, Button, Tooltip, ProfileSubmissionsCard } from '@taraxa_project/taraxa-ui';
 
 import BountyIcon from '../../assets/icons/bounties';
 import TaraxaIcon from '../../assets/icons/taraxaIcon';
@@ -99,17 +99,17 @@ function ViewProfileDetails({ points, openEditProfile, openKYCModal }: ViewProfi
   const history = useHistory();
   const isMobile = useMediaQuery({ query: `(max-width: 760px)` });
 
-  const buttons = <div className="buttonsContainer">
-    <Button color="primary" variant="outlined" label="Edit Profile" onClick={() => openEditProfile()} />
-    <Button color="primary" variant="text" label="Log out" onClick={() => {
+  const buttons = <>
+    <Button color="primary" variant="outlined" label="Edit Profile" fullWidth onClick={() => openEditProfile()} />
+    <Button color="primary" variant="text" label="Log out" fullWidth onClick={() => {
       auth.signout!();
       history.push('/');
     }} />
-  </div>
+  </>;
 
   return (
     <div className={isMobile ? "mobileCardContainer" : "cardContainer"}>
-      {auth.user && <ProfileCard username={auth.user!.username} email={auth.user!.email} wallet={auth.user!.eth_wallet} Icon={TaraxaIcon} buttonOptions={buttons} />}
+      <ProfileCard username={auth.user!.username} email={auth.user!.email} wallet={auth.user!.eth_wallet} Icon={TaraxaIcon} buttonOptions={buttons} />
       <ViewProfileDetailsKYC openKYCModal={openKYCModal} />
       <ProfileBasicCard title="My Rewards" description="TARA Points" value={points.toString()} />
     </div>
@@ -136,23 +136,22 @@ function ViewProfileDetailsKYC({ openKYCModal }: ViewProfileDetailsKYCProps) {
   }
 
   let kycButton;
+  let kycIcon;
 
   if (!hasKYC) {
-    kycButton = <div className="buttonsContainer">
-      <Button variant="contained" color="secondary" label="Verify" onClick={() => openKYCModal()} />
-    </div>
+    kycButton = <Button variant="contained" color="secondary" label="Verify" fullWidth onClick={() => openKYCModal()} />;
   }
 
   if (kycStatus === "APPROVED") {
-    kycButton = <SuccessIcon />
+    kycIcon = <SuccessIcon />
   }
 
   if (kycStatus === "DENIED") {
-    kycButton = <ErrorIcon />
+    kycIcon = <ErrorIcon />
   }
 
   return (
-    <ProfileBasicCard title="KYC" description={status[kycStatus]} Icon={KYCIcon} buttonOptions={kycButton} />
+    <ProfileBasicCard title="KYC" description={status[kycStatus]} Icon={KYCIcon} buttonOptions={kycButton}>{kycIcon}</ProfileBasicCard>
   )
 }
 
@@ -173,7 +172,7 @@ function ViewProfileBounties({ approved, rejected, review }: ViewProfileBounties
       <div key={sub.id} className="contentGrid">
         <div className="gridLeft">
           <Text label={sub.bounty.name} className="profileContentTitle" variant="body2" color="primary" />
-          <Text label={sub.submission_reward} variant="body2" color="textSecondary" />
+          <Text label={`${sub.submission_reward} TARA`} variant="body2" color="textSecondary" />
         </div>
         <div className="gridRight">
           <Text label={`${formatTime(dateDiff)} ago`} variant="body2" color="textSecondary" />

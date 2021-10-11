@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { ethers } from "ethers";
+import { useMediaQuery } from 'react-responsive';
 import { Modal, Notification, BaseCard, IconCard, Tooltip, Text, Button } from '@taraxa_project/taraxa-ui';
 
 import CloseIcon from '../../assets/icons/close';
@@ -10,6 +11,7 @@ import DeleteIcon from '../../assets/icons/delete';
 import LeftIcon from '../../assets/icons/left';
 import RightIcon from '../../assets/icons/right';
 
+import { useAuth } from "../../services/useAuth";
 import { useApi } from "../../services/useApi";
 
 import Title from '../../components/Title/Title';
@@ -30,7 +32,10 @@ interface Node {
 }
 
 const RunNode = () => {
+  const auth = useAuth();
   const api = useApi();
+
+  const isLoggedIn = auth.user?.id;
 
   const [hasRegisterNodeModal, setHasRegisterNodeModal] = useState(false);
   const [hasUpdateNodeModal, setHasUpdateNodeModal] = useState(false);
@@ -166,10 +171,22 @@ const RunNode = () => {
             <BaseCard title={weeklyRating} description="Weekly rating" />
           </>}
           {nodes.length === 0 && <>
-            <IconCard title="Register a node" description="Register a node you’ve aleady set up."
-              onClickText="Register a node" onClickButton={() => setHasRegisterNodeModal(true)} Icon={NodeIcon} tooltip={<Tooltip className="runnode-icon-tooltip" title="A registered node (which has already been setup) will automatically be delegated enough testnet tokens to participate in consensus." Icon={InfoIcon} />} />
-            <IconCard title="Set up a node" description="Learn how to set up a node on Taraxa’s testnet."
-              onClickText="Set up a node" onClickButton={() => window.open('https://docs.taraxa.io/node-setup/testnet_node_setup', '_blank', 'noreferrer noopener')} Icon={NodeIcon} />
+            <IconCard
+              title="Register a node"
+              description="Register a node you’ve aleady set up."
+              onClickText="Register a node"
+              onClickButton={() => setHasRegisterNodeModal(true)}
+              Icon={NodeIcon}
+              tooltip={<Tooltip className="runnode-icon-tooltip" title="A registered node (which has already been setup) will automatically be delegated enough testnet tokens to participate in consensus." Icon={InfoIcon} />}
+              disabled={!isLoggedIn}
+            />
+            <IconCard
+              title="Set up a node"
+              description="Learn how to set up a node on Taraxa’s testnet."
+              onClickText="Set up a node"
+              onClickButton={() => window.open('https://docs.taraxa.io/node-setup/testnet_node_setup', '_blank', 'noreferrer noopener')}
+              Icon={NodeIcon}
+            />
           </>}
         </div>
         {nodes.length > 0 &&
@@ -226,6 +243,7 @@ interface RunNodeModalProps {
 }
 
 const RunNodeModal = ({ hasRegisterNodeModal, hasUpdateNodeModal, setHasRegisterNodeModal, setHasUpdateNodeModal, getNodes, currentEditedNode }: RunNodeModalProps) => {
+  const isMobile = useMediaQuery({ query: `(max-width: 760px)` });
   let modal;
 
   if (hasRegisterNodeModal) {
@@ -251,7 +269,7 @@ const RunNodeModal = ({ hasRegisterNodeModal, hasUpdateNodeModal, setHasRegister
 
   return (
     <Modal
-      id="signinModal"
+      id={isMobile ? "mobile-signinModal" : "signinModal"}
       title="Register Node"
       show={hasRegisterNodeModal || hasUpdateNodeModal}
       children={modal}

@@ -97,7 +97,7 @@ const EditProfile = ({ closeEditProfile }: EditProfileProps) => {
           </div>
         </div>
 
-        <div className="formInputContainer">
+        <div className="formInputContainer formProfileEditContainer">
           <div>
             <Text className="profile-inputLabel" label="Password" variant="body2" color="primary" />
             <div className="profileDisabledInput">************</div>

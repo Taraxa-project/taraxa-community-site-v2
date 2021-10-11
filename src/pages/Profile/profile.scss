@@ -48,6 +48,16 @@
   }
 }
 
+.formProfileEditContainer {
+  position: relative;
+
+  .profileEditButton {
+    position: absolute;
+    left: 80%;
+    top: -10px;
+  }
+}
+
 .formInputContainer > div {
   display: flex;
   align-items: baseline;

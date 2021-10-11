@@ -1,6 +1,7 @@
-import { useHistory, withRouter } from "react-router-dom";
+import { useEffect } from 'react';
+import { withRouter, useHistory } from "react-router-dom";
 import { useMediaQuery } from 'react-responsive';
-import { useMetaMask } from "metamask-react"
+import { useMetaMask } from "metamask-react";
 import { Button, Sidebar as MSidebar } from "@taraxa_project/taraxa-ui";
 
 // import BountiesSidebar from "../../assets/icons/bountiesSidebar";
@@ -23,11 +24,24 @@ import './sidebar.scss'
 
 const Sidebar = () => {
   const auth = useAuth();
+  const { listen, push } = useHistory();
   const { status, connect } = useMetaMask();
   const isMobile = useMediaQuery({ query: `(max-width: 760px)` });
 
   const { signIn } = useModal();
   const { isOpen, close } = useSidebar();
+
+
+  useEffect(() => {
+    const unlisten = listen(() => {
+      if (isOpen) {
+        close!();
+      }
+    });
+
+    return unlisten;
+  }, [listen, isOpen, close]);
+
 
   const menu = [
     { Link: <NavLink label="Get Started" Icon={GetStarted} to="/" />, name: "dashboard" },
@@ -52,7 +66,6 @@ const Sidebar = () => {
   ];
 
   const isLoggedIn = auth.user?.id;
-  const history = useHistory();
 
   const login = () => {
     close!();
@@ -61,7 +74,7 @@ const Sidebar = () => {
 
   const goToProfile = () => {
     close!();
-    history.push('/profile');
+    push('/profile');
   }
 
   const button = !isLoggedIn ?

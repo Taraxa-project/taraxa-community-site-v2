@@ -81,6 +81,7 @@
 }
 
 #walletContainer {
+  overflow: hidden;
   background-color: #31364b;
   color: #878ca4;
   padding: 10px 16px;
@@ -94,12 +95,11 @@
   }
 
   .walletIcon {
-    height: 10px;
-    width: 15px;
+    height: 14px;
+    width: 14px;
     background-color: #15ac5b;
     border-radius: 50%;
-    display: inline-block;
-    margin-right: 2%;
+    margin-right: 10px;
   }
 }
 

@@ -31,11 +31,13 @@ const Wallet = () => {
     );
   }
 
+  let address = (isMobile && account) ? `${account!.substr(0, 7)} ... ${account!.substr(-5)}` : account!;
+
   return (
     <>
       <div id="walletContainer">
         <div className="walletIcon" />
-        <Text label={account!} variant="caption" color="textSecondary" />
+        <Text label={address} variant="caption" color="textSecondary" />
       </div>
     </>
   )

@@ -14,13 +14,6 @@
 
 .mobile-profile {
   .profile-content {
-    .formInputContainer {
-      .profileInput,
-      .profileDisabledInput {
-        margin-left: 0 !important;
-        width: 100% !important;
-      }
-    }
 
     .formInputContainer {
       display: flex;
@@ -30,6 +23,20 @@
 
       > div {
         flex: 1;
+        flex-direction: column;
+      }
+
+      .profileInput,
+      .profileDisabledInput {
+        margin-left: 0 !important;
+        width: 100% !important;
+      }
+    }
+
+    .formProfileEditContainer {
+      .profileEditButton {
+        left: 75%;
+        top: 10px;
       }
     }
 
@@ -75,6 +82,7 @@
 
 .profile-inputLabel {
   width: 100px;
+  font-weight: bold !important;
 }
 
 .profileInput,

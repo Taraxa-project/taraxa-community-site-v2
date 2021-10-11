@@ -297,6 +297,16 @@ function Stake({ setIsSuccess, setIsError, setIsApprove, setIsStaking, setIsUnst
     setCurrentStakeEndDate(null);
   }, [setHasStake, setCanClaimStake, setCurrentStakeBalance, setCurrentStakeEndDate]);
 
+  const formatStakeInputValue = (value: string) => {
+    const stakeInputValue = value.replace(/[^\d.]/g, '');
+    let input;
+    if (stakeInputValue === "") {
+      input = ethers.BigNumber.from("0");
+    } else {
+      input = ethers.utils.parseUnits(stakeInputValue);
+    }
+    return input;
+  };
 
   useEffect(() => {
     const getStakedBalance = async () => {
@@ -331,7 +341,7 @@ function Stake({ setIsSuccess, setIsError, setIsApprove, setIsStaking, setIsUnst
   const stakeTokens = async () => {
     setStakeInputError(null);
 
-    const value = ethers.utils.parseUnits(stakeInput.replace(/,/ig, ''));
+    const value = formatStakeInputValue(stakeInput);
     setStakeInput(formatEth(weiToEth(value)));
     setToStake(value);
 
@@ -432,7 +442,7 @@ function Stake({ setIsSuccess, setIsError, setIsApprove, setIsStaking, setIsUnst
 
   const chips = [25, 50, 75, 100].map(percentage => {
     const value = tokenBalance.mul(ethers.BigNumber.from(percentage)).div(100);
-    const input = ethers.utils.parseUnits(stakeInput.replace(/,/ig, ''));
+    const input = formatStakeInputValue(stakeInput);
 
     const chipsTrigger = (selectedPercentage: number) => {
       const newValue = tokenBalance.mul(ethers.BigNumber.from(selectedPercentage)).div(100);

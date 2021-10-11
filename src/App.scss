@@ -14,6 +14,35 @@ body {
 .App {
   text-align: center;
   width: 100% !important;
+
+  .cardContainer {
+    display: flex;
+    margin-bottom: 40px;
+  }
+
+  .cardContainer > div {
+    margin-right: 24px;
+  }
+
+  .cardContainer > div:last-child {
+    margin-right: 0;
+  }
+
+  &.App-mobile {
+    .cardContainer {
+      display: inherit;
+    }
+
+    .cardContainer > div {
+      width: 100%;
+      margin-right: 0;
+      margin-bottom: 24px;
+      max-height: fit-content;
+    }
+    .cardContainer > div:last-child {
+      margin-bottom: 0;
+    }
+  }
 }
 
 .App-Container {

@@ -1,7 +1,7 @@
 import { GoogleReCaptchaProvider } from "react-google-recaptcha-v3";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import { MetaMaskProvider } from "metamask-react";
-
+import { useMediaQuery } from 'react-responsive';
 
 import { AuthProvider } from "./services/useAuth";
 import { ModalProvider, useModal } from "./services/useModal";
@@ -19,13 +19,20 @@ import Profile from "./pages/Profile/Profile";
 import RunNode from "./pages/RunNode/RunNode";
 import Wallet from "./pages/Wallet/Wallet";
 
-import "./App.css";
+import './App.scss';
 
 const Root = () => {
 
   const { modal } = useModal();
+  const isMobile = useMediaQuery({ query: `(max-width: 760px)` });
+  let appClassName = 'App';
+
+  if (isMobile) {
+    appClassName += ' App-mobile';
+  }
+
   return (
-    <div className="App">
+    <div className={appClassName}>
       {modal}
       <Header />
       <div className="App-Container">

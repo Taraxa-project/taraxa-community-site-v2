@@ -1,28 +1,3 @@
 .sidebar {
   height: 100%;
 }
-
-#mobileWalletContainer {
-  background-color: #31364b;
-  color: #878ca4;
-  height: max-content !important;
-  padding: 2% !important;
-  display: flex !important;
-  align-items: center !important;
-  border-radius: 25px !important;
-  width: 80%;
-  margin: 5% 0 0 10%;
-
-  svg {
-    margin-right: 1% !important;
-  }
-
-  .walletIcon {
-    height: 10px;
-    width: 15px;
-    background-color: #15ac5b;
-    border-radius: 50%;
-    display: inline-block;
-    margin-right: 2%;
-  }
-}

@@ -26,16 +26,6 @@
   width: 100%;
 }
 
-.wallet .cardContainer, .wallet-mobile .cardContainer {
-  display: flex;
-  margin-bottom: 0%;
-}
-
-.wallet .cardContainer > *, .wallet-mobile .cardContainer > * {
-  display: block;
-  margin-right: 5% !important;
-}
-
 .referenceContainer {
   background-color: #151823;
   border: 2px solid #31364b;
@@ -46,53 +36,6 @@
 
   #referenceText {
     margin: 2% 0 0 2%;
-  }
-
-  .bottomReferencesButtonContainer {
-    margin-bottom: 5%;
-  }
-
-  .referenceButton {
-    background: #31364b;
-    border: 1px solid #6a7085;
-    box-sizing: border-box;
-    border-radius: 4px;
-    color: white;
-    width: 35%;
-    margin-left: 10%;
-    margin-top: 5%;
-  }
-}
-
-.mobileReferenceContainer {
-  background-color: #151823;
-  border: 2px solid #31364b;
-  width: 90%;
-  margin-bottom: 5%;
-  box-sizing: border-box;
-  border-radius: 4px;
-
-  #referenceText {
-    margin: 2% 0 0 2%;
-  }
-
-  #mobileReferenceText {
-    margin: 2% 0 0 10%;
-  }
-
-  .mobileReferencesButtonContainer {
-    display: block;
-    margin-bottom: 7%;
-    .referenceButton {
-      background: #31364b;
-      border: 1px solid #6a7085;
-      box-sizing: border-box;
-      border-radius: 4px;
-      color: white;
-      width: 80%;
-      margin-left: 10%;
-      margin-top: 5%;
-    }
   }
 
   .bottomReferencesButtonContainer {

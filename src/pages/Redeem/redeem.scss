@@ -1,16 +1,5 @@
 .claim, .claim-mobile {
   display: flex;
-
-  .cardContainer {
-    display: flex;
-    margin-bottom: 5%;
-  }
-
-  .cardContainer > * {
-    display: block;
-    margin-right: 5% !important;
-  }
-
 }
 
 .claim-content {
@@ -29,16 +18,6 @@
   border-left: 3px solid #ff515a;
   padding-left: 2%;
   width: 100%;
-}
-
-.MobileCardContainer {
-  display: block;
-  margin-bottom: 5%;
-}
-
-.MobileCardContainer > * {
-  display: block;
-  margin-right: 5% !important;
 }
 
 .chip {

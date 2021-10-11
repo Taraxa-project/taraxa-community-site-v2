@@ -6,24 +6,6 @@ body {
   display: flex;
 }
 
-.bounties,
-.mobile-bounties {
-  .cardContainer {
-    display: flex;
-    margin-bottom: 5%;
-  }
-
-  .cardContainerMobile {
-    display: block;
-    margin-bottom: 5%;
-  }
-
-  .cardContainer > * {
-    display: block;
-    margin-right: 5% !important;
-  }
-}
-
 .mobile-bounties {
   width: 90% !important;
   display: flex;

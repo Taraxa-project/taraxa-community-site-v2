@@ -278,8 +278,6 @@ interface StakeProps {
 }
 
 function Stake({ setIsSuccess, setIsError, setIsApprove, setIsStaking, setIsUnstaking, tokenBalance, setTokenBalance, setToStake, stakeInput, setStakeInput, currentStakeBalance, setCurrentStakeBalance, lockingPeriod, setTransactionHash }: StakeProps) {
-  const isMobile = useMediaQuery({ query: `(max-width: 760px)` });
-
   const { account, status } = useMetaMask();
   const auth = useAuth();
 
@@ -458,7 +456,7 @@ function Stake({ setIsSuccess, setIsError, setIsApprove, setIsStaking, setIsUnst
 
   return (
     <>
-      <div className={isMobile ? "cardContainerMobile" : "cardContainer"}>
+      <div className="cardContainer">
         <BaseCard
           title="0.0"
           description="TARA rewards"
@@ -473,7 +471,7 @@ function Stake({ setIsSuccess, setIsError, setIsApprove, setIsStaking, setIsUnst
         />
         <BaseCard title="20.0%" description="Anualized yield" tooltip={<Tooltip className="staking-icon-tooltip" title="Effective annualized yield, this could be different than the stated expected yields due to special community events. " Icon={InfoIcon} />} />
       </div>
-      <div className={isMobile ? "cardContainerMobile" : "cardContainer"}>
+      <div className="cardContainer">
         <DataCard
           title={status === "connected" ? formatEth(roundEth(weiToEth(tokenBalance))) : "N/A"}
           description="Available to Stake"

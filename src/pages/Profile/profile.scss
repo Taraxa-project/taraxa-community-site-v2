@@ -9,19 +9,6 @@
   .profile-content {
     text-align: left;
     flex: 1;
-
-    .cardContainer {
-      display: flex;
-      margin-bottom: 40px;
-    }
-
-    .cardContainer > div {
-      margin-right: 24px;
-    }
-
-    .cardContainer > div:last-child {
-      margin-right: 0;
-    }
   }
 }
 
@@ -44,18 +31,6 @@
       > div {
         flex: 1;
       }
-    }
-
-    .mobileCardContainer {
-      margin-bottom: 40px;
-    }
-
-    .mobileCardContainer > div {
-      width: 100%;
-      margin-bottom: 24px;
-    }
-    .mobileCardContainer > div:last-child {
-      margin-bottom: 0;
     }
 
     #buttonsContainer {

@@ -61,7 +61,7 @@ const Wallet = () => {
           title="Testnet Wallet"
           subtitle="Wallet for the testnet, DO NOT send on-ETH assets to these addresses."
         />
-        <div className={isMobile ? "mobileCardContainer" : "cardContainer"}>
+        <div className="cardContainer">
           {walletConnected ?
             <>
               <IconCard className="walletCard" title="1,350,421" description="TARA total"

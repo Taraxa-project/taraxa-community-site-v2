@@ -62,12 +62,16 @@ const Home = ({ match }: RouteComponentProps<HomeProps>) => {
         {isMobile &&
           <ToggleButton exclusive={true} onChange={onToggle} currentValue={toggleValue} data={toggleOptions} className="toggleButton" />
         }
-        <Notification
-          title="EARN"
-          text="Earn rewards while helping us grow."
-          variant="success"
+        <div
+          className="notification"
           style={{ display: isMobile && toggleValue !== "earn" ? 'none' : 'inherit' }}
-        />
+        >
+          <Notification
+            title="EARN"
+            text="Earn rewards while helping us grow."
+            variant="success"
+          />
+        </div>
         <div className="cardContainer" style={{ display: isMobile && toggleValue !== "earn" ? 'none' : isMobile ? 'inherit' : 'flex' }}>
           <IconCard title="Staking" description="Earn rewards while helping to secure Taraxa’s network."
             onClickText="Get Started" onClickButton={() => history.push('/staking')} Icon={StakingIcon} />
@@ -77,12 +81,16 @@ const Home = ({ match }: RouteComponentProps<HomeProps>) => {
             onClickText="Get Started" onClickButton={() => history.push('/redeem')} Icon={RedeemIcon} /> */}
         </div>
 
-        <Notification
-          title="TESTNET"
-          text="Join Taraxa’s public testnet."
-          variant="success"
+        <div
+          className="notification"
           style={{ display: isMobile && toggleValue !== "testnet" ? 'none' : 'inherit' }}
-        />
+        >
+          <Notification
+            title="TESTNET"
+            text="Join Taraxa’s public testnet."
+            variant="success"
+          />
+        </div>
         <div className="cardContainer" style={{ display: isMobile && toggleValue !== "testnet" ? 'none' : isMobile ? 'inherit' : 'flex' }}>
           <IconCard title="Run a node" description="Earn rewards while helping to secure Taraxa’s network."
             onClickText="Get Started" onClickButton={() => history.push('/node')} Icon={NodeIcon} />

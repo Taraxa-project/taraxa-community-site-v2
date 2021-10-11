@@ -43,7 +43,7 @@ function Redeem() {
           subtitle="Earn rewards and help test &amp; secure the Taraxa’s network"
         />
 
-        <div className={isMobile ? "MobileCardContainer" : "cardContainer"}>
+        <div className="cardContainer">
           <BaseCard title="26,322" description="TARA locked till next month" />
           <BaseCard title="141,234" description="TARA claimed total" />
           <BaseCard title="41,234" description="Current wallet balance" />

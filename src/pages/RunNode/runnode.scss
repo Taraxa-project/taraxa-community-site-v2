@@ -1,24 +1,9 @@
 .runnode {
-  display: flex;
-
   .runnode-content {
-    flex-grow: 1;
     text-align: left;
 
     .notification {
       margin-bottom: 40px;
-    }
-
-    .cardContainer {
-      display: flex;
-    }
-
-    .cardContainer > div {
-      margin-right: 24px;
-    }
-
-    .cardContainer > div:last-child {
-      margin-right: 0;
     }
 
     .delete,
@@ -39,7 +24,7 @@
       background-color: #151823;
       border: 2px solid #31364b;
       border-radius: 4px;
-      width: 1008px;
+      max-width: 1008px;
       margin-top: 38px;
       box-sizing: border-box;
       padding: 14px 24px 40px 24px;
@@ -121,6 +106,46 @@
   }
 }
 
+.App {
+  &.App-mobile {
+    .runnode {
+      .runnode-content {
+        .box {
+          width: 100%;
+          margin-top: 0;
+          margin-bottom: 24px;
+
+          .box-list {
+            display: inherit;
+
+            .box-list-col {
+              flex: 1;
+              margin-right: 0;
+
+              & > div {
+                button {
+                  display: block;
+                }
+              }
+            }
+          }
+
+          & > .referenceButton {
+            width: 100%;
+            margin-left: 0;
+            margin-bottom: 0;
+            margin-top: 24px;
+          }
+
+          & > .referenceButton:first-child {
+            margin-top: 0;
+          }
+        }
+      }
+    }
+  }
+}
+
 .referenceContainer {
   width: 95% !important;
   margin-bottom: 5%;
@@ -151,21 +176,6 @@
 
   #mobileReferenceText {
     margin: 2% 0 0 10%;
-  }
-
-  .mobileReferencesButtonContainer {
-    display: block;
-    margin-bottom: 7%;
-    .referenceButton {
-      background: #31364b;
-      border: 1px solid #6a7085;
-      box-sizing: border-box;
-      border-radius: 4px;
-      color: white;
-      width: 80%;
-      margin-left: 10%;
-      margin-top: 5%;
-    }
   }
 
   .bottomReferencesButtonContainer {
@@ -205,4 +215,7 @@
   &.active {
     background-color: #15ac5b;
   }
+}
+
+@media only screen and (min-width: 760px) {
 }

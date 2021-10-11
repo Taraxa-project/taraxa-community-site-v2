@@ -130,7 +130,7 @@ function Bounties() {
 
                 list = <Table columns={columns} rows={isMobile ? mobileRows : rows} />
               }
-              return <div className={isMobile ? "cardContainerMobile" : "cardContainer"}>
+              return <div className="cardContainer">
                 {isMobile ?
                   <VerticalRewardCard title={pinnedBounty.name} description={pinnedBounty.description} onClickButton={() => console.log('reward')} onClickText="Learn more" reward={pinnedBounty.reward} submissions={pinnedBounty.submissionsCount} expiration={new Date(pinnedBounty.end_date).toLocaleDateString()} SubmissionIcon={SubmissionIcon} ExpirationIcon={ExpirationIcon} />
                   :
@@ -148,7 +148,7 @@ function Bounties() {
                 const endDate = new Date(bounty.end_date).toLocaleDateString();
                 return <VerticalRewardCard active key={bounty.id} title={bounty.name} description={bounty.description} onClick={() => console.log('reward')} onClickText="Learn more" reward={bounty.reward} submissions={bounty.submissionsCount} expiration={endDate} SubmissionIcon={SubmissionIcon} ExpirationIcon={ExpirationIcon} />
               });
-              return <div className={isMobile ? "cardContainerMobile" : "cardContainer"}>
+              return <div className="cardContainer">
                 {rows}
               </div>
             })}

@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
-import { useMediaQuery } from 'react-responsive';
 
 import { ProfileBasicCard, Text, ProfileCard, Button, Tooltip, ProfileSubmissionsCard } from '@taraxa_project/taraxa-ui';
 
@@ -97,7 +96,6 @@ interface ViewProfileDetailsProps {
 function ViewProfileDetails({ points, openEditProfile, openKYCModal }: ViewProfileDetailsProps) {
   const auth = useAuth();
   const history = useHistory();
-  const isMobile = useMediaQuery({ query: `(max-width: 760px)` });
 
   const buttons = <>
     <Button color="primary" variant="outlined" label="Edit Profile" fullWidth onClick={() => openEditProfile()} />
@@ -108,7 +106,7 @@ function ViewProfileDetails({ points, openEditProfile, openKYCModal }: ViewProfi
   </>;
 
   return (
-    <div className={isMobile ? "mobileCardContainer" : "cardContainer"}>
+    <div className="cardContainer">
       <ProfileCard username={auth.user!.username} email={auth.user!.email} wallet={auth.user!.eth_wallet} Icon={TaraxaIcon} buttonOptions={buttons} />
       <ViewProfileDetailsKYC openKYCModal={openKYCModal} />
       <ProfileBasicCard title="My Rewards" description="TARA Points" value={points.toString()} />
@@ -162,8 +160,6 @@ interface ViewProfileBountiesProps {
 }
 
 function ViewProfileBounties({ approved, rejected, review }: ViewProfileBountiesProps) {
-  const isMobile = useMediaQuery({ query: `(max-width: 760px)` });
-
   const renderSubmission = (sub: any) => {
     const now = new Date();
     const date = new Date(sub.submission_date);
@@ -222,7 +218,7 @@ function ViewProfileBounties({ approved, rejected, review }: ViewProfileBounties
         Icon={BountyIcon}
         size='medium'
       />
-      <div className={isMobile ? "mobileCardContainer" : "cardContainer"}>
+      <div className="cardContainer">
         <ProfileSubmissionsCard
           title='Approved'
           itemsContent={approvedContent}

@@ -5,27 +5,6 @@
   .notification {
     margin-bottom: 40px;
   }
-
-  .cardContainer {
-    display: flex;
-  }
-
-  .cardContainerMobile {
-    display: block;
-  }
-
-  .cardContainer > div {
-    margin-right: 16px;
-    margin-bottom: 32px;
-  }
-
-  .cardContainer:last-child > div {
-    margin-bottom: 0;
-  }
-
-  .cardContainer > div:last-child {
-    margin-right: 0;
-  }
 }
 
 .staking-success-container {

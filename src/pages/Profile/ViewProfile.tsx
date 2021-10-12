@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
+import { ethers } from "ethers";
 
 import { ProfileBasicCard, Text, ProfileCard, Button, Tooltip, ProfileSubmissionsCard } from '@taraxa_project/taraxa-ui';
 
@@ -109,7 +110,7 @@ function ViewProfileDetails({ points, openEditProfile, openKYCModal }: ViewProfi
     <div className="cardContainer">
       <ProfileCard username={auth.user!.username} email={auth.user!.email} wallet={auth.user!.eth_wallet} Icon={TaraxaIcon} buttonOptions={buttons} />
       <ViewProfileDetailsKYC openKYCModal={openKYCModal} />
-      <ProfileBasicCard title="My Rewards" description="TARA Points" value={points.toString()} />
+      <ProfileBasicCard title="My Rewards" description="TARA Points" value={ethers.utils.commify(ethers.BigNumber.from(points.toString()).toString())} />
     </div>
   )
 }

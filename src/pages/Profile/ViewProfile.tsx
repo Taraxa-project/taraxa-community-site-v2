@@ -108,7 +108,7 @@ function ViewProfileDetails({ points, openEditProfile, openKYCModal }: ViewProfi
 
   return (
     <div className="cardContainer">
-      <ProfileCard username={auth.user!.username} email={auth.user!.email} wallet={auth.user!.eth_wallet} Icon={TaraxaIcon} buttonOptions={buttons} />
+      <ProfileCard username={auth.user!.username} email={auth.user!.email} wallet={auth.user!.eth_wallet ? auth.user!.eth_wallet : "No Ethereum Wallet Address was set"} Icon={TaraxaIcon} buttonOptions={buttons} />
       <ViewProfileDetailsKYC openKYCModal={openKYCModal} />
       <ProfileBasicCard title="My Rewards" description="TARA Points" value={ethers.utils.commify(ethers.BigNumber.from(points.toString()).toString())} />
     </div>

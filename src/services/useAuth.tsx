@@ -9,6 +9,12 @@ type User = {
   kyc: string;
 }
 
+export type UpdateUserPayload = {
+  username: string,
+  password: string,
+  eth_wallet: string,
+};
+
 type Context = {
   user: User | null,
   signin?: (username: string, password: string) => Promise<any>,
@@ -16,7 +22,7 @@ type Context = {
   signout?: () => void,
   sendPasswordResetEmail?: (email: string, token: string) => Promise<any>,
   resetPassword?: (code: string, password: string, passwordConfirmation: string) => Promise<any>,
-  updateUser?: (username: string, password?: string) => Promise<any>,
+  updateUser?: (payload: Partial<UpdateUserPayload>) => Promise<any>,
   refreshUser?: () => Promise<any>,
 }
 
@@ -101,20 +107,8 @@ function useProvideAuth() {
 
     return result;
   };
-  const updateUser = async (username: string, password?: string) => {
-    let result;
-    if (password) {
-      result = await api.put(`/users/${user!.id}`, {
-        username,
-        password,
-      }, true);
-    } else {
-      result = await api.put(`/users/${user!.id}`, {
-        username,
-      }, true);
-    }
-
-    console.log(result)
+  const updateUser = async (payload: Partial<UpdateUserPayload>) => {
+    const result = await api.put(`/users/${user!.id}`, payload, true);
 
     if (result.success) {
       const user = result.response;

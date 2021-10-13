@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Text, Button, InputField } from '@taraxa_project/taraxa-ui';
 
-import { useAuth } from "../../services/useAuth";
+import { useAuth, UpdateUserPayload } from "../../services/useAuth";
 
 interface EditProfileProps {
   closeEditProfile: () => void;
@@ -11,7 +11,8 @@ const EditProfile = ({ closeEditProfile }: EditProfileProps) => {
 
   const auth = useAuth();
 
-  const [nickname, setNickname] = useState(auth.user && auth.user.username || 'username');
+  const [nickname, setNickname] = useState(auth.user && auth.user.username || '');
+  const [ethWallet, setEthWallet] = useState(auth.user && auth.user.eth_wallet || '');
   const [password, setPassword] = useState('');
   const [passwordConfirmation, setPasswordConfirmation] = useState('');
   const [updatingPassword, setUpdatingPassword] = useState(false);
@@ -29,6 +30,8 @@ const EditProfile = ({ closeEditProfile }: EditProfileProps) => {
 
   const hasNicknameError = hasError('username');
   const nicknameErrorMessage = hasError('username') ? errValues[findErrorIndex('username')] : undefined;
+  const hasEthWalletError = hasError('eth_wallet');
+  const ethWalletErrorMessage = hasError('eth_wallet') ? errValues[findErrorIndex('eth_wallet')] : undefined;
   const hasPasswordError = hasError('password');
   const passwordErrorMessage = hasError('password') ? errValues[findErrorIndex('password')] : undefined;
   const hasPasswordConfirmationError = hasError('password-confirmation');
@@ -37,7 +40,7 @@ const EditProfile = ({ closeEditProfile }: EditProfileProps) => {
   let hasGeneralError = false;
   let generalErrorMessage = undefined;
 
-  if (errors.length > 0 && !hasNicknameError && !hasPasswordError && !hasPasswordConfirmationError) {
+  if (errors.length > 0 && !hasNicknameError && !hasEthWalletError && !hasPasswordError && !hasPasswordConfirmationError) {
     hasGeneralError = true;
     generalErrorMessage = errValues[0];
   }
@@ -56,7 +59,6 @@ const EditProfile = ({ closeEditProfile }: EditProfileProps) => {
       if (password !== passwordConfirmation) {
         errors.push({ key: 'password-confirmation', value: "Passwords do not match." });
       }
-
     }
 
     if (errors.length > 0) {
@@ -64,12 +66,25 @@ const EditProfile = ({ closeEditProfile }: EditProfileProps) => {
       return;
     }
 
-    let result;
+    let payload: Partial<UpdateUserPayload> = {
+      username: nickname,
+    };
+
     if (updatingPassword) {
-      result = await auth.updateUser!(nickname, password);
-    } else {
-      result = await auth.updateUser!(nickname);
+      payload = {
+        ...payload,
+        password,
+      };
     }
+
+    if (auth.user && !auth.user.eth_wallet) {
+      payload = {
+        ...payload,
+        eth_wallet: ethWallet,
+      };
+    }
+
+    const result = await auth.updateUser!(payload);
 
     if (result.success) {
       setChangesMade(false);
@@ -77,7 +92,15 @@ const EditProfile = ({ closeEditProfile }: EditProfileProps) => {
       return;
     }
 
-    setErrors(result.response[0].messages.map((message: any) => ({ key: message.id.split('.')[3], value: message.message })));
+    if (typeof result.response === 'string') {
+      if (result.response.search(/wallet/i)) {
+        setErrors([{ key: "general", value: result.response }]);
+      } else {
+        setErrors([{ key: "eth_wallet", value: result.response }]);
+      }
+    } else {
+      setErrors(result.response[0].messages.map((message: any) => ({ key: message.id.split('.')[3], value: message.message })));
+    }
   };
 
   return (
@@ -87,6 +110,14 @@ const EditProfile = ({ closeEditProfile }: EditProfileProps) => {
           <div>
             <Text className="profile-inputLabel" label="Nickname" variant="body2" color="primary" />
             <InputField type="string" error={hasNicknameError} helperText={nicknameErrorMessage} className="profileInput" label="" color="secondary" value={nickname} variant="standard" onChange={(event: any) => { setNickname(event.target.value); setChangesMade(true) }} margin="normal" />
+          </div>
+        </div>
+
+        <div className="formInputContainer">
+          <div>
+            <Text className="profile-inputLabel" label="Ethereum Wallet Address" variant="body2" color="primary" />
+            {auth.user && !auth.user.eth_wallet && <InputField type="string" error={hasEthWalletError} helperText={ethWalletErrorMessage} className="profileInput" label="" color="secondary" value={ethWallet} variant="standard" onChange={(event: any) => { setEthWallet(event.target.value); setChangesMade(true) }} margin="normal" />}
+            {auth.user && auth.user.eth_wallet && <div className="profileDisabledInput">{auth.user.eth_wallet}</div>}
           </div>
         </div>
 

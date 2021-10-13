@@ -31,6 +31,10 @@
         margin-left: 0 !important;
         width: 100% !important;
       }
+
+      .profile-inputLabel {
+        width: 100%;
+      }
     }
 
     .formProfileEditContainer {
@@ -98,6 +102,10 @@
     border: none !important;
     background-color: #151823 !important;
   }
+}
+
+.profileDisabledInput {
+  color: #878CA4;
 }
 
 #buttonsContainer {

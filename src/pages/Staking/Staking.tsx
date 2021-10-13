@@ -493,7 +493,7 @@ function Stake({ setIsSuccess, setIsError, setIsApprove, setIsStaking, setIsUnst
           dataOptions={stakingchips}
           disabled={auth.user !== null && auth.user.kyc !== 'APPROVED'}
         />
-        {hasStake && currentStakeEndDate !== null && <BaseCard title={formatEth(roundEth(weiToEth(currentStakeBalance)))} description={`Locked till ${currentStakeEndDate.toLocaleDateString()}`} tooltip={<Tooltip className="staking-icon-tooltip" title="" Icon={LockIcon} />} />}
+        {hasStake && currentStakeEndDate !== null && <BaseCard title={formatEth(roundEth(weiToEth(currentStakeBalance)))} description={`Locked till ${currentStakeEndDate.toLocaleDateString()}`} />}
       </div>
     </>
   );

@@ -153,7 +153,6 @@ const RunNode = () => {
         <Title
           title="Running Testnet Nodes"
           subtitle="Help accelerate Taraxa’s path towards mainnet by running nodes on the testnet"
-          tooltip="Test"
         />
         {nodes.length === 0 &&
           <div className="notification">

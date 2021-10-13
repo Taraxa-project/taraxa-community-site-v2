@@ -18,7 +18,7 @@ const Title = ({ title, subtitle, tooltip, Icon, size }: TitleProps) => {
       <div className="page-title-container">
         {Icon && <div className="page-title-icon"><Icon /></div>}
         <Text label={title} variant="h1" color="primary" className={size === 'medium' ? 'page-medium-title-main' : 'page-title-main' } />
-        {tooltip && <Tooltip className="page-title-tooltip" title="Test" Icon={InfoIcon} />}
+        {tooltip && <Tooltip className="page-title-tooltip" title={tooltip} Icon={InfoIcon} />}
       </div>
       {subtitle && <Text label={subtitle} variant="body2" color="textSecondary" className="page-title-subtitle" />}
     </div>

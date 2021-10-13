@@ -107,6 +107,22 @@
   margin-bottom: 5%;
 }
 
+.profile-container {
+  position: relative;
+}
+
+.profile-modal {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 16px);
+  display: grid;
+  width: 311px;
+  padding: 24px;
+  background-color: #282c3e;
+  border: 1px solid #878ca4;
+  border-radius: 5px;
+}
+
 .signUpSuccessfullTitle {
   margin-bottom: 13% !important;
 }

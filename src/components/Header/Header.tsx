@@ -33,29 +33,39 @@ const Header = () => {
     setShowProfile(!showProfile);
   }
 
-  const handleClickOutside = () => {
-    profileTrigger();
+  const handleClickOutside = (e: MouseEvent | TouchEvent) => {
+    e.preventDefault();
+    setShowProfile(false);
   }
 
   useOutsideClick(ref, handleClickOutside);
 
   const goToProfile = () => {
     history.push('/profile');
+    setShowProfile(false);
   }
 
-  const button = isLoggedIn ?
-    <div>
-      <Button label={auth.user?.username} color="primary" variant="outlined" onClick={profileTrigger} />
-    </div> :
-    <Button label="Sign in / Sign up" color="primary" variant="text" onClick={signIn} />;
+  const signout = () => {
+    history.push('/');
+    auth.signout!();
+    setShowProfile(false);
+  }
 
-  const profileModal = <div ref={ref}>
-    <Button label="My Profile" color="secondary" variant="contained" id="profileButton" onClick={goToProfile} />
-    <Button label="Sign Out" color="primary" variant="outlined" onClick={() => {
-      auth.signout!();
-      setShowProfile(false);
-    }} />
-  </div>;
+  let button;
+
+  if (isLoggedIn) {
+    button = (
+      <div ref={ref} className="profile-container">
+        <Button label={auth.user?.username} color="primary" variant="outlined" onClick={profileTrigger} />
+        {showProfile && <div className="profile-modal">
+          <Button label="My Profile" color="secondary" variant="contained" id="profileButton" onClick={goToProfile} />
+          <Button label="Sign Out" color="primary" variant="outlined" onClick={signout} />
+        </div>}
+      </div>
+    );
+  } else {
+    button = <Button label="Sign in / Sign up" color="primary" variant="text" onClick={signIn} />;
+  }
 
   const hamburger = <div style={{ cursor: 'pointer' }} onClick={() => open!()}><HamburgerIcon /></div>
 
@@ -66,8 +76,6 @@ const Header = () => {
       position="relative"
       Icon={TaraxaIcon}
       elevation={0}
-      profileModal={profileModal}
-      showProfileModal={showProfile}
     >
       <Wallet />
       {isMobile ? hamburger : (isMobile ? <></> : button)}

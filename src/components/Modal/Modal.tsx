@@ -1,29 +1,44 @@
 
 import { useState } from "react";
 import { Button, Text, InputField, ModalTitle, Modal as UIModal } from "@taraxa_project/taraxa-ui";
-import { JsxElement } from "typescript";
 import CloseIcon from '../../assets/icons/close';
 
 
 
 type ModalProps = {
     title: string,
-    onClose: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void,
-    content?: JsxElement,
+    onClose: () => void,
+    content?: JSX.Element,
 }
 
 const Modal = ({ title, onClose, content }: ModalProps) => {
-    const children = <div></div>
-    const [isOpen, setIsOpen] = useState(false);
+    const [isOpen, setIsOpen] = useState(true);
+    content = (<>
+        <ModalTitle title={title} />
+        {content}
+    </>)
+
+    function openModal() {
+        setIsOpen(true);
+    }
+
+    function afterOpenModal() {
+
+    }
+
+    function closeModal() {
+        setIsOpen(false);
+        onClose();
+    }
 
     return (
         <UIModal
-            children={children}
+            children={content!}
             show={isOpen}
-            parentElementID='baseModal'
+            parentElementID='root'
             closeIcon={CloseIcon}
             title={title}
-            onRequestClose={onClose}
+            onRequestClose={closeModal}
         />
     )
 }

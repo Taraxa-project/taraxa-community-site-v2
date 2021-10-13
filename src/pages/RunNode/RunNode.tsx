@@ -1,7 +1,8 @@
 import { useState, useEffect, useCallback } from 'react';
 import { ethers } from "ethers";
-import { useMediaQuery } from 'react-responsive';
-import { Modal, Notification, BaseCard, IconCard, Tooltip, Text, Button } from '@taraxa_project/taraxa-ui';
+import { Context, useMediaQuery } from 'react-responsive';
+import { Notification, BaseCard, IconCard, Tooltip, Text, Button } from '@taraxa_project/taraxa-ui';
+import Modal from "../../components/Modal/Modal"
 
 import CloseIcon from '../../assets/icons/close';
 import NodeIcon from '../../assets/icons/node';
@@ -244,17 +245,17 @@ interface RunNodeModalProps {
 
 const RunNodeModal = ({ hasRegisterNodeModal, hasUpdateNodeModal, setHasRegisterNodeModal, setHasUpdateNodeModal, getNodes, currentEditedNode }: RunNodeModalProps) => {
   const isMobile = useMediaQuery({ query: `(max-width: 760px)` });
-  let modal;
+  let modalContent;
 
   if (hasRegisterNodeModal) {
-    modal = <RegisterNode onSuccess={() => {
+    modalContent = <RegisterNode onSuccess={() => {
       getNodes();
       setHasRegisterNodeModal(false);
     }} />;
   }
 
   if (hasUpdateNodeModal && currentEditedNode !== null) {
-    modal = <UpdateNode
+    modalContent = <UpdateNode
       id={currentEditedNode.id}
       name={currentEditedNode.name}
       onSuccess={() => {
@@ -263,22 +264,30 @@ const RunNodeModal = ({ hasRegisterNodeModal, hasUpdateNodeModal, setHasRegister
       }} />;
   }
 
-  if (!modal) {
+  if (!modalContent) {
     return null;
   }
 
   return (
+    // <Modal
+    //   id={isMobile ? "mobile-signinModal" : "signinModal"}
+    //   title="Register Node"
+    //   show={hasRegisterNodeModal || hasUpdateNodeModal}
+    //   children={modal}
+    //   parentElementID="root"
+    //   onRequestClose={() => {
+    //     setHasRegisterNodeModal(false);
+    //     setHasUpdateNodeModal(false);
+    //   }}
+    //   closeIcon={CloseIcon}
+    // />
     <Modal
-      id={isMobile ? "mobile-signinModal" : "signinModal"}
-      title="Register Node"
-      show={hasRegisterNodeModal || hasUpdateNodeModal}
-      children={modal}
-      parentElementID="root"
-      onRequestClose={() => {
+      title={'Register a node'}
+      onClose={() =>{
         setHasRegisterNodeModal(false);
         setHasUpdateNodeModal(false);
       }}
-      closeIcon={CloseIcon}
+      content={modalContent}
     />
   );
 }

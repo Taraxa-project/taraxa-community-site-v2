@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { Button, Text, InputField } from "@taraxa_project/taraxa-ui";
-import Modal from "../../../components/Modal/Modal"
 
 import { useApi } from "../../../services/useApi"
 
@@ -30,18 +29,8 @@ const RegisterNode = ({ onSuccess }: RegisterNodeProps) => {
     setError(typeof result.response === "string" ? result.response : undefined);
   }
 
-  const onClose = () => {
-    history.push('/');
-  }
-
   return (
-    <Modal title={'Register a node'} onClose={onClose} />
-  )
-
-  /*return (
     <div>
-      <Modal title={'Register a node'} onClose={onClose} />
-
       <form onSubmit={submit}>
         <InputField
           label="Node public address"
@@ -78,7 +67,7 @@ const RegisterNode = ({ onSuccess }: RegisterNodeProps) => {
         fullWidth={true}
       />
     </div>
-  )*/
+  )
 }
 
 export default RegisterNode;

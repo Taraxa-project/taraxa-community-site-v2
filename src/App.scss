@@ -1,19 +1,12 @@
 body {
-  width: 100%;
   margin: 0;
-  display: flex !important;
   background-color: #151823 !important;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#root {
-  width: 100% !important;
-}
-
 .App {
   text-align: center;
-  width: 100% !important;
 
   .cardContainer {
     display: flex;
@@ -53,7 +46,6 @@ body {
 .App-Content {
   flex-grow: 1;
   margin-left: 103px;
-  margin-right: 125px;
 }
 
 @media only screen and (max-width: 760px) {

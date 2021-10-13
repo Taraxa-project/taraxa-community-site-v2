@@ -346,7 +346,6 @@ function Stake({ setIsSuccess, setIsError, setIsApprove, setIsStaking, setIsUnst
     setToStake(value);
 
     if (value.isZero()) {
-      setStakeInputError("No tokens available");
       return;
     }
 

@@ -29,7 +29,7 @@ const RegisterNode = ({ onSuccess }: RegisterNodeProps) => {
 
   return (
     <div>
-      <Text style={{ marginBottom: '2%' }} label="Register a node" variant="h6" color="primary" />
+      <Text style={{ marginBottom: '2%', fontFamily: 'Inter, san-serif', fontSize: '18px' }} label="Register a node" variant="h6" color="primary" />
 
       <form onSubmit={submit}>
         <InputField

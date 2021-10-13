@@ -33,8 +33,7 @@ const Header = () => {
     setShowProfile(!showProfile);
   }
 
-  const handleClickOutside = (e: MouseEvent | TouchEvent) => {
-    e.preventDefault();
+  const handleClickOutside = () => {
     setShowProfile(false);
   }
 

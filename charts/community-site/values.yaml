@@ -9,6 +9,9 @@ frontend:
   replicaCount: 2
 
   apiHost: "http://api.default.community.taraxa.io"
+  taraAddress: "0x0000000000000000000000000000000000000000"
+  claimAddress: "0x0000000000000000000000000000000000000000"
+  stakingAddress: "0x0000000000000000000000000000000000000000"
 
   imagePullSecrets: []
   image:

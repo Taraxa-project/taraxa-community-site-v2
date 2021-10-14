@@ -18,14 +18,6 @@ const Modal = ({ title, onClose, content }: ModalProps) => {
         {content}
     </>)
 
-    function openModal() {
-        setIsOpen(true);
-    }
-
-    function afterOpenModal() {
-
-    }
-
     function closeModal() {
         setIsOpen(false);
         onClose();
@@ -39,6 +31,29 @@ const Modal = ({ title, onClose, content }: ModalProps) => {
             closeIcon={CloseIcon}
             title={title}
             onRequestClose={closeModal}
+            styles={{
+                content: {
+                    width: '450px',
+                    padding: '32px',
+                    top: '50%',
+                    left: '50%',
+                    right: 'auto',
+                    bottom: 'auto',
+                    marginRight: '-50%',
+                    transform: 'translate(-50%, -50%)',
+                    backgroundColor: "#282C3E",
+                    overflow: 'auto',
+                    outline: 'none',
+                    maxHeight: `410px`,
+                    border: '1px solid #4F5368',
+                    boxShadow: '0px 0px 12px rgba(0, 0, 0, 0.25)',
+                    borderRadius: '6px',
+                  },
+                  overlay: {
+                    background: "rgba(0, 0, 0, 0.5)",
+                    zIndex: 2000,
+                  }
+            }}
         />
     )
 }

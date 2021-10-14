@@ -37,8 +37,8 @@
 }
 
 #mobile-signinModal {
-  width: 80% !important;
-  padding: 2% !important;
+  width: calc(100% - 64px) !important;
+  padding: 24px !important;
   text-align: center;
 
   .marginButton {
